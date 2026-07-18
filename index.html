@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeakSmart — SLW Academy</title>
+  <style>
+    :root {
+      --bg:       #071A2F;
+      --accent:   #C9A84C;
+      --text:     #FFFFFF;
+      --section:  #1A2F5E;
+      --dark:     #0A1F38;
+      --accent-h: #dfc06a;
+      --muted:    rgba(255,255,255,0.55);
+      --border:   rgba(201,168,76,0.25);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ───────────────────────────────── */
+    header {
+      background: var(--dark);
+      padding: 22px 20px 18px;
+      text-align: center;
+      border-bottom: 3px solid var(--accent);
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .logo-svg { flex-shrink: 0; }
+    .logo-name {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .brand { font-size: 2.6rem; font-weight: 800; letter-spacing: 1px; }
+    .brand span { color: var(--accent); }
+    .tagline { color: var(--muted); font-size: 0.95rem; margin-top: 4px; }
+
+    /* ── AGE SELECTOR ─────────────────────────── */
+    .age-bar {
+      background: var(--section);
+      padding: 14px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .age-label {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .age-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .age-btn {
+      padding: 9px 22px;
+      border: 2px solid var(--accent);
+      background: transparent;
+      color: var(--text);
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: background 0.18s, color 0.18s;
+    }
+    .age-btn:hover, .age-btn.active {
+      background: var(--accent);
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    /* ── WRAPPER ──────────────────────────────── */
+    .wrapper {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    /* ── TAB BAR ──────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      overflow-x: auto;
+      background: var(--dark);
+      border-bottom: 2px solid var(--section);
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: 13px 14px 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.78rem;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      min-width: 72px;
+      transition: color 0.18s;
+    }
+    .tab-icon { font-size: 1.3rem; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── PANELS ───────────────────────────────── */
+    .panel { display: none; padding: 26px 0 40px; }
+    .panel.active { display: block; }
+    .panel-title  { font-size: 1.55rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .panel-sub    { color: var(--muted); font-size: 0.88rem; margin-bottom: 22px; }
+
+    /* ── INPUTS ───────────────────────────────── */
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 7px;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 11px 15px;
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.97rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.18s;
+    }
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    textarea::placeholder, input::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ── PILL SELECTORS ───────────────────────── */
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .pill {
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.83rem;
+      font-family: inherit;
+      transition: all 0.18s;
+    }
+    .pill:hover, .pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(201,168,76,0.08);
+    }
+
+    /* ── PRIMARY BUTTON ───────────────────────── */
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+      transition: background 0.18s, transform 0.1s;
+    }
+    .btn:hover  { background: var(--accent-h); }
+    .btn:active { transform: scale(0.98); }
+
+    /* ── RESULT CARD ──────────────────────────── */
+    .card {
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px 18px;
+      margin-top: 20px;
+      animation: fadeUp 0.28s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── TITLE LIST ───────────────────────────── */
+    .title-list { list-style: none; }
+    .title-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+    .title-list li:last-child { border-bottom: none; }
+    .tnum { color: var(--accent); font-weight: 700; min-width: 22px; }
+
+    /* ── OUTLINE ──────────────────────────────── */
+    .o-section { margin-bottom: 22px; }
+    .o-section h3 {
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-bottom: 7px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .o-section ul { list-style: none; }
+    .o-section ul li {
+      padding: 5px 0 5px 18px;
+      position: relative;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.96rem;
+      line-height: 1.45;
+    }
+    .o-section ul li::before { content:'▸'; position:absolute; left:0; color:var(--accent); }
+    .o-section ul ul { padding-left: 16px; margin-top: 4px; }
+    .o-section ul ul li::before { content:'–'; color:rgba(201,168,76,0.5); }
+    .o-label {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      color: var(--accent);
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    /* ── TOPIC DISPLAY ────────────────────────── */
+    .topic-text {
+      font-size: 1.35rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.55;
+      padding: 8px 0;
+    }
+
+    /* ── WORD OF THE DAY ─────────────────────── */
+    .w-word  { font-size: 2.1rem; font-weight: 800; color: var(--accent); margin-bottom: 2px; }
+    .w-pron  { color: var(--muted); font-style: italic; font-size: 0.97rem; margin-bottom: 16px; }
+    .w-def   {
+      font-size: 1rem;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .w-ex    { color: rgba(255,255,255,0.68); font-style: italic; font-size: 0.93rem; line-height: 1.5; }
+    .w-ex strong { color: var(--accent); font-style: normal; }
+
+    /* ── JOKE ─────────────────────────────────── */
+    .joke-text {
+      font-size: 1.18rem;
+      text-align: center;
+      line-height: 1.75;
+      padding: 6px 0;
+    }
+
+    /* ── QUOTE ────────────────────────────────── */
+    .q-text {
+      font-size: 1.22rem;
+      line-height: 1.7;
+      font-style: italic;
+      text-align: center;
+      padding: 4px 10px 14px;
+      position: relative;
+    }
+    .q-text::before,
+    .q-text::after {
+      font-style: normal;
+      font-size: 2.4rem;
+      color: var(--accent);
+      line-height: 0;
+      vertical-align: -0.4rem;
+    }
+    .q-text::before { content:'\201C'; margin-right: 4px; }
+    .q-text::after  { content:'\201D'; margin-left: 4px; }
+    .q-author { text-align:center; color:var(--accent); font-weight:600; font-size:0.97rem; }
+
+    /* ── COUNTER & NOTICE ─────────────────────── */
+    .counter { text-align:center; color:rgba(255,255,255,0.3); font-size:0.78rem; margin-top:14px; }
+    .notice  {
+      margin-top: 12px;
+      padding: 9px 14px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--accent);
+      font-size: 0.87rem;
+      text-align: center;
+      display: none;
+    }
+    .notice.show { display: block; }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      background: var(--dark);
+      padding: 18px 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.82rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ───────────────────────────── */
+    @media (max-width: 560px) {
+      .brand { font-size: 1.9rem; }
+      .tab-btn { min-width: 58px; padding: 11px 8px 8px; font-size: 0.72rem; }
+      .tab-icon { font-size: 1.15rem; }
+      .panel-title { font-size: 1.28rem; }
+      .w-word { font-size: 1.7rem; }
+      .topic-text { font-size: 1.12rem; }
+      .q-text { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════  HEADER  ═══════════════════ -->
+<header>
+  <div class="logo-row">
+    <svg class="logo-svg" width="52" height="52" viewBox="0 0 52 52" aria-label="SLW Academy logo">
+      <circle cx="26" cy="26" r="26" fill="#C9A84C"/>
+      <text x="26" y="20" text-anchor="middle" font-family="'Segoe UI',sans-serif"
+            font-size="13" font-weight="800" fill="#071A2F" letter-spacing="1">SLW</text>
+      <text x="26" y="35" text-anchor="middle" font-family="'Segoe UI',sans-serif"
+            font-size="7.5" font-weight="600" fill="#071A2F" letter-spacing="1.2">ACADEMY</text>
+    </svg>
+    <div class="logo-name">SLW Academy</div>
+  </div>
+  <div class="brand">Speak<span>Smart</span></div>
+  <div class="tagline">Your free public speaking toolkit</div>
+</header>
+
+<!-- ═══════════════════  AGE BAR  ══════════════════ -->
+<div class="age-bar">
+  <div class="age-label">Select Your Age Group</div>
+  <div class="age-btns">
+    <button class="age-btn active" data-group="middle"  onclick="setAge(this)">Ages 10–13 · Middle School</button>
+    <button class="age-btn"        data-group="high"    onclick="setAge(this)">Ages 14–18 · High School</button>
+    <button class="age-btn"        data-group="college" onclick="setAge(this)">Ages 18+ · College &amp; Professionals</button>
+  </div>
+</div>
+
+<!-- ═══════════════════  MAIN  ══════════════════════ -->
+<div class="wrapper">
+
+  <!-- TAB BAR -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-icon">🏷️</span>Titles</button>
+    <button class="tab-btn"        onclick="switchTab(1)"><span class="tab-icon">📝</span>Outline</button>
+    <button class="tab-btn"        onclick="switchTab(2)"><span class="tab-icon">🎲</span>Topics</button>
+    <button class="tab-btn"        onclick="switchTab(3)"><span class="tab-icon">📖</span>Word</button>
+    <button class="tab-btn"        onclick="switchTab(4)"><span class="tab-icon">😄</span>Joke</button>
+    <button class="tab-btn"        onclick="switchTab(5)"><span class="tab-icon">💬</span>Quote</button>
+  </div>
+
+  <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
+  <div class="panel active" id="p0">
+    <div class="panel-title">🏷️ Speech Title Generator</div>
+    <div class="panel-sub">Enter information about your speech topic and we'll generate creative title ideas.</div>
+    <div class="field">
+      <label>What is your speech about?</label>
+      <textarea id="titleInput" rows="4"
+        placeholder="Example: Vaping is really bad for you and causes serious health problems in young people…"></textarea>
+    </div>
+    <button class="btn" onclick="genTitles()">✨ Generate Speech Titles</button>
+    <div class="card" id="titleCard" style="display:none">
+      <ul class="title-list" id="titleList"></ul>
+    </div>
+  </div>
+
+  <!-- ── PANEL 1 · SPEECH OUTLINE GENERATOR ───────── -->
+  <div class="panel" id="p1">
+    <div class="panel-title">📝 Speech Outline Generator</div>
+    <div class="panel-sub">Enter your topic and choose a speech type to get a structured outline.</div>
+    <div class="field">
+      <label>Speech Topic</label>
+      <input type="text" id="outlineInput" placeholder="Example: The impact of social media on mental health">
+    </div>
+    <div class="field">
+      <label>Speech Type</label>
+      <div class="pill-row" id="speechTypeRow">
+        <button class="pill active" data-stype="informative"  onclick="pickSpeechType(this)">Informative</button>
+        <button class="pill"        data-stype="persuasive"   onclick="pickSpeechType(this)">Persuasive</button>
+        <button class="pill"        data-stype="motivational" onclick="pickSpeechType(this)">Motivational</button>
+      </div>
+    </div>
+    <button class="btn" onclick="genOutline()">📋 Generate Outline</button>
+    <div class="card" id="outlineCard" style="display:none">
+      <div id="outlineContent"></div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 2 · IMPROMPTU TOPIC GENERATOR ──────── -->
+  <div class="panel" id="p2">
+    <div class="panel-title">🎲 Impromptu Topic Generator</div>
+    <div class="panel-sub">Practice thinking on your feet. Hit Generate for a random speaking topic!</div>
+    <button class="btn" onclick="genTopic()">🎲 Generate Impromptu Topic</button>
+    <div class="card" id="topicCard" style="display:none">
+      <div class="topic-text" id="topicText"></div>
+      <div class="counter"    id="topicCounter"></div>
+      <div class="notice"     id="topicNotice">🎉 You've seen all 50 topics! Shuffling for a fresh round…</div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 3 · WORD OF THE DAY ────────────────── -->
+  <div class="panel" id="p3">
+    <div class="panel-title">📖 Word of the Day</div>
+    <div class="panel-sub">Expand your vocabulary with a powerful new word each time you click.</div>
+    <button class="btn" onclick="genWord()">📖 Get Word of the Day</button>
+    <div class="card" id="wordCard" style="display:none">
+      <div class="w-word" id="wWord"></div>
+      <div class="w-pron" id="wPron"></div>
+      <div class="w-def"  id="wDef"></div>
+      <div class="w-ex">
+        <strong>Example:</strong> <span id="wEx"></span>
+      </div>
+      <div class="counter" id="wordCounter"></div>
+      <div class="notice"  id="wordNotice">🎉 You've seen all 50 words! Shuffling for a fresh round…</div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 4 · JOKE OF THE DAY ────────────────── -->
+  <div class="panel" id="p4">
+    <div class="panel-title">😄 Joke of the Day</div>
+    <div class="panel-sub">A clean, age-appropriate joke to bring some laughter to your day.</div>
+    <button class="btn" onclick="genJoke()">😄 Tell Me a Joke!</button>
+    <div class="card" id="jokeCard" style="display:none">
+      <div class="joke-text" id="jokeText"></div>
+      <div class="counter"   id="jokeCounter"></div>
+      <div class="notice"    id="jokeNotice">🎉 You've heard all 50 jokes! Shuffling for a fresh round…</div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 5 · QUOTE OF THE DAY ───────────────── -->
+  <div class="panel" id="p5">
+    <div class="panel-title">💬 Quote of the Day</div>
+    <div class="panel-sub">Get an inspiring quote to fuel your public speaking journey.</div>
+    <div class="field">
+      <label>Choose a Topic</label>
+      <div class="pill-row" id="quoteTopicRow">
+        <button class="pill active" data-qtopic="speaking"      onclick="pickQuoteTopic(this)">Public Speaking</button>
+        <button class="pill"        data-qtopic="leadership"    onclick="pickQuoteTopic(this)">Leadership</button>
+        <button class="pill"        data-qtopic="confidence"    onclick="pickQuoteTopic(this)">Confidence</button>
+        <button class="pill"        data-qtopic="communication" onclick="pickQuoteTopic(this)">Communication</button>
+        <button class="pill"        data-qtopic="courage"       onclick="pickQuoteTopic(this)">Courage</button>
+        <button class="pill"        data-qtopic="success"       onclick="pickQuoteTopic(this)">Success</button>
+      </div>
+    </div>
+    <button class="btn" onclick="genQuote()">💬 Get Inspired</button>
+    <div class="card" id="quoteCard" style="display:none">
+      <div class="q-text"   id="qText"></div>
+      <div class="q-author" id="qAuthor"></div>
+      <div class="counter"  id="quoteCounter"></div>
+      <div class="notice"   id="quoteNotice">🎉 You've seen all quotes for this topic! Shuffling for a fresh round…</div>
+    </div>
+  </div>
+
+</div><!-- /.wrapper -->
+
+<!-- ═══════════════════  FOOTER  ════════════════════ -->
+<footer>
+  Built by [Your Name] &middot; SLW Academy Digital Intern 2026 &middot;
+  <a href="https://speakleadwinacademy.com" target="_blank" rel="noopener">speakleadwinacademy.com</a>
+</footer>
+
+<!-- ═══════════════════  SCRIPT  ════════════════════ -->
+<script>
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+let ageGroup   = 'middle';      // 'middle' | 'high' | 'college'
+let speechType = 'informative'; // 'informative' | 'persuasive' | 'motivational'
+let quoteTopic = 'speaking';    // 'speaking' | 'leadership' | 'confidence' | 'communication' | 'courage' | 'success'
+
+/* ═══════════════════════════════════════════════════
+   SHUFFLE & NO-REPEAT TRACKER
+═══════════════════════════════════════════════════ */
+const trackers = {};
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function initTracker(key, list) {
+  trackers[key] = { list: list.slice(), queue: shuffle(list.slice()), pos: 0 };
+}
+
+function getNext(key) {
+  const t = trackers[key];
+  const item = t.queue[t.pos];
+  t.pos++;
+  const current = t.pos;
+  const total   = t.list.length;
+  let cycled    = false;
+  if (t.pos >= t.queue.length) {
+    t.queue = shuffle(t.list.slice());
+    t.pos   = 0;
+    cycled  = true;
+  }
+  return { item, current, total, cycled };
+}
+
+/* ═══════════════════════════════════════════════════
+   CONTENT — IMPROMPTU TOPICS
+═══════════════════════════════════════════════════ */
+const TOPICS = {
+  middle: [
+    "Should students have homework every night?",
+    "What is your favorite animal and why?",
+    "If you could have any superpower, what would you choose?",
+    "Should recess be longer at school?",
+    "What is your favorite book and why?",
+    "Would you rather live in the city or the countryside?",
+    "What is the greatest invention ever created?",
+    "Should students be allowed to use phones in class?",
+    "If you could be any fictional character, who would you be?",
+    "What is your favorite hobby and why?",
+    "Should school lunches be healthier?",
+    "If you could travel anywhere in the world, where would you go?",
+    "What is the most important subject in school?",
+    "Should kids have a set bedtime?",
+    "What would you do if you were principal for a day?",
+    "Is it better to be smart or kind?",
+    "What is your favorite sport and why?",
+    "Should video games be allowed at school?",
+    "If you had a magic wand, what would you do first?",
+    "What makes a good friend?",
+    "Should students wear uniforms to school?",
+    "What is the scariest animal on Earth?",
+    "Would you rather be able to fly or turn invisible?",
+    "What is your favorite food and why?",
+    "Should kids be allowed to vote?",
+    "What would you do if you found $100 on the ground?",
+    "Is it better to read a book or watch a movie?",
+    "What is the best thing about summer vacation?",
+    "Should there be more art and music in school?",
+    "If you could meet any famous person, who would it be?",
+    "What is the hardest part about being in middle school?",
+    "Should children have more chores at home?",
+    "What is your dream job and why?",
+    "Would you rather live in the past or the future?",
+    "What is the most important rule in your school?",
+    "Should animals be kept in zoos?",
+    "What is something you wish adults understood about kids?",
+    "If you could invent something new, what would it be?",
+    "What is the best way to make new friends?",
+    "Is homework helpful or harmful?",
+    "What is your favorite holiday and why?",
+    "Should kids be able to stay up as late as they want?",
+    "What would happen if there were no rules?",
+    "Is it better to win or to have fun?",
+    "What is something you are really good at?",
+    "Should schools have longer summer breaks?",
+    "What is the most interesting thing you have ever learned?",
+    "If you could change one thing about your school, what would it be?",
+    "What does being brave mean to you?",
+    "If you could talk to any animal, which one would you choose?"
+  ],
+  high: [
+    "Should social media have a minimum age of 16?",
+    "Is technology making teenagers more or less social?",
+    "Should high school start later in the morning?",
+    "Is the current grading system fair?",
+    "Should college be free for everyone?",
+    "What is the biggest challenge facing your generation?",
+    "Should student athletes be required to maintain a minimum GPA?",
+    "Is social media more helpful or harmful to teenagers?",
+    "Should students have a say in curriculum decisions?",
+    "What is the impact of climate change on your future?",
+    "Should fast food advertising be banned near schools?",
+    "Is online learning better than in-person learning?",
+    "What does success really mean?",
+    "Should the voting age be lowered to 16?",
+    "Is it more important to follow your passion or to be practical?",
+    "Should gap years before college be encouraged?",
+    "What is the role of social media in shaping political opinions?",
+    "How important is it to learn a second language?",
+    "Should standardized tests be eliminated?",
+    "What is the greatest invention of the 21st century?",
+    "Should celebrities be considered role models for young people?",
+    "Is competition healthy or harmful?",
+    "What is the most pressing issue facing society today?",
+    "Should school uniforms be mandatory in high school?",
+    "How should schools better address student mental health?",
+    "Is cancel culture helpful or harmful?",
+    "What makes a great leader?",
+    "Should the minimum wage be raised?",
+    "Is privacy dead in the digital age?",
+    "What is the best way to combat cyberbullying?",
+    "Should financial literacy be a required class in high school?",
+    "Is artificial intelligence a threat or a benefit to society?",
+    "What is the most important life skill school should teach?",
+    "Should schools ban cell phones entirely during school hours?",
+    "What is the future of work?",
+    "Is it possible to achieve true equality?",
+    "Why is voting important even for young people?",
+    "Should student loan debt be forgiven?",
+    "What does it mean to be a responsible digital citizen?",
+    "Is entrepreneurship better than working for a company?",
+    "What is the most important quality in a friend?",
+    "Should there be limits on daily screen time?",
+    "What is something your generation does better than any before it?",
+    "How can one person make a difference in the world?",
+    "Should extreme sports be allowed in school physical education?",
+    "What role should schools play in teaching environmental awareness?",
+    "Is peer pressure always negative?",
+    "Should college athletes be paid?",
+    "What is the most overrated pressure teenagers face today?",
+    "How would your life be different without the internet?"
+  ],
+  college: [
+    "Is remote work the future of the modern workforce?",
+    "Should corporations be held legally accountable for climate change?",
+    "What is the greatest threat to democracy today?",
+    "Is universal basic income a viable solution to poverty?",
+    "How has social media fundamentally changed political discourse?",
+    "Should there be term limits for all elected officials?",
+    "What is the role of the individual in addressing systemic injustice?",
+    "Is work-life balance truly achievable in modern society?",
+    "Should higher education be publicly funded?",
+    "What is the ethical responsibility of technology companies?",
+    "How should society address the growing wealth gap?",
+    "Is capitalism the best economic system available?",
+    "What is the future of healthcare?",
+    "Should voting be mandatory?",
+    "What is the single most important leadership quality?",
+    "How do we rebuild trust in public institutions?",
+    "What is the role of government in regulating artificial intelligence?",
+    "Should there be a global minimum wage?",
+    "What is the biggest obstacle to achieving gender equality?",
+    "Is globalization good or bad for developing nations?",
+    "How should organizations better support employee mental health?",
+    "What is the most important skill for the 21st-century professional?",
+    "Should all nonviolent drug offenses be decriminalized?",
+    "Is free speech truly absolute?",
+    "How should companies authentically approach diversity and inclusion?",
+    "What is the most pressing ethical issue in artificial intelligence?",
+    "Should there be government-mandated limits on executive pay?",
+    "What does a genuinely sustainable future look like?",
+    "Is entrepreneurship overrated as a path to success?",
+    "What is the responsibility that comes with privilege?",
+    "Is social media advertising a form of psychological manipulation?",
+    "What is the future of higher education?",
+    "Should immigration policies be more open?",
+    "What is the most underrated leadership skill?",
+    "How has technology changed the nature of human connection?",
+    "What is the ethical responsibility of a professional communicator?",
+    "Should companies prioritize purpose over profit?",
+    "What is the role of failure in long-term success?",
+    "How do we constructively bridge deep political divides?",
+    "Is cancel culture a form of censorship?",
+    "What is the biggest misconception about leadership?",
+    "How should we redefine success in the modern world?",
+    "Should the Electoral College be reformed or abolished?",
+    "What is the most important lesson you have learned from failure?",
+    "How do organizations create a lasting culture of innovation?",
+    "What does courage look like in a professional context?",
+    "Is meritocracy a myth?",
+    "Should data privacy be considered a fundamental human right?",
+    "What will the workplace look like in 20 years?",
+    "Is authenticity more important than image in leadership?"
+  ]
+};
+
+/* ═══════════════════════════════════════════════════
+   CONTENT — WORDS OF THE DAY
+═══════════════════════════════════════════════════ */
+const WORDS = {
+  middle: [
+    { word:"Persevere",    pron:"pur-suh-VEER",       def:"To keep trying even when something is very difficult.",                        ex:"Even when the math problem seemed impossible, she decided to persevere until she solved it." },
+    { word:"Courageous",   pron:"kuh-RAY-jus",        def:"Showing bravery in the face of fear or difficulty.",                          ex:"The courageous student walked up to the podium even though he was nervous." },
+    { word:"Curious",      pron:"KYOOR-ee-us",        def:"Eager to learn or know about new things.",                                    ex:"The curious girl asked her teacher a dozen questions about how rainbows form." },
+    { word:"Diligent",     pron:"DIL-ih-jent",        def:"Working carefully and with great effort.",                                    ex:"The diligent student finished every assignment before dinner each night." },
+    { word:"Compassion",   pron:"kum-PASH-un",        def:"Caring deeply about other people's feelings and wanting to help them.",       ex:"She showed compassion by helping the new student feel welcome on his first day." },
+    { word:"Eloquent",     pron:"EL-uh-kwent",        def:"Able to express ideas in a clear, beautiful, and powerful way.",              ex:"The eloquent speaker held the whole class completely spellbound." },
+    { word:"Humble",       pron:"HUM-bul",            def:"Not bragging about your achievements; modest.",                               ex:"Despite winning the spelling bee, he stayed humble and thanked his coach." },
+    { word:"Ambitious",    pron:"am-BISH-us",         def:"Having strong goals and the desire to achieve them.",                        ex:"The ambitious girl set a goal to read 25 books before the school year ended." },
+    { word:"Persistent",   pron:"pur-SIS-tent",       def:"Continuing steadily despite obstacles or setbacks.",                         ex:"His persistent practice every day finally paid off when he made the team." },
+    { word:"Innovative",   pron:"IN-uh-vay-tiv",      def:"Introducing new, creative ideas or methods.",                                ex:"The innovative student designed a solar-powered phone charger for the science fair." },
+    { word:"Empathy",      pron:"EM-puh-thee",        def:"The ability to understand and share how someone else is feeling.",           ex:"Her empathy helped her notice right away when her friend was having a bad day." },
+    { word:"Resilient",    pron:"rih-ZIL-yent",       def:"Recovering quickly after something hard or disappointing.",                  ex:"After failing her first test, the resilient student studied harder and aced the next one." },
+    { word:"Determined",   pron:"dih-TUR-mind",       def:"Having a firm decision to reach a goal no matter what.",                    ex:"He was determined to learn guitar, so he practiced every single day." },
+    { word:"Enthusiastic", pron:"en-THYOO-zee-as-tik",def:"Showing great excitement and energy about something.",                      ex:"The enthusiastic crowd cheered so loudly the gym walls shook." },
+    { word:"Gracious",     pron:"GRAY-shus",          def:"Being polite, kind, and thankful, especially when receiving something.",     ex:"She was gracious and thanked every single person who had helped her win." },
+    { word:"Collaborate",  pron:"kuh-LAB-uh-rayt",   def:"To work together with others toward a shared goal.",                        ex:"The four students had to collaborate to finish the group project on time." },
+    { word:"Integrity",    pron:"in-TEG-rih-tee",     def:"Being honest and doing the right thing even when no one is watching.",      ex:"He showed real integrity when he returned the extra change the cashier gave him by mistake." },
+    { word:"Trustworthy",  pron:"TRUST-wur-thee",     def:"Reliable, honest, and deserving of trust.",                                 ex:"A trustworthy friend always keeps your secrets and their promises." },
+    { word:"Communicate",  pron:"kuh-MYOO-nih-kayt",  def:"To share information, ideas, or feelings with others.",                    ex:"A good speaker communicates clearly so the whole audience understands." },
+    { word:"Leadership",   pron:"LEE-dur-ship",       def:"The ability to guide and inspire a group of people.",                      ex:"Her leadership skills helped the whole team complete the project ahead of schedule." },
+    { word:"Articulate",   pron:"ar-TIK-yuh-lit",    def:"Able to express thoughts and ideas clearly and smoothly.",                  ex:"She was so articulate during her science presentation that the judges were impressed." },
+    { word:"Optimistic",   pron:"op-tuh-MIS-tik",    def:"Hopeful and expecting good things to happen.",                              ex:"He stayed optimistic about winning even when his team was behind in the fourth quarter." },
+    { word:"Motivate",     pron:"MOH-tuh-vayt",      def:"To inspire or encourage someone to take action.",                           ex:"The coach's speech before the game really helped motivate the entire team." },
+    { word:"Perspective",  pron:"pur-SPEK-tiv",      def:"A particular way of thinking about or seeing something.",                   ex:"Hearing her classmate's story gave him a whole new perspective on the problem." },
+    { word:"Adapt",        pron:"uh-DAPT",           def:"To change or adjust to fit a new situation.",                               ex:"When it started raining, the team quickly adapted their outdoor plan." },
+    { word:"Mentor",       pron:"MEN-tor",           def:"An experienced person who guides and teaches someone less experienced.",    ex:"Her science teacher became her mentor and helped her enter the state competition." },
+    { word:"Creative",     pron:"kree-AY-tiv",       def:"Using imagination to come up with new and original ideas.",                 ex:"The creative student wrote a poem instead of a traditional book report." },
+    { word:"Generous",     pron:"JEN-ur-us",         def:"Willing to give time, help, or things to others.",                         ex:"The generous boy donated half his birthday money to a local animal shelter." },
+    { word:"Responsible",  pron:"rih-SPON-suh-bul",  def:"Being reliable and taking ownership of your duties.",                      ex:"She was responsible for feeding the classroom fish every morning." },
+    { word:"Encourage",    pron:"en-KUR-ij",         def:"To give someone support, confidence, or hope.",                            ex:"The teacher encouraged every single student to try their best on the speech." },
+    { word:"Dedication",   pron:"ded-ih-KAY-shun",   def:"Committed effort and hard work toward reaching a goal.",                   ex:"His dedication to practice every day helped him win the district spelling bee." },
+    { word:"Teamwork",     pron:"TEEM-wurk",         def:"Working together as a group to achieve a shared goal.",                    ex:"The relay race showed everyone just how powerful teamwork can be." },
+    { word:"Wisdom",       pron:"WIZ-dum",           def:"The ability to make good decisions based on knowledge and experience.",    ex:"Grandma's wisdom, gained over decades of life, helped the whole family through tough times." },
+    { word:"Unique",       pron:"yoo-NEEK",          def:"Being one of a kind; unlike anything else.",                               ex:"Her unique way of telling stories kept every listener completely hooked." },
+    { word:"Overcome",     pron:"oh-ver-KUM",        def:"To succeed in dealing with something difficult.",                          ex:"She worked hard to overcome her fear of public speaking and gave a great speech." },
+    { word:"Transform",    pron:"trans-FORM",        def:"To change something completely, especially for the better.",               ex:"Reading challenging books can transform the way you think about the world." },
+    { word:"Achieve",      pron:"uh-CHEEV",          def:"To successfully reach a goal through effort.",                             ex:"With hard work and practice, she was able to achieve first place in the competition." },
+    { word:"Considerate",  pron:"kun-SID-ur-it",     def:"Being thoughtful and careful about the feelings of others.",              ex:"He was considerate enough to hold the door open for everyone walking behind him." },
+    { word:"Patience",     pron:"PAY-shens",         def:"The ability to wait calmly without becoming frustrated.",                  ex:"Learning a new skill like chess requires a lot of patience and practice." },
+    { word:"Envision",     pron:"en-VIZH-un",        def:"To imagine or picture something in your mind, especially in the future.", ex:"She tried to envision exactly what her finished science fair project would look like." },
+    { word:"Focus",        pron:"FOH-kus",           def:"To concentrate your attention and energy on one thing.",                   ex:"To score well on the test, you need to focus and block out all distractions." },
+    { word:"Observe",      pron:"ub-ZURV",           def:"To watch something carefully and pay close attention.",                    ex:"We went outside to observe the types of birds that visited the feeder each morning." },
+    { word:"Negotiate",    pron:"nih-GOH-shee-ayt",  def:"To discuss something in order to reach an agreement.",                    ex:"The two friends had to negotiate which movie to watch on Friday night." },
+    { word:"Accomplish",   pron:"uh-KOM-plish",      def:"To successfully complete something or reach a goal.",                     ex:"She felt proud to accomplish every single goal she had set for herself that year." },
+    { word:"Challenge",    pron:"CHAL-enj",          def:"Something that is difficult and requires extra effort to deal with.",     ex:"Learning a new language is a challenge, but it is absolutely worth taking on." },
+    { word:"Inspire",      pron:"in-SPYR",           def:"To fill someone with the desire or ability to do or create something.",   ex:"The astronaut's story was enough to inspire the entire class to study harder." },
+    { word:"Vocabulary",   pron:"voh-KAB-yuh-lair-ee",def:"All the words a person knows and uses in a language.",                  ex:"Reading every day is one of the best ways to build a powerful vocabulary." },
+    { word:"Succeed",      pron:"suk-SEED",          def:"To achieve the result or outcome that you wanted.",                       ex:"With enough practice and determination, you can succeed at almost anything." },
+    { word:"Imagine",      pron:"ih-MAJ-in",         def:"To form a picture or idea of something in your mind.",                   ex:"She loved to imagine grand adventures while reading books under the oak tree." },
+    { word:"Brilliant",    pron:"BRIL-yunt",         def:"Exceptionally clever, talented, or impressive.",                         ex:"The brilliant young inventor won first place at the regional science competition." }
+  ],
+  high: [
+    { word:"Rhetoric",       pron:"RET-ur-ik",           def:"The art of using language effectively and persuasively in speaking or writing.",                  ex:"She studied rhetoric to sharpen the arguments she would use in the debate." },
+    { word:"Credibility",    pron:"kred-ih-BIL-ih-tee",  def:"The quality of being trusted and believed by others.",                                            ex:"A speaker builds credibility by citing reliable sources and demonstrating expertise." },
+    { word:"Conviction",     pron:"kun-VIK-shun",        def:"A firmly held belief or opinion, especially one strong enough to drive action.",                  ex:"She spoke with such conviction about climate change that several people changed their minds." },
+    { word:"Pragmatic",      pron:"prag-MAT-ik",         def:"Dealing with problems in a sensible, realistic way rather than sticking to ideology.",            ex:"A pragmatic approach helped the student council solve the cafeteria issue quickly." },
+    { word:"Catalyst",       pron:"KAT-uh-list",         def:"A person or event that causes or speeds up important change.",                                     ex:"Her speech became the catalyst for a schoolwide recycling program." },
+    { word:"Nuance",         pron:"NYOO-ahns",           def:"A subtle difference in meaning, expression, or understanding.",                                    ex:"Good writers understand the nuance between similar words like 'famous' and 'notorious'." },
+    { word:"Advocate",       pron:"AD-vuh-kayt",         def:"To publicly support or recommend a particular cause or policy.",                                   ex:"She decided to advocate loudly for better mental health resources in her school." },
+    { word:"Juxtapose",      pron:"juk-stuh-POHZ",       def:"To place two things side by side to highlight their differences.",                                ex:"The essay juxtaposed the lives of students from wealthy and low-income schools." },
+    { word:"Synthesize",     pron:"SIN-thuh-syz",        def:"To combine separate elements or sources to form a coherent whole.",                               ex:"Great researchers know how to synthesize information from many different studies." },
+    { word:"Inference",      pron:"IN-fur-ens",          def:"A conclusion reached by reasoning from evidence rather than from direct statement.",              ex:"Based on the context clues, she made a solid inference about the author's meaning." },
+    { word:"Perpetuate",     pron:"pur-PECH-oo-ayt",     def:"To make something continue indefinitely, especially something harmful.",                          ex:"Unchecked stereotypes are dangerous because they perpetuate harmful false beliefs." },
+    { word:"Deliberate",     pron:"dih-LIB-ur-it",       def:"Done consciously and intentionally, with full awareness.",                                        ex:"She made a deliberate choice to practice her speech in front of a mirror every day." },
+    { word:"Consensus",      pron:"kun-SEN-sus",         def:"General agreement among a group of people.",                                                       ex:"After a long debate, the student council finally reached a consensus on the new policy." },
+    { word:"Alienate",       pron:"AY-lee-uh-nayt",      def:"To cause someone to feel isolated, excluded, or estranged.",                                      ex:"Using too much jargon in a speech can quickly alienate the audience." },
+    { word:"Empowerment",    pron:"em-POW-ur-ment",      def:"The process of gaining confidence, strength, or authority to act.",                               ex:"Education is widely regarded as one of the greatest tools for individual empowerment." },
+    { word:"Connotation",    pron:"kon-uh-TAY-shun",     def:"An idea or feeling associated with a word, beyond its literal dictionary meaning.",              ex:"The word 'home' carries a warm, positive connotation for most people." },
+    { word:"Discourse",      pron:"DIS-kors",            def:"Written or spoken communication or debate on a subject.",                                          ex:"The class engaged in a passionate discourse about the role of technology in education." },
+    { word:"Accountability", pron:"uh-koun-tuh-BIL-ih-tee",def:"The fact of being responsible for your actions and willing to accept the consequences.",      ex:"True leaders demonstrate accountability by acknowledging their mistakes openly." },
+    { word:"Momentum",       pron:"moh-MEN-tum",         def:"The force or energy gained through movement, progress, or a series of events.",                  ex:"Once the campaign gained momentum, it spread across the entire school within a week." },
+    { word:"Analogy",        pron:"uh-NAL-uh-jee",       def:"A comparison between two unlike things used to explain or clarify an idea.",                     ex:"The teacher used a brilliant analogy to explain how vaccines work like a training camp for your immune system." },
+    { word:"Bias",           pron:"BY-us",               def:"An inclination or prejudice for or against something that prevents fair judgment.",              ex:"Every good journalist must identify and minimize their personal bias before reporting." },
+    { word:"Mobilize",       pron:"MOH-buh-lyz",         def:"To organize and encourage people to take action toward a goal.",                                  ex:"The student president tried to mobilize the student body for a community service day." },
+    { word:"Rebuttal",       pron:"rih-BUT-ul",          def:"A counter-argument made in response to an opposing argument.",                                    ex:"Her sharp rebuttal during the debate left the other team scrambling for a response." },
+    { word:"Ideology",       pron:"eye-dee-OL-uh-jee",   def:"A system of ideas and beliefs that guides a person, group, or political movement.",             ex:"Understanding different political ideologies helps you become a more informed citizen." },
+    { word:"Paradox",        pron:"PAIR-uh-doks",        def:"A statement that seems self-contradictory but may reveal a deeper truth.",                       ex:"'The more you learn, the more you realize you know nothing' is a classic paradox." },
+    { word:"Compelling",     pron:"kum-PEL-ing",         def:"Evoking interest, attention, or admiration in a powerfully irresistible way.",                   ex:"She gave such a compelling argument that even the judges who disagreed were impressed." },
+    { word:"Transparent",    pron:"trans-PAIR-ent",      def:"Open, honest, and not hiding anything; easy to see through figuratively.",                       ex:"The most trusted leaders are always transparent with their teams." },
+    { word:"Impartial",      pron:"im-PAR-shul",         def:"Treating all parties equally; not biased or prejudiced.",                                         ex:"A good debate moderator must remain completely impartial throughout the discussion." },
+    { word:"Profound",       pron:"pruh-FOUND",          def:"Very great, intense, or showing deep insight and understanding.",                                 ex:"Reading that novel had a truly profound effect on the way he viewed the world." },
+    { word:"Narrative",      pron:"NAIR-uh-tiv",         def:"A spoken or written account of connected events; a story.",                                       ex:"The most effective political campaigns are built around a powerful central narrative." },
+    { word:"Refute",         pron:"rih-FYOOT",           def:"To prove a statement or theory to be wrong or false.",                                             ex:"She used verified data and statistics to refute her opponent's argument effectively." },
+    { word:"Tenacious",      pron:"tuh-NAY-shus",        def:"Holding firmly to something; not giving up easily; persistent.",                                  ex:"Her tenacious spirit carried her through every obstacle on the way to her goal." },
+    { word:"Ambiguity",      pron:"am-big-YOO-ih-tee",   def:"The quality of being open to more than one interpretation; uncertainty.",                        ex:"The contract was full of ambiguity, so both sides interpreted it differently." },
+    { word:"Commemorate",    pron:"kuh-MEM-uh-rayt",     def:"To honor the memory of a person or event with a ceremony or monument.",                          ex:"The school held an assembly to commemorate the 50th anniversary of its founding." },
+    { word:"Pragmatism",     pron:"PRAG-muh-tiz-um",     def:"A practical approach to solving problems and dealing with situations.",                          ex:"Her pragmatism in the face of setbacks was exactly what the team needed." },
+    { word:"Hypothesis",     pron:"hy-POTH-uh-sis",      def:"A proposed explanation made as a starting point for further investigation.",                     ex:"Before starting the experiment, the class formed a hypothesis about what would happen." },
+    { word:"Manifestation",  pron:"man-ih-fes-TAY-shun", def:"A visible or concrete sign that something abstract is occurring.",                               ex:"The large protest was a powerful manifestation of public frustration with the policy." },
+    { word:"Critique",       pron:"krih-TEEK",           def:"A detailed analysis and assessment, typically of a work or argument.",                           ex:"The teacher asked each student to offer a thoughtful critique of their partner's essay." },
+    { word:"Subtext",        pron:"SUB-tekst",           def:"An underlying theme or message not directly stated in a text or conversation.",                   ex:"The cheerful poem actually had a deep subtext about loneliness and longing." },
+    { word:"Credence",       pron:"KREE-dens",           def:"Belief in or acceptance of something as true.",                                                   ex:"The new evidence gave credence to the theory that had long been dismissed." },
+    { word:"Judiciously",    pron:"joo-DISH-us-lee",     def:"In a way that shows good judgment and wisdom.",                                                   ex:"She judiciously chose her words so as not to offend any member of the audience." },
+    { word:"Eloquence",      pron:"EL-uh-kwens",         def:"Fluent, forceful, and persuasive speech or writing.",                                             ex:"His eloquence during the final round of the state debate competition was breathtaking." },
+    { word:"Emphatically",   pron:"em-FAT-ih-klee",      def:"In a forceful, clear, and definite way.",                                                         ex:"She stated emphatically that she would not back down from her position." },
+    { word:"Innovate",       pron:"IN-uh-vayt",          def:"To make changes and introduce new ideas, methods, or inventions.",                               ex:"Great companies must constantly innovate or risk being left behind by competitors." },
+    { word:"Demagoguery",    pron:"DEM-uh-gog-uh-ree",   def:"Political activity or leadership that exploits emotions and prejudices rather than reason.",     ex:"History is full of cautionary tales about how demagoguery can divide entire nations." },
+    { word:"Implication",    pron:"im-plih-KAY-shun",    def:"A conclusion that can be drawn from something, though it is not directly stated.",               ex:"The implication of the study was that students who sleep more perform better academically." },
+    { word:"Accentuate",     pron:"ak-SEN-choo-ayt",     def:"To make something more noticeable or prominent.",                                                 ex:"A good speaker knows how to accentuate key points with pauses and vocal variation." },
+    { word:"Civility",       pron:"sih-VIL-ih-tee",      def:"Formal politeness and courtesy in behavior and speech.",                                          ex:"Even when they strongly disagreed, both debaters maintained a high level of civility." },
+    { word:"Candor",         pron:"KAN-dur",             def:"The quality of being open, honest, and direct in expression.",                                    ex:"Her candor in admitting the flaws in her own argument actually made her more believable." },
+    { word:"Scrutiny",       pron:"SKROO-tih-nee",       def:"Critical observation or examination with great attention to detail.",                             ex:"Every claim in a persuasive speech should be able to withstand close scrutiny." }
+  ],
+  college: [
+    { word:"Perspicacious",   pron:"pur-spih-KAY-shus",       def:"Having a ready insight; shrewd and perceptive.",                                                                   ex:"The perspicacious analyst identified the emerging market trend months before anyone else did." },
+    { word:"Equanimity",      pron:"ee-kwuh-NIM-ih-tee",      def:"Mental calmness and composure, especially in difficult situations.",                                                ex:"She handled the boardroom crisis with remarkable equanimity, never losing her focus." },
+    { word:"Gravitas",        pron:"GRAV-ih-tas",             def:"Dignity, seriousness, and importance of manner that commands respect.",                                             ex:"His natural gravitas made every room he entered feel more focused and authoritative." },
+    { word:"Elocution",       pron:"el-uh-KYOO-shun",         def:"The skill of clear and expressive speech, especially with proper articulation and delivery.",                      ex:"She studied elocution intensively to eliminate the filler words from her presentations." },
+    { word:"Cadence",         pron:"KAY-dens",                def:"The rhythmic flow or modulation of speech or writing.",                                                             ex:"A skilled orator uses deliberate cadence to hold audience attention and emphasize key ideas." },
+    { word:"Dialectic",       pron:"dy-uh-LEK-tik",           def:"A method of examining opposing ideas through logical argument to arrive at truth.",                                ex:"The seminar used Socratic dialectic to explore the philosophical tensions in the text." },
+    { word:"Extemporaneous",  pron:"eks-tem-puh-RAY-nee-us",  def:"Spoken or done without preparation or planning.",                                                                  ex:"His extemporaneous remarks at the awards ceremony were more moving than any scripted speech." },
+    { word:"Circumlocution",  pron:"sur-kum-loh-KYOO-shun",   def:"The use of many words where fewer would do; indirect speech.",                                                     ex:"Effective communication requires avoiding circumlocution and getting directly to the point." },
+    { word:"Verisimilitude",  pron:"ver-ih-sih-MIL-ih-tyood", def:"The appearance of being true or real; believability.",                                                             ex:"The speaker's personal anecdotes added verisimilitude and credibility to her argument." },
+    { word:"Soliloquy",       pron:"suh-LIL-uh-kwee",         def:"An act of speaking one's thoughts aloud, often regardless of hearers.",                                            ex:"In Shakespeare, a soliloquy gives the audience direct insight into a character's inner world." },
+    { word:"Hegemony",        pron:"hih-JEM-uh-nee",          def:"Leadership or dominance, especially of one country or group over others.",                                         ex:"The nation sought economic hegemony through strategic trade agreements and partnerships." },
+    { word:"Prolific",        pron:"pruh-LIF-ik",             def:"Producing a large number of works, results, or ideas.",                                                             ex:"The prolific author published three critically acclaimed books in a single calendar year." },
+    { word:"Cogent",          pron:"KOH-jent",                def:"Clear, logical, and convincing in argument or expression.",                                                         ex:"She made a cogent case for policy reform that even her opponents had difficulty countering." },
+    { word:"Sophistry",       pron:"SOF-is-tree",             def:"The use of clever but misleading and ultimately false arguments.",                                                  ex:"The journalist exposed the sophistry behind the politician's carefully worded claim." },
+    { word:"Heuristic",       pron:"hyoo-RIS-tik",            def:"A practical problem-solving approach that is not guaranteed to be optimal but is sufficient.",                     ex:"Designers often rely on heuristic methods to make fast decisions when data is incomplete." },
+    { word:"Paradigm",        pron:"PAIR-uh-dym",             def:"A typical example, model, or framework that shapes a particular field of thought.",                               ex:"The new research challenged the existing scientific paradigm that had held for two decades." },
+    { word:"Obfuscate",       pron:"ob-FUS-kayt",             def:"To make something unclear, confusing, or difficult to understand.",                                                ex:"Politicians sometimes obfuscate facts with vague language to avoid direct accountability." },
+    { word:"Ubiquitous",      pron:"yoo-BIK-wih-tus",         def:"Present, appearing, or found everywhere at the same time.",                                                        ex:"Smartphones have become so ubiquitous that a world without them is hard to imagine." },
+    { word:"Laconic",         pron:"luh-KON-ik",              def:"Using very few words; brief and concise to the point of seeming rude.",                                            ex:"The CEO was known for his laconic but devastatingly effective communication style." },
+    { word:"Polemic",         pron:"puh-LEM-ik",              def:"A strong verbal or written attack on a person, opinion, or doctrine.",                                             ex:"The op-ed was a sharp polemic against the administration's education funding cuts." },
+    { word:"Pedantic",        pron:"pih-DAN-tik",             def:"Overly concerned with minor details or formal rules, especially in teaching.",                                     ex:"His pedantic line-by-line corrections made team meetings feel unnecessarily tedious." },
+    { word:"Mendacious",      pron:"men-DAY-shus",            def:"Not telling the truth; lying.",                                                                                    ex:"The mendacious report was retracted after independent fact-checkers exposed its inaccuracies." },
+    { word:"Encomium",        pron:"en-KOH-mee-um",           def:"A formal expression of high praise; a speech in tribute to someone.",                                              ex:"The department chair delivered a moving encomium at the retiring professor's farewell dinner." },
+    { word:"Zeitgeist",       pron:"ZYT-gyst",                def:"The defining spirit, mood, or intellectual trend of a particular period in time.",                               ex:"The documentary perfectly captured the cultural zeitgeist of the early internet era." },
+    { word:"Ameliorate",      pron:"uh-MEEL-yuh-rayt",        def:"To make something bad or unsatisfactory better.",                                                                  ex:"New workplace flexibility policies were introduced to ameliorate high rates of employee burnout." },
+    { word:"Anachronistic",   pron:"uh-nak-ruh-NIS-tik",      def:"Belonging to a period other than the one being depicted; outdated.",                                              ex:"Some argue that the filibuster is an anachronistic procedure that slows democratic progress." },
+    { word:"Supercilious",    pron:"soo-pur-SIL-ee-us",       def:"Behaving or looking as though one thinks oneself superior to others; condescending.",                            ex:"His supercilious attitude in meetings alienated the junior colleagues he most needed on his side." },
+    { word:"Sycophant",       pron:"SIK-uh-fant",             def:"A person who uses flattery and excessive compliance to gain favor.",                                               ex:"A leader who surrounds themselves only with sycophants will eventually lose touch with reality." },
+    { word:"Axiom",           pron:"AK-see-um",               def:"A statement or proposition regarded as self-evidently true.",                                                      ex:"'The customer is always right' is a well-known business axiom, though one increasingly debated." },
+    { word:"Recalcitrant",    pron:"rih-KAL-sih-trent",       def:"Having an obstinately uncooperative attitude toward authority or discipline.",                                    ex:"The recalcitrant board member blocked every proposed governance reform for two years." },
+    { word:"Pedagogy",        pron:"PED-uh-goh-jee",          def:"The art, science, or profession of teaching.",                                                                     ex:"The professor's pedagogy centered on student-led inquiry rather than passive listening." },
+    { word:"Probity",         pron:"PROH-bih-tee",            def:"The quality of having strong moral principles; honesty and decency.",                                              ex:"Voters increasingly demand leaders of unquestionable probity, especially in local government." },
+    { word:"Imprimatur",      pron:"im-prih-MAH-tur",         def:"Official approval or sanction of a publication, project, or idea.",                                               ex:"The research received the imprimatur of three independent ethics boards before publication." },
+    { word:"Tenuous",         pron:"TEN-yoo-us",              def:"Very weak or slight; lacking substance or solidity.",                                                               ex:"The connection between the two datasets was tenuous and failed to support the original hypothesis." },
+    { word:"Garrulous",       pron:"GAIR-uh-lus",             def:"Excessively talkative, especially on trivial matters.",                                                             ex:"The garrulous consultant talked for so long the meeting ran 45 minutes over schedule." },
+    { word:"Pellucid",        pron:"puh-LOO-sid",             def:"Translucently clear; (of a speech or writing) easily understood.",                                                 ex:"Her pellucid explanation of the complex regulatory framework impressed the entire panel." },
+    { word:"Contumacious",    pron:"kon-tyoo-MAY-shus",       def:"Stubbornly or willfully disobedient to authority.",                                                                ex:"The contumacious board member refused to acknowledge the committee's binding decision." },
+    { word:"Solecism",        pron:"SOL-ih-siz-um",           def:"A grammatical mistake in speech or writing; a breach of social etiquette.",                                       ex:"A public communicator who relies on solecisms risks undermining their authority and credibility." },
+    { word:"Axiological",     pron:"ak-see-uh-LOJ-ih-kul",   def:"Relating to the study of values or the theory of value.",                                                          ex:"The axiological dimensions of leadership ethics are rarely discussed in business schools." },
+    { word:"Dissonance",      pron:"DIS-uh-nens",             def:"Tension or inconsistency between two things; lack of harmony.",                                                   ex:"There was a clear cognitive dissonance between the company's stated values and its actual practices." },
+    { word:"Epistemology",    pron:"ih-pis-tuh-MOL-uh-jee",  def:"The branch of philosophy concerned with the nature and scope of knowledge.",                                      ex:"Epistemology asks not just what we know, but how we can justify claiming to know it." },
+    { word:"Ostensible",      pron:"os-TEN-suh-bul",          def:"Stated or appearing to be true, but not necessarily so.",                                                          ex:"His ostensible reason for the restructuring was efficiency, but analysts suspected deeper motives." },
+    { word:"Propitious",      pron:"pruh-PISH-us",            def:"Giving or indicating a good chance of success; favorable.",                                                        ex:"The economic climate was propitious for launching the startup, and they seized the moment." },
+    { word:"Magnanimous",     pron:"mag-NAN-ih-mus",          def:"Very generous or forgiving, especially toward rivals or those less powerful.",                                    ex:"The magnanimous leader gave full public credit to her team and none to herself." },
+    { word:"Discernment",     pron:"dih-SURN-ment",           def:"The ability to judge well; keenness of perception and judgment.",                                                  ex:"Effective leadership in a crisis depends above all on discernment under pressure." },
+    { word:"Efficacious",     pron:"ef-ih-KAY-shus",          def:"Successful in producing a desired or intended result.",                                                             ex:"The new training program proved remarkably efficacious in reducing onboarding time by half." },
+    { word:"Loquacious",      pron:"loh-KWAY-shus",           def:"Tending to talk a great deal; very talkative.",                                                                    ex:"His loquacious nature made him a natural at networking events but a challenge in boardrooms." },
+    { word:"Perspicuity",     pron:"pur-spih-KYOO-ih-tee",    def:"The quality of being clear and easily understood.",                                                                ex:"The hallmark of a great executive communicator is perspicuity — no jargon, no ambiguity." },
+    { word:"Tendentious",     pron:"ten-DEN-shus",            def:"Promoting a particular cause or point of view; biased.",                                                           ex:"The report was criticized for being tendentious, presenting only evidence that supported its conclusions." },
+    { word:"Autodidact",      pron:"aw-toh-DY-dakt",          def:"A person who is self-taught.",                                                                                     ex:"The most influential tech entrepreneurs of the past two decades were largely autodidacts." }
+  ]
+};
+
+/* ═══════════════════════════════════════════════════
+   CONTENT — JOKES OF THE DAY
+═══════════════════════════════════════════════════ */
+const JOKES = {
+  middle: [
+    "Why don't scientists trust atoms? Because they make up everything!",
+    "What do you call a fish without eyes? A fsh!",
+    "Why did the math book look so sad? Because it had too many problems.",
+    "What do you call a sleeping dinosaur? A dino-snore!",
+    "Why can't Elsa have a balloon? Because she'll let it go!",
+    "What do you call cheese that isn't yours? Nacho cheese!",
+    "Why did the scarecrow win an award? Because he was outstanding in his field!",
+    "What do you call a bear with no teeth? A gummy bear!",
+    "How do you organize a space party? You planet!",
+    "Why don't eggs tell jokes? They might crack up!",
+    "What did one wall say to the other wall? I'll meet you at the corner!",
+    "What do you call a factory that makes okay products? A satis-factory!",
+    "Why did the bicycle fall over? Because it was two-tired!",
+    "What do you call a boomerang that won't come back? A stick!",
+    "What is a computer's favorite snack? Microchips!",
+    "Why did the student eat his homework? Because the teacher told him it was a piece of cake!",
+    "What do you call an alligator in a vest? An investigator!",
+    "Why did the tomato turn red? Because it saw the salad dressing!",
+    "What kind of tree fits in your hand? A palm tree!",
+    "Why did the golfer bring an extra pair of pants? In case he got a hole in one!",
+    "What do you call a lazy kangaroo? A pouch potato!",
+    "Why did the belt go to jail? Because it held up a pair of pants!",
+    "What do you get when you cross a snowman and a vampire? Frostbite!",
+    "What did the ocean say to the beach? Nothing — it just waved!",
+    "Why didn't the sun go to college? Because it already had a million degrees!",
+    "Why did the clock get in trouble at school? Because it tocked too much!",
+    "What do you call a sad strawberry? A blueberry!",
+    "Why do cows wear bells? Because their horns don't work!",
+    "What do you call a dog magician? A labracadabrador!",
+    "What do you call two birds in love? Tweet hearts!",
+    "What did the paper say to the pencil? Write on!",
+    "Why can't a nose be 12 inches long? Because then it would be a foot!",
+    "What do you call a fake noodle? An impasta!",
+    "What did the zero say to the eight? Nice belt!",
+    "Why did the banana go to the doctor? Because it wasn't peeling well!",
+    "What do you call a snowman in summer? A puddle!",
+    "Why did the cookie go to the doctor? Because it felt crummy!",
+    "What did the janitor say when he jumped out of the closet? Supplies!",
+    "What do you call a pony with a cough? A little hoarse!",
+    "What kind of music do balloons hate? Pop music!",
+    "What did the grape say when it got stepped on? Nothing — it just let out a little wine!",
+    "What do you call a cat on ice? One cool cat!",
+    "Why did the calendar break up with the clock? It felt their days were numbered.",
+    "What do you call a sleeping T-Rex? A dino-snore!",
+    "What do you call a singing laptop? A Dell!",
+    "What did the ocean say to the shore? Long time no sea!",
+    "Why did the picture go to jail? Because it was framed!",
+    "What do you call a bee that can't make up its mind? A maybe!",
+    "What's a vampire's favorite fruit? A blood orange!",
+    "Why did the orange stop rolling down the hill? Because it ran out of juice!"
+  ],
+  high: [
+    "I told my math teacher I was bad at fractions. She said, 'That's only half true.'",
+    "I would tell a chemistry joke, but I know I wouldn't get a reaction.",
+    "Why did the history teacher look out the window? To see the passing of time.",
+    "I wrote a book on reverse psychology. Please don't read it.",
+    "Why don't programmers like nature? It has too many bugs.",
+    "I used to hate facial hair, but then it grew on me.",
+    "I'm reading a book on anti-gravity. It's impossible to put down.",
+    "Why did the physics teacher break up with the biology teacher? There was no chemistry.",
+    "Why don't skeletons fight each other? They don't have the guts.",
+    "What's the difference between a comma and a cat? One has claws at the end of its paws; the other is a pause at the end of a clause.",
+    "Did you hear about the mathematician who's afraid of negative numbers? He'll stop at nothing to avoid them.",
+    "I was going to tell a time-traveling joke, but you guys didn't laugh when I told it last year.",
+    "Did you hear about the guy who invented Lifesavers? He made a mint.",
+    "I'm on a seafood diet. I see food and I eat it.",
+    "I asked the librarian if they had books on paranoia. She whispered, 'They're right behind you.'",
+    "What's the best thing about Switzerland? I don't know, but the flag is a big plus.",
+    "Why do we tell actors to 'break a leg?' Because every play has a cast.",
+    "I'm writing a movie about clocks. It's about time.",
+    "Why is it so hard to write with a broken pencil? Because it's pointless.",
+    "I told my friend she was drawing her eyebrows too high. She looked surprised.",
+    "Why did the hipster burn his tongue? He drank his coffee before it was cool.",
+    "What do you call a can opener that doesn't work? A can't opener.",
+    "Why did the music teacher need a ladder? To reach the high notes.",
+    "I tried to write a joke about time travel, but you didn't like it.",
+    "What do you call a student who doesn't study but still passes? A mystery.",
+    "My friend claims he can cut wood just by looking at it. I saw it with my own eyes.",
+    "Why did the scarecrow win a Nobel Prize? Because he was outstanding in his field.",
+    "I'm reading a thriller about a man who only eats cheese. It's a real page-cheddar.",
+    "What do you call an honest politician? A beginner.",
+    "I recently joined a support group for antisocial people. We haven't met yet.",
+    "Did you hear about the claustrophobic astronaut? He just needed a little space.",
+    "What's a shark's favorite sandwich? Peanut butter and jellyfish.",
+    "Why do cows have hooves instead of feet? Because they lactose.",
+    "What do you call a factory that makes good products? A satis-factory! Wait — what do you call one that makes okay products? Also a satis-factory.",
+    "I told my doctor I broke my arm in two places. He told me to stop going to those places.",
+    "I tried to sue the airport for losing my luggage. I lost my case.",
+    "A skeleton walks into a bar and orders a beer and a mop.",
+    "Why did the bicycle stop working? It was two-tired of being overworked.",
+    "What do you call a deer with no eyes? No idea.",
+    "My new thesaurus is terrible. Not only that, but it's also terrible.",
+    "What do you call a pile of cats? A meow-ntain.",
+    "I asked my dog what two minus two is. He said nothing.",
+    "Why did the student bring a ladder to school? Because she wanted to go to high school!",
+    "My wife told me I had to stop acting like a flamingo. I had to put my foot down.",
+    "What do you call a sleeping T-Rex? A dino-snore!",
+    "What's brown and sticky? A stick.",
+    "Why can't you trust an atom? Because they make up everything.",
+    "I told my parents I wanted to be a stand-up comedian. They both laughed. So technically, I've already started.",
+    "What do you call a fish that wears a crown? King of the sea-l.",
+    "Why do scientists put knockers on doors? To win the Nobel prize."
+  ],
+  college: [
+    "A statistician gave birth to twins. She was surprised — she only expected a mean.",
+    "A photon checks into a hotel. The bellhop asks, 'Can I help you with your luggage?' The photon replies, 'No thanks, I'm traveling light.'",
+    "My bank account is a perfect example of theoretical wealth.",
+    "Why do programmers prefer dark mode? Because light attracts bugs.",
+    "I'm reading a book about Stockholm Syndrome. It's terrible at first, but eventually I love it.",
+    "My therapist told me I have difficulty accepting things I can't control. We'll see about that.",
+    "Why do accountants make great comedians? They always keep a straight face.",
+    "I tried to explain to my boss why I was late by referencing quantum mechanics and simultaneous states of being both on time and not on time.",
+    "My career is like my Wi-Fi signal — present in theory, weak in practice.",
+    "I was going to share a joke about UPS, but I'm afraid it won't be delivered.",
+    "A CEO, a middle manager, and an intern walk into a bar. The CEO says the round is on the company. The manager says that benefit was cut in the last restructuring. The intern pays.",
+    "I graduated with a degree in communications. I'm currently communicating to you that I'm still paying off my student loans.",
+    "I'm currently reading a book called 'How to Stop Procrastinating.' I'll start it next week.",
+    "The hardest part of giving a keynote speech isn't the content — it's not looking at your phone for 45 minutes.",
+    "I started a mindfulness app, but users kept forgetting to open it.",
+    "Why did the data analyst break up with their partner? There was no significant relationship.",
+    "I used to be a banker, but I lost interest.",
+    "Three management consultants walk into a bar. There was no bar, but they billed 12 hours at the hotel regardless.",
+    "A motivational speaker walked into a bar and convinced everyone they were already sober.",
+    "I asked my boss for a raise. He said yes — and then explained it would show up in my next performance review cycle, which is in 18 months.",
+    "'This meeting could have been an email' — but that email could have been a thought, and that thought could have been nothing.",
+    "I have a degree in public speaking, which means I'm highly qualified to say nothing with great confidence.",
+    "A philosopher walks into a bar. The bartender asks, 'What'll it be?' The philosopher says, 'Can we first define what 'be' really means?'",
+    "My to-do list and my energy level are playing a zero-sum game — and my energy is losing.",
+    "I gave a TED Talk about minimalism. It was 18 minutes long and contained 47 slides.",
+    "They say dress for the job you want. I wore pajamas and got a remote position.",
+    "Leadership is making decisions with 60% of the information you need and 100% of the confidence you don't have.",
+    "I had a great idea for a startup. Then I read the market research and decided to stay employed.",
+    "A consultant was asked what time it is. They said, 'What time would you like it to be?'",
+    "I told my team to think outside the box. They scheduled a meeting to discuss what outside the box means.",
+    "The fastest way to slow down a decision is to call it a committee.",
+    "I used to believe in work-life balance. Then I got a smartphone.",
+    "My biggest fear is giving a speech with my fly open. My second biggest fear is giving a speech with my fly closed but all my statistics wrong.",
+    "A CEO asks their speechwriter, 'Can you make this sound inspiring?' The speechwriter replies, 'Can you make it mean something first?'",
+    "An engineer, a physicist, and a statistician are asked to count the sheep in a field. The engineer says '47.' The physicist says 'Approximately 50, give or take 5.' The statistician says 'What's the target?'",
+    "My passion project has excellent vision and poor execution — just like most startup pitch decks.",
+    "I asked my AI assistant if it ever gets tired. It said no, but its data center certainly does.",
+    "The difference between a violin and a fiddle? Nobody cares when you spill coffee on a fiddle.",
+    "Why don't scientists trust atoms? Because they make up everything — and so do quarterly earnings reports.",
+    "Two economists are walking down the street and spot a $20 bill on the ground. The first one reaches for it. The second one says, 'Don't bother. If it were real, someone would have picked it up already.'",
+    "I enrolled in a public speaking course to get over my fear of public speaking. Now I'm comfortable speaking publicly about my fear of public speaking.",
+    "What do you call a sleeping CEO? The chairman of the board.",
+    "A legal contract walks into a bar. The bartender says, 'We don't serve your type here.' The contract replies, 'That's fine — I'll just add an arbitration clause.'",
+    "Why did the project manager bring a ladder to the meeting? Because the scope just kept creeping up.",
+    "An optimist sees the glass half full. A pessimist sees it half empty. A consultant sees it and charges you to redesign the glass.",
+    "My emotional intelligence score is so high I can tell you're pretending to listen right now.",
+    "I told my team I had an open-door policy. They started scheduling 1:1s through it.",
+    "Why did the HR manager bring an umbrella to work? Because there was a 60% chance of a culture shower.",
+    "I finally figured out the secret to networking: act interested and nobody will notice you forgot their name.",
+    "A data scientist walks into a bar and orders a drink with 95% confidence. The bartender serves them a glass that is 5% empty."
+  ]
+};
+
+/* ═══════════════════════════════════════════════════
+   CONTENT — QUOTES OF THE DAY
+═══════════════════════════════════════════════════ */
+const QUOTES = {
+  speaking: [
+    { text:"It usually takes me more than three weeks to prepare a good impromptu speech.", author:"Mark Twain" },
+    { text:"There are always three speeches for every one you actually gave: the one you practiced, the one you gave, and the one you wish you gave.", author:"Dale Carnegie" },
+    { text:"The human brain starts working the moment you are born and never stops until you stand up to speak in public.", author:"George Jessel" },
+    { text:"The most precious things in speech are the pauses.", author:"Ralph Richardson" },
+    { text:"To speak and to speak well are two things. A fool may talk, but a wise man speaks.", author:"Ben Jonson" },
+    { text:"Every time you have to speak, you are auditioning for leadership.", author:"James Humes" },
+    { text:"You can have brilliant ideas, but if you can't get them across, your ideas won't get you anywhere.", author:"Lee Iacocca" },
+    { text:"The right word may be effective, but no word was ever as effective as a rightly timed pause.", author:"Mark Twain" },
+    { text:"Speech is power: speech is to persuade, to convert, to compel.", author:"Ralph Waldo Emerson" },
+    { text:"An orator is a man who says what he thinks and feels what he says.", author:"William Jennings Bryan" },
+    { text:"No one ever complains about a speech being too short!", author:"Ira Hayes" },
+    { text:"You don't have to be great to start, but you have to start to be great.", author:"Zig Ziglar" },
+    { text:"Great speakers are not born, they're trained.", author:"Dale Carnegie" },
+    { text:"Words have incredible power. They can make people's hearts soar, or they can make people's hearts sore.", author:"Dr. Mardy Grothe" },
+    { text:"All the great speakers were bad speakers at first.", author:"Ralph Waldo Emerson" },
+    { text:"The success of your presentation will be judged not by the knowledge you send but by what the listener receives.", author:"Lilly Walters" },
+    { text:"Grasp the subject, the words will follow.", author:"Cato the Elder" },
+    { text:"A speaker who does not strike oil in ten minutes should stop boring.", author:"Louis Nizer" },
+    { text:"There is only one rule for being a good talker: learn to listen.", author:"Christopher Morley" },
+    { text:"Speak clearly, if you speak at all; carve every word before you let it fall.", author:"Oliver Wendell Holmes" },
+    { text:"The art of communication is the language of leadership.", author:"James Humes" },
+    { text:"Kind words can be short and easy to speak, but their echoes are truly endless.", author:"Mother Teresa" },
+    { text:"If you cannot explain something simply, you don't understand it well enough.", author:"Albert Einstein" },
+    { text:"Think twice before you speak, because your words and influence will plant the seed of either success or failure in the mind of another.", author:"Napoleon Hill" },
+    { text:"Your voice is your most powerful instrument. Use it with intention.", author:"SLW Academy" }
+  ],
+  leadership: [
+    { text:"The greatest leader is not necessarily the one who does the greatest things. He is the one that gets the people to do the greatest things.", author:"Ronald Reagan" },
+    { text:"Leadership is not about being in charge. It is about taking care of those in your charge.", author:"Simon Sinek" },
+    { text:"A leader takes people where they want to go. A great leader takes people where they don't necessarily want to go, but ought to be.", author:"Rosalynn Carter" },
+    { text:"Before you are a leader, success is all about growing yourself. When you become a leader, success is all about growing others.", author:"Jack Welch" },
+    { text:"The function of leadership is to produce more leaders, not more followers.", author:"Ralph Nader" },
+    { text:"People don't care how much you know until they know how much you care.", author:"Theodore Roosevelt" },
+    { text:"Leadership is the capacity to translate vision into reality.", author:"Warren Bennis" },
+    { text:"Management is doing things right; leadership is doing the right things.", author:"Peter Drucker" },
+    { text:"A genuine leader is not a searcher for consensus but a molder of consensus.", author:"Martin Luther King Jr." },
+    { text:"If your actions inspire others to dream more, learn more, do more and become more, you are a leader.", author:"John Quincy Adams" },
+    { text:"Great leaders are almost always great simplifiers who cut through argument, debate, and doubt to offer a solution everybody can understand.", author:"Colin Powell" },
+    { text:"The quality of a leader is reflected in the standards they set for themselves.", author:"Ray Kroc" },
+    { text:"A leader is one who knows the way, goes the way, and shows the way.", author:"John C. Maxwell" },
+    { text:"Earn your leadership every day.", author:"Michael Jordan" },
+    { text:"You manage things; you lead people.", author:"Grace Hopper" },
+    { text:"The best way to predict the future is to create it.", author:"Abraham Lincoln" },
+    { text:"A leader is best when people barely know he exists. When his work is done, they will say: we did it ourselves.", author:"Lao Tzu" },
+    { text:"Do not follow where the path may lead. Go instead where there is no path and leave a trail.", author:"Ralph Waldo Emerson" },
+    { text:"To handle yourself, use your head; to handle others, use your heart.", author:"Eleanor Roosevelt" },
+    { text:"Outstanding leaders go out of their way to boost the self-esteem of their personnel.", author:"Sam Walton" },
+    { text:"Leaders don't create followers, they create more leaders.", author:"Tom Peters" },
+    { text:"I am not afraid of an army of lions led by a sheep; I am afraid of an army of sheep led by a lion.", author:"Alexander the Great" },
+    { text:"It is better to lead from behind and to put others in front, especially when you celebrate victory when nice things occur.", author:"Nelson Mandela" },
+    { text:"Ultimately, leadership is not about glorious crowning acts. It's about keeping your team focused on a goal and motivated to do their best.", author:"Chris Hadfield" },
+    { text:"The task of leadership is not to put greatness into humanity, but to elicit it, for the greatness is already there.", author:"John Buchan" }
+  ],
+  confidence: [
+    { text:"Believe you can and you're halfway there.", author:"Theodore Roosevelt" },
+    { text:"Confidence is not 'they will like me.' Confidence is 'I'll be fine if they don't.'", author:"Christina Grimmie" },
+    { text:"Act as if what you do makes a difference. It does.", author:"William James" },
+    { text:"You gain strength, courage, and confidence by every experience in which you really stop to look fear in the face.", author:"Eleanor Roosevelt" },
+    { text:"To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author:"Ralph Waldo Emerson" },
+    { text:"With the realization of one's own potential and self-confidence in one's ability, one can build a better world.", author:"Dalai Lama" },
+    { text:"Optimism is the faith that leads to achievement. Nothing can be done without hope and confidence.", author:"Helen Keller" },
+    { text:"Self-confidence is the first requisite to great undertakings.", author:"Samuel Johnson" },
+    { text:"No one can make you feel inferior without your consent.", author:"Eleanor Roosevelt" },
+    { text:"Inaction breeds doubt and fear. Action breeds confidence and courage.", author:"Dale Carnegie" },
+    { text:"It is confidence in our bodies, minds, and spirits that allows us to keep looking for new adventures.", author:"Oprah Winfrey" },
+    { text:"Talk to yourself like you would to someone you love.", author:"Brené Brown" },
+    { text:"The way to develop self-confidence is to do the thing you fear and get a record of successful experiences behind you.", author:"William Jennings Bryan" },
+    { text:"Confidence is preparation. Everything else is beyond your control.", author:"Richard Kline" },
+    { text:"Trust yourself. You know more than you think you do.", author:"Benjamin Spock" },
+    { text:"You are braver than you believe, stronger than you seem, and smarter than you think.", author:"A.A. Milne" },
+    { text:"Confidence comes not from always being right but from not fearing to be wrong.", author:"Peter McIntyre" },
+    { text:"Aerodynamically, the bumble bee shouldn't be able to fly, but the bumble bee doesn't know it so it goes on flying anyway.", author:"Mary Kay Ash" },
+    { text:"The moment you doubt whether you can fly, you cease forever to be able to do it.", author:"J.M. Barrie" },
+    { text:"Nothing splendid was ever created in cold blood. Heat is required to forge anything.", author:"Arnold H. Glasow" },
+    { text:"Always be yourself, express yourself, have faith in yourself, do not go out and look for a successful personality and duplicate it.", author:"Bruce Lee" },
+    { text:"The most beautiful thing you can wear is confidence.", author:"Blake Lively" },
+    { text:"If you hear a voice within you say 'you cannot paint,' then by all means paint and that voice will be silenced.", author:"Vincent van Gogh" },
+    { text:"Step into your greatness. You were not born to blend in.", author:"SLW Academy" },
+    { text:"Stand tall, speak clearly, and believe every word you say — because your audience will.", author:"SLW Academy" }
+  ],
+  communication: [
+    { text:"The single biggest problem in communication is the illusion that it has taken place.", author:"George Bernard Shaw" },
+    { text:"The most important thing in communication is hearing what isn't said.", author:"Peter Drucker" },
+    { text:"Communication works for those who work at it.", author:"John Powell" },
+    { text:"We have two ears and one mouth so that we can listen twice as much as we speak.", author:"Epictetus" },
+    { text:"The art of communication is the language of leadership.", author:"James Humes" },
+    { text:"Words are, of course, the most powerful drug used by mankind.", author:"Rudyard Kipling" },
+    { text:"The difference between the right word and the almost right word is the difference between lightning and a lightning bug.", author:"Mark Twain" },
+    { text:"Kind words can be short and easy to speak, but their echoes are truly endless.", author:"Mother Teresa" },
+    { text:"Speak clearly, if you speak at all; carve every word before you let it fall.", author:"Oliver Wendell Holmes" },
+    { text:"The tongue has no bones, but it is strong enough to break a heart. So be careful with your words.", author:"Anonymous" },
+    { text:"To listen well is as powerful a means of influence as to talk well.", author:"Chinese Proverb" },
+    { text:"Communication is a skill that you can learn. If you're willing to work at it, you can rapidly improve the quality of every part of your life.", author:"Brian Tracy" },
+    { text:"If you cannot explain something simply, you don't understand it well enough.", author:"Albert Einstein" },
+    { text:"Think twice before you speak, because your words and influence will plant the seed of either success or failure in the mind of another.", author:"Napoleon Hill" },
+    { text:"Good communication is just as stimulating as black coffee, and just as hard to sleep after.", author:"Anne Morrow Lindbergh" },
+    { text:"Electric communication will never be a substitute for the face of someone who with their soul encourages another person to be brave and true.", author:"Charles Dickens" },
+    { text:"The most powerful communication comes from listening deeply before speaking.", author:"Anonymous" },
+    { text:"There's no such thing as hard selling or soft selling. There's only smart communication and poor communication.", author:"Charles Brower" },
+    { text:"The more you read, the more things you will know. The more that you learn, the more places you'll go.", author:"Dr. Seuss" },
+    { text:"Every person in this world is better at something than you are, and you can learn something from everyone.", author:"Dan Miller" },
+    { text:"Precision of communication is important, more important than ever, in our era of hair-trigger balances, when a word, a gesture, a tone can bring calamity.", author:"James Thurber" }
+  ],
+  courage: [
+    { text:"Courage is not the absence of fear, but the triumph over it.", author:"Nelson Mandela" },
+    { text:"It takes courage to grow up and become who you really are.", author:"E.E. Cummings" },
+    { text:"Fortune favors the brave.", author:"Latin Proverb" },
+    { text:"Being brave means knowing that when you fail, you don't fail forever.", author:"Lana Del Rey" },
+    { text:"Vulnerability is the birthplace of innovation, creativity and change.", author:"Brené Brown" },
+    { text:"Do one thing every day that scares you.", author:"Eleanor Roosevelt" },
+    { text:"Cowards die many times before their deaths; the valiant never taste of death but once.", author:"William Shakespeare" },
+    { text:"He who is brave is free.", author:"Seneca" },
+    { text:"Bravery is not the absence of fear. Bravery is feeling the fear, the doubt, the insecurity, and deciding that something else is more important.", author:"Mark Manson" },
+    { text:"Courage is what it takes to stand up and speak; courage is also what it takes to sit down and listen.", author:"Winston Churchill" },
+    { text:"One man with courage makes a majority.", author:"Andrew Jackson" },
+    { text:"Scared is what you're feeling. Brave is what you're doing.", author:"Emma Donoghue" },
+    { text:"The secret of happiness is freedom, the secret of freedom is courage.", author:"Thucydides" },
+    { text:"Life shrinks or expands in proportion to one's courage.", author:"Anaïs Nin" },
+    { text:"Stand up for what is right even if you stand alone.", author:"Suzy Kassem" },
+    { text:"Courage doesn't always roar. Sometimes courage is the quiet voice at the end of the day saying, 'I will try again tomorrow.'", author:"Mary Anne Radmacher" },
+    { text:"The most courageous act is still to think for yourself. Aloud.", author:"Coco Chanel" },
+    { text:"You develop courage by doing courageous acts. It is by doing things you are afraid of that you build the courage to do them.", author:"Aristotle" },
+    { text:"Courage is the first of human virtues because it makes all the others possible.", author:"Aristotle" },
+    { text:"It always seems impossible until it's done.", author:"Nelson Mandela" },
+    { text:"Walking into that room and speaking your truth is the bravest thing you will ever do.", author:"SLW Academy" }
+  ],
+  success: [
+    { text:"Success is not final, failure is not fatal: it is the courage to continue that counts.", author:"Winston Churchill" },
+    { text:"The secret of success is to do the common thing uncommonly well.", author:"John D. Rockefeller Jr." },
+    { text:"Success usually comes to those who are too busy to be looking for it.", author:"Henry David Thoreau" },
+    { text:"Success is walking from failure to failure with no loss of enthusiasm.", author:"Winston Churchill" },
+    { text:"I find that the harder I work, the more luck I seem to have.", author:"Thomas Jefferson" },
+    { text:"Don't be afraid to give up the good to go for the great.", author:"John D. Rockefeller" },
+    { text:"If you really look closely, most overnight successes took a long time.", author:"Steve Jobs" },
+    { text:"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.", author:"Albert Schweitzer" },
+    { text:"The only place where success comes before work is in the dictionary.", author:"Vidal Sassoon" },
+    { text:"Try not to become a person of success, but rather try to become a person of value.", author:"Albert Einstein" },
+    { text:"It is not whether you get knocked down; it is whether you get up.", author:"Vince Lombardi" },
+    { text:"Your time is limited, so don't waste it living someone else's life.", author:"Steve Jobs" },
+    { text:"Success seems to be connected with action. Successful people keep moving.", author:"Conrad Hilton" },
+    { text:"There is no substitute for hard work.", author:"Thomas Edison" },
+    { text:"You miss 100% of the shots you don't take.", author:"Wayne Gretzky" },
+    { text:"Don't watch the clock; do what it does. Keep going.", author:"Sam Levenson" },
+    { text:"Success is the sum of small efforts, repeated day in and day out.", author:"Robert Collier" },
+    { text:"The secret of getting ahead is getting started.", author:"Mark Twain" },
+    { text:"Without continual growth and progress, such words as improvement, achievement, and success have no meaning.", author:"Benjamin Franklin" },
+    { text:"The difference between a successful person and others is not a lack of strength, not a lack of knowledge, but rather a lack in will.", author:"Vince Lombardi" },
+    { text:"Formal education will make you a living; self-education will make you a fortune.", author:"Jim Rohn" },
+    { text:"The road to success and the road to failure are almost exactly the same.", author:"Colin R. Davis" },
+    { text:"Success is liking yourself, liking what you do, and liking how you do it.", author:"Maya Angelou" }
+  ]
+};
+
+/* ═══════════════════════════════════════════════════
+   INIT TRACKERS
+═══════════════════════════════════════════════════ */
+function initAll() {
+  ['middle','high','college'].forEach(g => {
+    initTracker('topics_' + g, TOPICS[g]);
+    initTracker('words_'  + g, WORDS[g]);
+    initTracker('jokes_'  + g, JOKES[g]);
+  });
+  Object.keys(QUOTES).forEach(t => initTracker('quotes_' + t, QUOTES[t]));
+}
+
+/* ═══════════════════════════════════════════════════
+   UI HELPERS
+═══════════════════════════════════════════════════ */
+function switchTab(n) {
+  document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === n));
+}
+
+function setAge(btn) {
+  ageGroup = btn.dataset.group;
+  document.querySelectorAll('.age-btn').forEach(b => b.classList.toggle('active', b === btn));
+  // Reset any visible result cards when age changes
+  ['topicCard','wordCard','jokeCard'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+function pickSpeechType(btn) {
+  speechType = btn.dataset.stype;
+  document.querySelectorAll('#speechTypeRow .pill').forEach(b => b.classList.toggle('active', b === btn));
+}
+
+function pickQuoteTopic(btn) {
+  quoteTopic = btn.dataset.qtopic;
+  document.querySelectorAll('#quoteTopicRow .pill').forEach(b => b.classList.toggle('active', b === btn));
+}
+
+function showNotice(id, show) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('show', show);
+  if (show) setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB 1 — SPEECH TITLE GENERATOR
+═══════════════════════════════════════════════════ */
+const STOP = new Set(['is','are','was','were','the','a','an','and','or','but','in','on','at','to',
+  'for','of','with','by','from','it','this','that','its','very','really','quite','just','so',
+  'too','you','your','their','our','my','we','they','he','she','be','been','being','have','has',
+  'had','do','does','did','will','would','could','should','may','might','can','not','no','never',
+  'always','often','about','why','how','what','when','where','who','i','me','us','them','his','her']);
+
+function extractTopic(raw) {
+  const words = raw.toLowerCase().replace(/[^\w\s]/g,' ').split(/\s+/)
+    .filter(w => w.length > 2 && !STOP.has(w));
+  if (!words.length) return raw.trim().substring(0,60);
+  return words.slice(0,5).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+function buildTitles(topic) {
+  const templates = [
+    `The Truth About ${topic}`,
+    `Why ${topic} Matters More Than You Think`,
+    `${topic}: What You Need to Know`,
+    `The Hidden Impact of ${topic}`,
+    `Facing ${topic}: A Call to Action`,
+    `${topic}: Facts, Myths, and Reality`,
+    `Breaking Down ${topic}`,
+    `${topic}: It's Time We Talked`,
+    `Beyond the Surface — The Reality of ${topic}`,
+    `${topic} and Why It Affects All of Us`,
+    `Standing Up Against ${topic}`,
+    `The Real Story of ${topic}`,
+    `${topic}: A Wake-Up Call`,
+    `Changing the Conversation About ${topic}`,
+    `Why We Can No Longer Ignore ${topic}`,
+    `${topic}: Understanding a Modern Challenge`,
+    `The Untold Story of ${topic}`,
+    `${topic}: Time for Change`,
+    `Raising Awareness About ${topic}`,
+    `${topic}: From Problem to Solution`
+  ];
+  return shuffle(templates).slice(0,7);
+}
+
+function genTitles() {
+  const raw = document.getElementById('titleInput').value.trim();
+  if (!raw) { alert('Please enter information about your speech topic first.'); return; }
+  const topic = extractTopic(raw);
+  const titles = buildTitles(topic);
+  const list = document.getElementById('titleList');
+  list.innerHTML = titles.map((t,i) =>
+    `<li><span class="tnum">${i+1}.</span><span>${t}</span></li>`
+  ).join('');
+  const card = document.getElementById('titleCard');
+  card.style.display = 'block';
+  card.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB 2 — SPEECH OUTLINE GENERATOR
+═══════════════════════════════════════════════════ */
+function buildOutlineHTML(outline) {
+  const bodyHTML = outline.body.map(pt => `
+    <li><strong>${pt.point}</strong>
+      <ul>${pt.support.map(s => `<li>${s}</li>`).join('')}</ul>
+    </li>`).join('');
+  return `
+    <span class="o-label">${outline.type}</span>
+    <div class="o-section">
+      <h3>Opening</h3>
+      <ul>${outline.opening.map(s=>`<li>${s}</li>`).join('')}</ul>
+    </div>
+    <div class="o-section">
+      <h3>Body (3 Main Points)</h3>
+      <ul>${bodyHTML}</ul>
+    </div>
+    <div class="o-section">
+      <h3>Closer</h3>
+      <ul>${outline.closer.map(s=>`<li>${s}</li>`).join('')}</ul>
+    </div>`;
+}
+
+const OUTLINES = {
+  informative: topic => ({
+    type:'Informative Speech',
+    opening:[
+      `Attention Getter: Open with a surprising fact or question about ${topic}`,
+      `Relevance: Explain why ${topic} matters to this audience today`,
+      `Credibility: Share why you are qualified or passionate about ${topic}`,
+      `Thesis: "Today I will inform you about the key aspects of ${topic}"`
+    ],
+    body:[
+      { point:`Background — Where ${topic} Comes From`, support:[
+        `When and how ${topic} first emerged or became relevant`,
+        `Key developments or turning points related to ${topic}`,
+        `Transition: "Now that we understand the background, let's explore what's happening today…"`
+      ]},
+      { point:`Key Facts and Perspectives on ${topic}`, support:[
+        `The most important data, statistics, or research about ${topic}`,
+        `Different viewpoints or dimensions that shape our understanding of ${topic}`,
+        `Transition: "With this context in mind, let's look at the impact…"`
+      ]},
+      { point:`The Real-World Impact of ${topic}`, support:[
+        `How ${topic} affects individuals, communities, or society`,
+        `A concrete example or case study that illustrates the impact of ${topic}`,
+        `Transition: "Now let me bring this all together for you…"`
+      ]}
+    ],
+    closer:[
+      `Summary: Briefly recap the three main areas we covered about ${topic}`,
+      `Reinforce Thesis: Restate why understanding ${topic} is important`,
+      `Call to Reflect: A thought-provoking question or statement about ${topic}`,
+      `Clincher: End with a powerful quote or memorable final line`
+    ]
+  }),
+  persuasive: topic => ({
+    type:'Persuasive Speech',
+    opening:[
+      `Attention Getter: Open with a compelling story, statistic, or scenario related to ${topic}`,
+      `Establish Need: Show that a real problem exists regarding ${topic}`,
+      `Credibility & Relevance: Explain why this audience should care deeply about ${topic}`,
+      `Thesis: "I urge you today to take a stand on ${topic}"`
+    ],
+    body:[
+      { point:`The Problem — Why ${topic} Demands Our Attention`, support:[
+        `Evidence and statistics that show the scale or urgency of the issue`,
+        `Real-world examples of how ${topic} causes harm or requires change`,
+        `Transition: "So now that we see the problem clearly, what is causing it?"`
+      ]},
+      { point:`The Cause — Why ${topic} Exists or Persists`, support:[
+        `Root causes or contributing factors that allow this problem to continue`,
+        `Who or what holds responsibility for addressing ${topic}`,
+        `Transition: "Understanding the cause, let's talk about what we can do…"`
+      ]},
+      { point:`The Solution — What Must Be Done About ${topic}`, support:[
+        `Specific, actionable steps that will genuinely address ${topic}`,
+        `Evidence or precedent showing that this solution works`,
+        `Transition: "In closing, the solution is within reach if we choose to act…"`
+      ]}
+    ],
+    closer:[
+      `Summary: Briefly recap the problem, cause, and solution regarding ${topic}`,
+      `Visualization: Paint a picture of what the world looks like if we act — and if we don't`,
+      `Call to Action: Issue a specific, direct challenge for the audience to take action on ${topic}`,
+      `Clincher: End with a bold, emotionally resonant statement that demands to be remembered`
+    ]
+  }),
+  motivational: topic => ({
+    type:'Motivational Speech',
+    opening:[
+      `Attention Getter: Open with a powerful personal story or quote that connects to ${topic}`,
+      `Connect with Audience: Show that everyone in the room can relate to the challenge of ${topic}`,
+      `Inspire Hope: Convey that growth and change are absolutely possible`,
+      `Thesis: "${topic} is not a barrier — it is a bridge to your greatest potential"`
+    ],
+    body:[
+      { point:`Acknowledge the Challenge of ${topic}`, support:[
+        `Validate the struggle — affirm that ${topic} is real and it is hard`,
+        `Share a story of someone who faced ${topic} and felt completely stuck`,
+        `Transition: "But here is what I have come to understand about overcoming ${topic}…"`
+      ]},
+      { point:`Shift Your Perspective on ${topic}`, support:[
+        `Reframe ${topic} as an invitation for growth rather than an obstacle`,
+        `Real examples of people who transformed ${topic} into strength and purpose`,
+        `Transition: "And when your perspective shifts, your actions begin to change…"`
+      ]},
+      { point:`Take Action — Your Path Forward Through ${topic}`, support:[
+        `Practical steps the audience can take right now to move forward`,
+        `A vision of what life looks like on the other side of ${topic}`,
+        `Transition: "As I close, I want to leave you with this…"`
+      ]}
+    ],
+    closer:[
+      `Summary: Remind the audience of the full journey — from challenge to transformation`,
+      `Inspire: Paint a vivid vision of who they are capable of becoming`,
+      `Challenge: Issue a personal, direct challenge for each person to take one step forward`,
+      `Clincher: Close with a powerful, memorable line that will stay with them long after they leave`
+    ]
+  })
+};
+
+function genOutline() {
+  const raw = document.getElementById('outlineInput').value.trim();
+  if (!raw) { alert('Please enter a speech topic first.'); return; }
+  const html = buildOutlineHTML(OUTLINES[speechType](raw));
+  const card = document.getElementById('outlineCard');
+  document.getElementById('outlineContent').innerHTML = html;
+  card.style.display = 'block';
+  card.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB 3 — IMPROMPTU TOPIC GENERATOR
+═══════════════════════════════════════════════════ */
+function genTopic() {
+  const key = 'topics_' + ageGroup;
+  const { item, cycled, current, total } = getNext(key);
+  document.getElementById('topicText').textContent = item;
+  document.getElementById('topicCounter').textContent = `Topic ${current} of ${total}`;
+  const card = document.getElementById('topicCard');
+  card.style.display = 'block';
+  showNotice('topicNotice', cycled);
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB 4 — WORD OF THE DAY
+═══════════════════════════════════════════════════ */
+function genWord() {
+  const key = 'words_' + ageGroup;
+  const { item: w, cycled, current, total } = getNext(key);
+  document.getElementById('wWord').textContent = w.word;
+  document.getElementById('wPron').textContent = `/ ${w.pron} /`;
+  document.getElementById('wDef').textContent  = w.def;
+  document.getElementById('wEx').textContent   = w.ex;
+  document.getElementById('wordCounter').textContent = `Word ${current} of ${total}`;
+  const card = document.getElementById('wordCard');
+  card.style.display = 'block';
+  showNotice('wordNotice', cycled);
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB 5 — JOKE OF THE DAY
+═══════════════════════════════════════════════════ */
+function genJoke() {
+  const key = 'jokes_' + ageGroup;
+  const { item, cycled, current, total } = getNext(key);
+  document.getElementById('jokeText').textContent = item;
+  document.getElementById('jokeCounter').textContent = `Joke ${current} of ${total}`;
+  const card = document.getElementById('jokeCard');
+  card.style.display = 'block';
+  showNotice('jokeNotice', cycled);
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB 6 — QUOTE OF THE DAY
+═══════════════════════════════════════════════════ */
+function genQuote() {
+  const key = 'quotes_' + quoteTopic;
+  const { item: q, cycled, current, total } = getNext(key);
+  document.getElementById('qText').textContent   = q.text;
+  document.getElementById('qAuthor').textContent = '— ' + q.author;
+  document.getElementById('quoteCounter').textContent = `Quote ${current} of ${total}`;
+  const card = document.getElementById('quoteCard');
+  card.style.display = 'block';
+  showNotice('quoteNotice', cycled);
+}
+
+/* ═══════════════════════════════════════════════════
+   BOOT
+═══════════════════════════════════════════════════ */
+initAll();
+</script>
+</body>
+</html>
