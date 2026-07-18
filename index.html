@@ -394,8 +394,8 @@
     <div class="panel-title">🏷️ Speech Title Generator</div>
     <div class="panel-sub">Enter information about your speech topic and we'll generate creative title ideas.</div>
     <div class="field">
-      <label>What is your speech about?</label>
-      <textarea id="titleInput" rows="4"
+      <label id="titleInputLabel">What is your speech about?</label>
+      <textarea id="titleInput" rows="4" aria-labelledby="titleInputLabel"
         placeholder="Example: Vaping is really bad for you and causes serious health problems in young people…"></textarea>
     </div>
     <button class="btn" onclick="genTitles()">✨ Generate Speech Titles</button>
@@ -410,8 +410,8 @@
     <div class="panel-title">📝 Speech Outline Generator</div>
     <div class="panel-sub">Enter your topic and choose a speech type to get a structured outline.</div>
     <div class="field">
-      <label>Speech Topic</label>
-      <input type="text" id="outlineInput" placeholder="Example: The impact of social media on mental health">
+      <label id="outlineInputLabel">Speech Topic</label>
+      <input type="text" id="outlineInput" aria-labelledby="outlineInputLabel" placeholder="Example: The impact of social media on mental health">
     </div>
     <div class="field">
       <label>Speech Type</label>
@@ -1244,6 +1244,7 @@ const STOP = new Set(['is','are','was','were','the','a','an','and','or','but','i
   'always','often','about','why','how','what','when','where','who','i','me','us','them','his','her']);
 
 function extractTopic(raw) {
+  // Remove punctuation while preserving contractions (') and hyphenated words (-)
   const words = raw.toLowerCase().replace(/[^\w\s'-]/g,' ').split(/\s+/)
     .filter(w => w.length > 2 && !STOP.has(w));
   if (!words.length) return raw.trim().substring(0,60);
