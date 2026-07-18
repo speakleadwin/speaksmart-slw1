@@ -399,6 +399,7 @@
         placeholder="Example: Vaping is really bad for you and causes serious health problems in young people…"></textarea>
     </div>
     <button class="btn" onclick="genTitles()">✨ Generate Speech Titles</button>
+    <div class="notice show" id="titleErr" style="display:none;margin-top:10px"></div>
     <div class="card" id="titleCard" style="display:none">
       <ul class="title-list" id="titleList"></ul>
     </div>
@@ -421,6 +422,7 @@
       </div>
     </div>
     <button class="btn" onclick="genOutline()">📋 Generate Outline</button>
+    <div class="notice show" id="outlineErr" style="display:none;margin-top:10px"></div>
     <div class="card" id="outlineCard" style="display:none">
       <div id="outlineContent"></div>
     </div>
@@ -913,7 +915,7 @@ const JOKES = {
     "What did the grape say when it got stepped on? Nothing — it just let out a little wine!",
     "What do you call a cat on ice? One cool cat!",
     "Why did the calendar break up with the clock? It felt their days were numbered.",
-    "What do you call a sleeping T-Rex? A dino-snore!",
+    "Why do seagulls fly over the sea? Because if they flew over a bay, they'd be bagels!",
     "What do you call a singing laptop? A Dell!",
     "What did the ocean say to the shore? Long time no sea!",
     "Why did the picture go to jail? Because it was framed!",
@@ -966,7 +968,7 @@ const JOKES = {
     "I asked my dog what two minus two is. He said nothing.",
     "Why did the student bring a ladder to school? Because she wanted to go to high school!",
     "My wife told me I had to stop acting like a flamingo. I had to put my foot down.",
-    "What do you call a sleeping T-Rex? A dino-snore!",
+    "What do you call someone who tells Dad jokes but isn't a dad? A faux pa.",
     "What's brown and sticky? A stick.",
     "Why can't you trust an atom? Because they make up everything.",
     "I told my parents I wanted to be a stand-up comedian. They both laughed. So technically, I've already started.",
@@ -1074,7 +1076,7 @@ const QUOTES = {
     { text:"A leader is one who knows the way, goes the way, and shows the way.", author:"John C. Maxwell" },
     { text:"Earn your leadership every day.", author:"Michael Jordan" },
     { text:"You manage things; you lead people.", author:"Grace Hopper" },
-    { text:"The best way to predict the future is to create it.", author:"Abraham Lincoln" },
+    { text:"The best way to predict the future is to create it.", author:"Peter Drucker" },
     { text:"A leader is best when people barely know he exists. When his work is done, they will say: we did it ourselves.", author:"Lao Tzu" },
     { text:"Do not follow where the path may lead. Go instead where there is no path and leave a trail.", author:"Ralph Waldo Emerson" },
     { text:"To handle yourself, use your head; to handle others, use your heart.", author:"Eleanor Roosevelt" },
@@ -1242,7 +1244,7 @@ const STOP = new Set(['is','are','was','were','the','a','an','and','or','but','i
   'always','often','about','why','how','what','when','where','who','i','me','us','them','his','her']);
 
 function extractTopic(raw) {
-  const words = raw.toLowerCase().replace(/[^\w\s]/g,' ').split(/\s+/)
+  const words = raw.toLowerCase().replace(/[^\w\s'-]/g,' ').split(/\s+/)
     .filter(w => w.length > 2 && !STOP.has(w));
   if (!words.length) return raw.trim().substring(0,60);
   return words.slice(0,5).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -1274,9 +1276,17 @@ function buildTitles(topic) {
   return shuffle(templates).slice(0,7);
 }
 
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 4000);
+}
+
 function genTitles() {
   const raw = document.getElementById('titleInput').value.trim();
-  if (!raw) { alert('Please enter information about your speech topic first.'); return; }
+  if (!raw) { showErr('titleErr', '⚠️ Please enter information about your speech topic first.'); return; }
   const topic = extractTopic(raw);
   const titles = buildTitles(topic);
   const list = document.getElementById('titleList');
@@ -1413,7 +1423,7 @@ const OUTLINES = {
 
 function genOutline() {
   const raw = document.getElementById('outlineInput').value.trim();
-  if (!raw) { alert('Please enter a speech topic first.'); return; }
+  if (!raw) { showErr('outlineErr', '⚠️ Please enter a speech topic first.'); return; }
   const html = buildOutlineHTML(OUTLINES[speechType](raw));
   const card = document.getElementById('outlineCard');
   document.getElementById('outlineContent').innerHTML = html;
