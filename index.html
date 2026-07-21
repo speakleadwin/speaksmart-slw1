@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeakSmart | SLW Academy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <img src="assets/slw-academy-logo.jpg" alt="Speak Lead Win Academy Logo" class="logo" />
+      <div>
+        <h1>SpeakSmart</h1>
+        <p class="subtitle">Public Speaking Toolkit</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel age-panel">
+      <h2>Select Audience Age Group</h2>
+      <div class="age-controls">
+        <label for="ageGroup">Audience:</label>
+        <select id="ageGroup">
+          <option value="">-- Select age group --</option>
+          <option value="10-13">Ages 10–13 (Middle School)</option>
+          <option value="14-18">Ages 14–18 (High School)</option>
+          <option value="18+">Ages 18+ (College & Professionals)</option>
+        </select>
+      </div>
+      <p id="ageNotice" class="notice">Please select an age group before generating content.</p>
+    </section>
+
+    <section class="tabs" aria-label="SpeakSmart tools">
+      <button class="tab-btn active" data-tab="titleTab">1. Speech Title</button>
+      <button class="tab-btn" data-tab="outlineTab">2. Speech Outline</button>
+      <button class="tab-btn" data-tab="impromptuTab">3. Impromptu Topic</button>
+      <button class="tab-btn" data-tab="wordTab">4. Word of the Day</button>
+      <button class="tab-btn" data-tab="jokeTab">5. Joke of the Day</button>
+      <button class="tab-btn" data-tab="quoteTab">6. Quote of the Day</button>
+    </section>
+
+    <section id="titleTab" class="panel tab-content active">
+      <h2>Speech Title Generator</h2>
+      <label for="speechTopic">Enter your speech topic idea:</label>
+      <textarea id="speechTopic" placeholder="Example: Vaping is bad because of harmful chemicals."></textarea>
+      <button id="generateTitle" class="gold-btn">Generate Title Ideas</button>
+      <ul id="titleResults" class="result-list"></ul>
+    </section>
+
+    <section id="outlineTab" class="panel tab-content">
+      <h2>Speech Outline Generator</h2>
+      <label for="outlineTopic">Enter your speech topic:</label>
+      <input id="outlineTopic" type="text" placeholder="Example: Why reading builds confidence" />
+      <button id="generateOutline" class="gold-btn">Generate Outline</button>
+      <div id="outlineResult" class="outline-result"></div>
+    </section>
+
+    <section id="impromptuTab" class="panel tab-content">
+      <h2>Impromptu Topic Generator</h2>
+      <button id="generateImpromptu" class="gold-btn">Generate 1 Topic</button>
+      <p id="impromptuResult" class="single-result"></p>
+    </section>
+
+    <section id="wordTab" class="panel tab-content">
+      <h2>Word of the Day</h2>
+      <button id="generateWord" class="gold-btn">Generate 1 Word</button>
+      <div id="wordResult" class="single-result"></div>
+    </section>
+
+    <section id="jokeTab" class="panel tab-content">
+      <h2>Joke of the Day</h2>
+      <button id="generateJoke" class="gold-btn">Generate 1 Joke</button>
+      <p id="jokeResult" class="single-result"></p>
+    </section>
+
+    <section id="quoteTab" class="panel tab-content">
+      <h2>Quote of the Day</h2>
+      <label for="quoteTopic">Select quote theme:</label>
+      <select id="quoteTopic">
+        <option value="publicSpeaking">Public Speaking</option>
+        <option value="leadership">Leadership</option>
+        <option value="confidence">Confidence</option>
+      </select>
+      <button id="generateQuote" class="gold-btn">Generate 1 Quote</button>
+      <p id="quoteResult" class="single-result"></p>
+    </section>
+  </main>
+
+  <footer>
+    Built by SpeakLeadWin · SLW Academy Digital Intern 2026 · speakleadwinacademy.com
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
