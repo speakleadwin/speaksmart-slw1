@@ -1303,201 +1303,405 @@ function genOutline() {
   const OUTLINES = {
     middle: {
       informative: {
+        purpose: "Teach classmates a topic in a simple, clear, and interesting way.",
+        attention: [
+          "Start with a quick show-of-hands question.",
+          "Use one surprising kid-friendly fact.",
+          "Use expressive voice and clear pacing."
+        ],
         opening: [
-          "Ask a simple question to get attention.",
-          "Introduce your topic in kid-friendly language.",
-          "Share why this topic matters to students."
+          "Hook: Ask a question your classmates can answer quickly.",
+          "Introduce Topic: Explain the topic in one clear sentence.",
+          "Why It Matters: Share why students should care.",
+          "Preview: Tell your 3 main points."
         ],
         body: [
-          "Main Point 1: Explain the basic idea clearly.",
-          "Main Point 2: Give one fun fact or example.",
-          "Main Point 3: Share one way this affects daily life."
+          "Point 1 — What it is",
+          "• Define the topic in easy language.",
+          "• Give one relatable example.",
+          "• Add one fun fact.",
+          "Point 2 — Why it matters",
+          "• Explain how it affects school or daily life.",
+          "• Share one cause-and-effect example.",
+          "• Transition smoothly to the next point.",
+          "Point 3 — What to do",
+          "• Give one simple action students can try this week.",
+          "• Explain how that action helps.",
+          "• Encourage the audience to try it."
         ],
         close: [
-          "Quickly review your 3 points.",
-          "End with one memorable sentence."
+          "Recap all 3 points briefly.",
+          "Give one memorable takeaway line.",
+          "Thank the audience with confidence."
         ]
       },
       persuasive: {
+        purpose: "Convince classmates to agree with your viewpoint and take action.",
+        attention: [
+          "Open with a bold opinion line.",
+          "Use strong eye contact and confident posture.",
+          "Ask a short either/or audience question."
+        ],
         opening: [
-          "Start with a strong opinion statement.",
-          "State what you want your audience to believe or do.",
-          "Preview your 3 reasons."
+          "Hook: Start with a clear, strong opinion.",
+          "Claim: State exactly what you believe.",
+          "Importance: Explain why this matters now.",
+          "Preview: Share your 3 best reasons."
         ],
         body: [
-          "Reason 1: Explain your best reason.",
-          "Reason 2: Give an example that supports your view.",
-          "Reason 3: Show why your idea helps others."
+          "Reason 1 — Strongest reason",
+          "• State your best reason first.",
+          "• Give one school-life example.",
+          "• Explain the benefit clearly.",
+          "Reason 2 — Support and logic",
+          "• Add a fact or real observation.",
+          "• Address a common disagreement respectfully.",
+          "• Show why your side makes sense.",
+          "Reason 3 — Action and impact",
+          "• Explain what should change.",
+          "• Show positive results of that change.",
+          "• Mention what happens if no change is made."
         ],
         close: [
-          "Repeat your main message clearly.",
-          "Give a simple call to action."
+          "Restate your claim with confidence.",
+          "Give one clear call to action.",
+          "End with a memorable persuasive sentence."
         ]
       },
       motivational: {
+        purpose: "Inspire students to believe in themselves and keep improving.",
+        attention: [
+          "Start with a short challenge-to-success story.",
+          "Use uplifting tone and encouraging language.",
+          "Repeat one key phrase for impact."
+        ],
         opening: [
-          "Start with an uplifting statement.",
-          "Tell the audience they are capable of growth.",
-          "Introduce your encouragement theme."
+          "Hook: Share a relatable challenge moment.",
+          "Theme: Introduce your motivational message.",
+          "Connection: Remind listeners everyone faces obstacles.",
+          "Preview: Share your 3 encouragement points."
         ],
         body: [
-          "Point 1: Believe in yourself.",
-          "Point 2: Keep trying even when it’s hard.",
-          "Point 3: Small daily effort creates big results."
+          "Point 1 — Believe in yourself",
+          "• Explain that confidence grows with practice.",
+          "• Give one self-talk example.",
+          "• Encourage a growth mindset.",
+          "Point 2 — Keep going",
+          "• Explain why setbacks are normal.",
+          "• Share one bounce-back example.",
+          "• Emphasize effort over perfection.",
+          "Point 3 — Small steps",
+          "• Give one daily habit to start now.",
+          "• Show how habits build progress.",
+          "• Encourage consistency."
         ],
         close: [
-          "Remind everyone they can do hard things.",
+          "Remind the audience they are capable.",
+          "Challenge them to take one action today.",
           "End with an inspiring final line."
         ]
       },
       entertainment: {
+        purpose: "Make the audience laugh, smile, and stay engaged while sharing a light message.",
+        attention: [
+          "Open with a clean joke or playful question.",
+          "Pause before punchlines for better timing.",
+          "Use lively expression and storytelling voice."
+        ],
         opening: [
-          "Open with a funny story or playful question.",
-          "Set a light and friendly tone.",
-          "Tell the audience they’re in for a fun speech."
+          "Hook: Start with a funny one-liner.",
+          "Set Scene: Introduce the situation quickly.",
+          "Tone: Promise a fun, upbeat speech.",
+          "Preview: Mention your 3 entertainment beats."
         ],
         body: [
-          "Part 1: Share a funny moment.",
-          "Part 2: Add a surprising twist.",
-          "Part 3: Connect the humor to a simple lesson."
+          "Beat 1 — Story setup",
+          "• Introduce character/situation clearly.",
+          "• Add a relatable funny detail.",
+          "• Build curiosity.",
+          "Beat 2 — Surprise twist",
+          "• Add an unexpected moment.",
+          "• Use pause and emphasis for humor.",
+          "• Keep all content clean and age-appropriate.",
+          "Beat 3 — Message behind the fun",
+          "• Connect humor to a simple lesson.",
+          "• Use a callback to an earlier line.",
+          "• Leave the audience smiling."
         ],
         close: [
-          "Finish with a strong punchline or cheerful thought.",
-          "Thank the audience and leave them smiling."
+          "Finish with your strongest clean punchline.",
+          "Share one quick takeaway message.",
+          "Thank the audience warmly."
         ]
       }
     },
 
     high: {
       informative: {
+        purpose: "Explain a topic with clear structure, relevance, and strong support.",
+        attention: [
+          "Open with a striking stat or quick story.",
+          "Use confident speaking pace and posture.",
+          "Tell the audience what they’ll learn."
+        ],
         opening: [
-          "Use a strong fact, stat, or short story.",
-          "Define the topic clearly.",
-          "Preview your 3 main points."
+          "Hook: Start with a surprising fact/question.",
+          "Context: Define the topic clearly.",
+          "Relevance: Explain why teens should care.",
+          "Preview: State your 3 main points."
         ],
         body: [
-          "Point 1: Explain key background/context.",
-          "Point 2: Present important examples or evidence.",
-          "Point 3: Show real-world relevance."
+          "Point 1 — Foundation",
+          "• Explain the core concept.",
+          "• Define key terms.",
+          "• Clarify one common misunderstanding.",
+          "Point 2 — Evidence",
+          "• Present useful evidence or examples.",
+          "• Explain what that evidence means.",
+          "• Compare perspectives briefly.",
+          "Point 3 — Application",
+          "• Show real-world impact.",
+          "• Offer one practical action step.",
+          "• Explain expected outcome."
         ],
         close: [
-          "Summarize your key takeaways.",
-          "Close with a thought-provoking final line."
+          "Synthesize your 3 key points.",
+          "State one clear takeaway insight.",
+          "Close with a forward-looking final line."
         ]
       },
       persuasive: {
+        purpose: "Convince the audience with strong logic, evidence, and rebuttal.",
+        attention: [
+          "Open with a high-impact claim.",
+          "Use urgency words (today, now, immediate).",
+          "Ask a rhetorical question to engage listeners."
+        ],
         opening: [
-          "Start with a bold claim.",
-          "State your position clearly.",
-          "Preview your strongest arguments."
+          "Hook: Present the issue with urgency.",
+          "Claim: State your position clearly.",
+          "Stakes: Explain consequences if ignored.",
+          "Preview: Introduce your 3 argument pillars."
         ],
         body: [
-          "Argument 1: Present your strongest evidence.",
-          "Argument 2: Address another perspective respectfully.",
-          "Argument 3: Reinforce why your solution is best."
+          "Argument 1 — Core evidence",
+          "• Present strongest support first.",
+          "• Explain why it proves your claim.",
+          "• Connect directly to audience impact.",
+          "Argument 2 — Counterargument & rebuttal",
+          "• Acknowledge opposing view fairly.",
+          "• Refute with logic/evidence.",
+          "• Reinforce why your stance is stronger.",
+          "Argument 3 — Solution",
+          "• Offer a realistic action plan.",
+          "• Explain practical benefits.",
+          "• Describe risk of inaction."
         ],
         close: [
-          "Restate your claim with confidence.",
-          "End with a direct call to action."
+          "Restate claim with confidence.",
+          "Give a direct call to action.",
+          "End with a memorable persuasive line."
         ]
       },
       motivational: {
+        purpose: "Inspire students to build discipline, resilience, and confidence.",
+        attention: [
+          "Open with a real struggle-to-growth story.",
+          "Use emotional contrast and dynamic tone.",
+          "Repeat one short power phrase."
+        ],
         opening: [
-          "Open with a quote or personal challenge.",
-          "Connect emotionally with the audience.",
-          "Introduce your motivational theme."
+          "Hook: Share a relatable challenge.",
+          "Connection: Acknowledge real student pressure.",
+          "Theme: Introduce your growth message.",
+          "Preview: Present 3 motivation pillars."
         ],
         body: [
-          "Point 1: Mindset matters.",
-          "Point 2: Consistent effort builds success.",
-          "Point 3: Failures can become stepping stones."
+          "Pillar 1 — Mindset",
+          "• Explain growth mindset simply.",
+          "• Show how beliefs affect results.",
+          "• Give one practical mindset reset strategy.",
+          "Pillar 2 — Discipline",
+          "• Explain why habits beat short-term motivation.",
+          "• Share one daily routine example.",
+          "• Show how consistency builds momentum.",
+          "Pillar 3 — Resilience",
+          "• Reframe failure as feedback.",
+          "• Provide one reflection-and-improve method.",
+          "• Encourage persistence through setbacks."
         ],
         close: [
-          "Challenge the audience to act today.",
-          "Close with a powerful, hopeful line."
+          "Challenge audience to one action today.",
+          "Reinforce that progress is possible for everyone.",
+          "End with a strong motivational line."
         ]
       },
       entertainment: {
+        purpose: "Entertain with clean humor, engaging story flow, and meaningful takeaway.",
+        attention: [
+          "Open with a relatable funny observation.",
+          "Use timing, pause, and vocal variation.",
+          "Signal that a fun story is coming."
+        ],
         opening: [
-          "Begin with a humorous hook or relatable scenario.",
-          "Establish energy and timing early.",
-          "Preview the fun direction of your speech."
+          "Hook: Deliver a witty opening line.",
+          "Setup: Quickly establish scenario.",
+          "Tone: Keep it playful and energetic.",
+          "Preview: Share your 3 entertainment beats."
         ],
         body: [
-          "Segment 1: Build a funny or interesting story.",
-          "Segment 2: Add contrast/surprise for effect.",
-          "Segment 3: Tie it together with a clever takeaway."
+          "Segment 1 — Build",
+          "• Set characters/context clearly.",
+          "• Add vivid details.",
+          "• Build anticipation.",
+          "Segment 2 — Escalate",
+          "• Introduce an unexpected twist.",
+          "• Raise stakes humorously.",
+          "• Land a midpoint laugh.",
+          "Segment 3 — Payoff",
+          "• Use callback to earlier detail.",
+          "• Connect humor to light lesson.",
+          "• Leave audience engaged."
         ],
         close: [
-          "Land a memorable ending line.",
-          "Leave the audience entertained and engaged."
+          "Deliver strongest final laugh line.",
+          "Add one reflective takeaway sentence.",
+          "Close confidently and thank audience."
         ]
       }
     },
 
     college: {
       informative: {
+        purpose: "Deliver a professional, evidence-based explanation with strategic clarity.",
+        attention: [
+          "Open with a relevant data point and implication.",
+          "Frame significance for audience decisions.",
+          "Use concise, high-credibility language."
+        ],
         opening: [
-          "Lead with a relevant insight or statistic.",
-          "Frame the topic with clear context.",
-          "Preview your analytical structure."
+          "Hook: Lead with trend/case insight.",
+          "Context: Define boundaries and relevance.",
+          "Thesis: State analytical focus.",
+          "Roadmap: Preview 3 core sections."
         ],
         body: [
-          "Point 1: Core concept and foundation.",
-          "Point 2: Evidence-based analysis.",
-          "Point 3: Practical implications and applications."
+          "Section 1 — Framework",
+          "• Define core terms and assumptions.",
+          "• Present conceptual model.",
+          "• Establish baseline understanding.",
+          "Section 2 — Evidence",
+          "• Present key evidence.",
+          "• Interpret significance and meaning.",
+          "• Compare alternative viewpoints.",
+          "Section 3 — Implications",
+          "• Explain practical/strategic impact.",
+          "• Offer feasible application.",
+          "• Note key constraints/risks."
         ],
         close: [
-          "Synthesize the main insights.",
-          "End with a forward-looking conclusion."
+          "Synthesize findings into one conclusion.",
+          "State strategic takeaway clearly.",
+          "Close with future-oriented insight."
         ]
       },
       persuasive: {
+        purpose: "Advance a defensible thesis with logic, data, rebuttal, and action.",
+        attention: [
+          "Open with high-stakes problem framing.",
+          "Use concise thesis statement.",
+          "Signal urgency and consequence."
+        ],
         opening: [
-          "Open with a sharp thesis statement.",
-          "Establish urgency and relevance.",
-          "Preview key supporting arguments."
+          "Hook: Define the critical issue.",
+          "Thesis: State your position precisely.",
+          "Stakes: Explain consequences of inaction.",
+          "Roadmap: Evidence, rebuttal, solution."
         ],
         body: [
-          "Argument 1: Data-driven justification.",
-          "Argument 2: Address and refute counterarguments.",
-          "Argument 3: Present a realistic path forward."
+          "Pillar 1 — Justification",
+          "• Present strongest supporting evidence.",
+          "• Explain causal logic.",
+          "• Link directly to thesis.",
+          "Pillar 2 — Counterargument",
+          "• Present strongest opposing case fairly.",
+          "• Rebut with data/logic/feasibility.",
+          "• Reinforce your comparative advantage.",
+          "Pillar 3 — Recommendation",
+          "• Provide actionable plan.",
+          "• Explain implementation considerations.",
+          "• Define expected measurable outcomes."
         ],
         close: [
-          "Reinforce your thesis succinctly.",
-          "Conclude with a compelling call to action."
+          "Reassert thesis decisively.",
+          "Issue precise call to action.",
+          "End with conviction and clarity."
         ]
       },
       motivational: {
+        purpose: "Inspire disciplined execution, resilience, and purpose-driven growth.",
+        attention: [
+          "Open with a meaningful turning-point story.",
+          "Use contrast between comfort and growth.",
+          "Set a grounded but ambitious tone."
+        ],
         opening: [
-          "Start with a meaningful story or quote.",
-          "Acknowledge common struggles honestly.",
-          "Introduce the growth-centered message."
+          "Hook: Introduce pivotal challenge moment.",
+          "Reality: Acknowledge pressure and uncertainty.",
+          "Theme: Purpose, resilience, and execution.",
+          "Roadmap: Present 3 development pillars."
         ],
         body: [
-          "Point 1: Clarity of purpose drives discipline.",
-          "Point 2: Resilience is built through adversity.",
-          "Point 3: Intentional action compounds over time."
+          "Pillar 1 — Purpose",
+          "• Show how purpose sharpens decisions.",
+          "• Offer simple goal-clarity method.",
+          "• Align actions with values.",
+          "Pillar 2 — Resilience",
+          "• Reframe setbacks as learning loops.",
+          "• Suggest recovery system (reflection/mentors/routines).",
+          "• Explain long-term compounding growth.",
+          "Pillar 3 — Execution",
+          "• Prioritize discipline over mood.",
+          "• Use accountability and tracking.",
+          "• Emphasize sustainable consistency."
         ],
         close: [
-          "Invite immediate personal commitment.",
-          "Close with a confident and inspiring final message."
+          "Invite commitment to one immediate action.",
+          "Reinforce personal agency and growth capacity.",
+          "Finish with strong leadership-focused line."
         ]
       },
       entertainment: {
-        opening: [
+        purpose: "Blend intelligent humor, polished delivery, and meaningful insight.",
+        attention: [
           "Open with witty observational humor.",
-          "Set clear tone and audience expectations.",
-          "Introduce the central entertaining premise."
+          "Use controlled pacing and confident pauses.",
+          "Promise both humor and value."
+        ],
+        opening: [
+          "Hook: Start with sharp relatable observation.",
+          "Premise: Define comedic lens.",
+          "Audience Connection: Explain shared relevance.",
+          "Roadmap: Setup, escalation, payoff."
         ],
         body: [
-          "Segment 1: Narrative setup with personality.",
-          "Segment 2: Escalation through irony or contrast.",
-          "Segment 3: Insightful callback tying humor to meaning."
+          "Segment 1 — Setup",
+          "• Establish context efficiently.",
+          "• Plant details for callback.",
+          "• Build curiosity and rhythm.",
+          "Segment 2 — Escalation",
+          "• Increase contrast/absurdity strategically.",
+          "• Add twist with timing.",
+          "• Land midpoint laugh beat.",
+          "Segment 3 — Payoff",
+          "• Execute callback clearly.",
+          "• Tie humor to meaningful insight.",
+          "• Prepare polished final beat."
         ],
         close: [
-          "End with a polished, memorable final beat.",
-          "Leave the audience amused and reflective."
+          "Deliver final punchline with control.",
+          "Add concise reflective takeaway.",
+          "Thank audience with composure."
         ]
       }
     }
@@ -1507,6 +1711,16 @@ function genOutline() {
 
   outlineContent.innerHTML = `
     <div class="o-label">${speechType} • ${ageGroup}</div>
+
+    <div class="o-section">
+      <h3>Purpose</h3>
+      <ul><li>${selected.purpose}</li></ul>
+    </div>
+
+    <div class="o-section">
+      <h3>Attention Strategy</h3>
+      <ul>${selected.attention.map(item => `<li>${item}</li>`).join('')}</ul>
+    </div>
 
     <div class="o-section">
       <h3>Opening</h3>
@@ -1526,7 +1740,6 @@ function genOutline() {
 
   outlineCard.style.display = 'block';
 }
-
 /* ═══════════════════════════════════════════════════
    TAB 3 — IMPROMPTU TOPIC GENERATOR
 ═══════════════════════════════════════════════════ */
