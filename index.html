@@ -404,29 +404,25 @@
   </div>
 
   <!-- ── PANEL 1 · SPEECH OUTLINE GENERATOR ───────── -->
-  <div class="panel" id="p1">
-    <div class="panel-title">📝 Speech Outline Generator</div>
-    <div class="panel-sub">Enter your topic and choose a speech type to get a structured outline.</div>
-    <div class="field">
-      <label id="outlineInputLabel">Speech Topic</label>
-      <input type="text" id="outlineInput" aria-labelledby="outlineInputLabel" placeholder="Example: The impact of social media on mental health">
-    </div>
-    <div class="field">
-      <label>Speech Type</label>
-      <div class="pill-row" id="speechTypeRow">
-        <button class="pill active" data-stype="informative"  onclick="pickSpeechType(this)">Informative</button>
-        <button class="pill"        data-stype="persuasive"   onclick="pickSpeechType(this)">Persuasive</button>
-        <button class="pill"        data-stype="motivational" onclick="pickSpeechType(this)">Motivational</button>
-      </div>
-    </div>
-    <button class="btn" onclick="genOutline()">📋 Generate Outline</button>
-    <div class="notice show" id="outlineErr" style="display:none;margin-top:10px"></div>
-    <div class="card" id="outlineCard" style="display:none">
-      <div id="outlineContent"></div>
+<div class="panel" id="p1">
+  <div class="panel-title">📝 Speech Outline Generator</div>
+  <div class="panel-sub">Choose a speech type to get a structured outline.</div>
+  <div class="field">
+    <label>Speech Type</label>
+    <div class="pill-row" id="speechTypeRow">
+      <button class="pill active" data-stype="informative"  onclick="pickSpeechType(this)">Informative</button>
+      <button class="pill"        data-stype="persuasive"   onclick="pickSpeechType(this)">Persuasive</button>
+      <button class="pill"        data-stype="motivational" onclick="pickSpeechType(this)">Motivational</button>
+      <button class="pill"        data-stype="entertainment" onclick="pickSpeechType(this)">Entertainment</button>
     </div>
   </div>
+  <button class="btn" onclick="genOutline()">📋 Generate Outline</button>
+  <div class="card" id="outlineCard" style="display:none">
+    <div id="outlineContent"></div>
+  </div>
+</div>
 
-  <!-- ── PANEL 2 · IMPROMPTU TOPIC GENERATOR ──────── -->
+<!-- ── PANEL 2 · IMPROMPTU TOPIC GENERATOR ──────── -->
   <div class="panel" id="p2">
     <div class="panel-title">🎲 Impromptu Topic Generator</div>
     <div class="panel-sub">Practice thinking on your feet. Hit Generate for a random speaking topic!</div>
@@ -1300,134 +1296,235 @@ function genTitles() {
 /* ═══════════════════════════════════════════════════
    TAB 2 — SPEECH OUTLINE GENERATOR
 ═══════════════════════════════════════════════════ */
-function buildOutlineHTML(outline) {
-  const bodyHTML = outline.body.map(pt => `
-    <li><strong>${pt.point}</strong>
-      <ul>${pt.support.map(s => `<li>${s}</li>`).join('')}</ul>
-    </li>`).join('');
-  return `
-    <span class="o-label">${outline.type}</span>
+function genOutline() {
+  const outlineCard = document.getElementById('outlineCard');
+  const outlineContent = document.getElementById('outlineContent');
+
+  const OUTLINES = {
+    middle: {
+      informative: {
+        opening: [
+          "Ask a simple question to get attention.",
+          "Introduce your topic in kid-friendly language.",
+          "Share why this topic matters to students."
+        ],
+        body: [
+          "Main Point 1: Explain the basic idea clearly.",
+          "Main Point 2: Give one fun fact or example.",
+          "Main Point 3: Share one way this affects daily life."
+        ],
+        close: [
+          "Quickly review your 3 points.",
+          "End with one memorable sentence."
+        ]
+      },
+      persuasive: {
+        opening: [
+          "Start with a strong opinion statement.",
+          "State what you want your audience to believe or do.",
+          "Preview your 3 reasons."
+        ],
+        body: [
+          "Reason 1: Explain your best reason.",
+          "Reason 2: Give an example that supports your view.",
+          "Reason 3: Show why your idea helps others."
+        ],
+        close: [
+          "Repeat your main message clearly.",
+          "Give a simple call to action."
+        ]
+      },
+      motivational: {
+        opening: [
+          "Start with an uplifting statement.",
+          "Tell the audience they are capable of growth.",
+          "Introduce your encouragement theme."
+        ],
+        body: [
+          "Point 1: Believe in yourself.",
+          "Point 2: Keep trying even when it’s hard.",
+          "Point 3: Small daily effort creates big results."
+        ],
+        close: [
+          "Remind everyone they can do hard things.",
+          "End with an inspiring final line."
+        ]
+      },
+      entertainment: {
+        opening: [
+          "Open with a funny story or playful question.",
+          "Set a light and friendly tone.",
+          "Tell the audience they’re in for a fun speech."
+        ],
+        body: [
+          "Part 1: Share a funny moment.",
+          "Part 2: Add a surprising twist.",
+          "Part 3: Connect the humor to a simple lesson."
+        ],
+        close: [
+          "Finish with a strong punchline or cheerful thought.",
+          "Thank the audience and leave them smiling."
+        ]
+      }
+    },
+
+    high: {
+      informative: {
+        opening: [
+          "Use a strong fact, stat, or short story.",
+          "Define the topic clearly.",
+          "Preview your 3 main points."
+        ],
+        body: [
+          "Point 1: Explain key background/context.",
+          "Point 2: Present important examples or evidence.",
+          "Point 3: Show real-world relevance."
+        ],
+        close: [
+          "Summarize your key takeaways.",
+          "Close with a thought-provoking final line."
+        ]
+      },
+      persuasive: {
+        opening: [
+          "Start with a bold claim.",
+          "State your position clearly.",
+          "Preview your strongest arguments."
+        ],
+        body: [
+          "Argument 1: Present your strongest evidence.",
+          "Argument 2: Address another perspective respectfully.",
+          "Argument 3: Reinforce why your solution is best."
+        ],
+        close: [
+          "Restate your claim with confidence.",
+          "End with a direct call to action."
+        ]
+      },
+      motivational: {
+        opening: [
+          "Open with a quote or personal challenge.",
+          "Connect emotionally with the audience.",
+          "Introduce your motivational theme."
+        ],
+        body: [
+          "Point 1: Mindset matters.",
+          "Point 2: Consistent effort builds success.",
+          "Point 3: Failures can become stepping stones."
+        ],
+        close: [
+          "Challenge the audience to act today.",
+          "Close with a powerful, hopeful line."
+        ]
+      },
+      entertainment: {
+        opening: [
+          "Begin with a humorous hook or relatable scenario.",
+          "Establish energy and timing early.",
+          "Preview the fun direction of your speech."
+        ],
+        body: [
+          "Segment 1: Build a funny or interesting story.",
+          "Segment 2: Add contrast/surprise for effect.",
+          "Segment 3: Tie it together with a clever takeaway."
+        ],
+        close: [
+          "Land a memorable ending line.",
+          "Leave the audience entertained and engaged."
+        ]
+      }
+    },
+
+    college: {
+      informative: {
+        opening: [
+          "Lead with a relevant insight or statistic.",
+          "Frame the topic with clear context.",
+          "Preview your analytical structure."
+        ],
+        body: [
+          "Point 1: Core concept and foundation.",
+          "Point 2: Evidence-based analysis.",
+          "Point 3: Practical implications and applications."
+        ],
+        close: [
+          "Synthesize the main insights.",
+          "End with a forward-looking conclusion."
+        ]
+      },
+      persuasive: {
+        opening: [
+          "Open with a sharp thesis statement.",
+          "Establish urgency and relevance.",
+          "Preview key supporting arguments."
+        ],
+        body: [
+          "Argument 1: Data-driven justification.",
+          "Argument 2: Address and refute counterarguments.",
+          "Argument 3: Present a realistic path forward."
+        ],
+        close: [
+          "Reinforce your thesis succinctly.",
+          "Conclude with a compelling call to action."
+        ]
+      },
+      motivational: {
+        opening: [
+          "Start with a meaningful story or quote.",
+          "Acknowledge common struggles honestly.",
+          "Introduce the growth-centered message."
+        ],
+        body: [
+          "Point 1: Clarity of purpose drives discipline.",
+          "Point 2: Resilience is built through adversity.",
+          "Point 3: Intentional action compounds over time."
+        ],
+        close: [
+          "Invite immediate personal commitment.",
+          "Close with a confident and inspiring final message."
+        ]
+      },
+      entertainment: {
+        opening: [
+          "Open with witty observational humor.",
+          "Set clear tone and audience expectations.",
+          "Introduce the central entertaining premise."
+        ],
+        body: [
+          "Segment 1: Narrative setup with personality.",
+          "Segment 2: Escalation through irony or contrast.",
+          "Segment 3: Insightful callback tying humor to meaning."
+        ],
+        close: [
+          "End with a polished, memorable final beat.",
+          "Leave the audience amused and reflective."
+        ]
+      }
+    }
+  };
+
+  const selected = OUTLINES[ageGroup][speechType];
+
+  outlineContent.innerHTML = `
+    <div class="o-label">${speechType} • ${ageGroup}</div>
+
     <div class="o-section">
       <h3>Opening</h3>
-      <ul>${outline.opening.map(s=>`<li>${s}</li>`).join('')}</ul>
+      <ul>${selected.opening.map(item => `<li>${item}</li>`).join('')}</ul>
     </div>
+
     <div class="o-section">
-      <h3>Body (3 Main Points)</h3>
-      <ul>${bodyHTML}</ul>
+      <h3>Body (3 Points)</h3>
+      <ul>${selected.body.map(item => `<li>${item}</li>`).join('')}</ul>
     </div>
+
     <div class="o-section">
-      <h3>Closer</h3>
-      <ul>${outline.closer.map(s=>`<li>${s}</li>`).join('')}</ul>
-    </div>`;
-}
+      <h3>Close</h3>
+      <ul>${selected.close.map(item => `<li>${item}</li>`).join('')}</ul>
+    </div>
+  `;
 
-const OUTLINES = {
-  informative: topic => ({
-    type:'Informative Speech',
-    opening:[
-      `Attention Getter: Open with a surprising fact or question about ${topic}`,
-      `Relevance: Explain why ${topic} matters to this audience today`,
-      `Credibility: Share why you are qualified or passionate about ${topic}`,
-      `Thesis: "Today I will inform you about the key aspects of ${topic}"`
-    ],
-    body:[
-      { point:`Background — Where ${topic} Comes From`, support:[
-        `When and how ${topic} first emerged or became relevant`,
-        `Key developments or turning points related to ${topic}`,
-        `Transition: "Now that we understand the background, let's explore what's happening today…"`
-      ]},
-      { point:`Key Facts and Perspectives on ${topic}`, support:[
-        `The most important data, statistics, or research about ${topic}`,
-        `Different viewpoints or dimensions that shape our understanding of ${topic}`,
-        `Transition: "With this context in mind, let's look at the impact…"`
-      ]},
-      { point:`The Real-World Impact of ${topic}`, support:[
-        `How ${topic} affects individuals, communities, or society`,
-        `A concrete example or case study that illustrates the impact of ${topic}`,
-        `Transition: "Now let me bring this all together for you…"`
-      ]}
-    ],
-    closer:[
-      `Summary: Briefly recap the three main areas we covered about ${topic}`,
-      `Reinforce Thesis: Restate why understanding ${topic} is important`,
-      `Call to Reflect: A thought-provoking question or statement about ${topic}`,
-      `Clincher: End with a powerful quote or memorable final line`
-    ]
-  }),
-  persuasive: topic => ({
-    type:'Persuasive Speech',
-    opening:[
-      `Attention Getter: Open with a compelling story, statistic, or scenario related to ${topic}`,
-      `Establish Need: Show that a real problem exists regarding ${topic}`,
-      `Credibility & Relevance: Explain why this audience should care deeply about ${topic}`,
-      `Thesis: "I urge you today to take a stand on ${topic}"`
-    ],
-    body:[
-      { point:`The Problem — Why ${topic} Demands Our Attention`, support:[
-        `Evidence and statistics that show the scale or urgency of the issue`,
-        `Real-world examples of how ${topic} causes harm or requires change`,
-        `Transition: "So now that we see the problem clearly, what is causing it?"`
-      ]},
-      { point:`The Cause — Why ${topic} Exists or Persists`, support:[
-        `Root causes or contributing factors that allow this problem to continue`,
-        `Who or what holds responsibility for addressing ${topic}`,
-        `Transition: "Understanding the cause, let's talk about what we can do…"`
-      ]},
-      { point:`The Solution — What Must Be Done About ${topic}`, support:[
-        `Specific, actionable steps that will genuinely address ${topic}`,
-        `Evidence or precedent showing that this solution works`,
-        `Transition: "In closing, the solution is within reach if we choose to act…"`
-      ]}
-    ],
-    closer:[
-      `Summary: Briefly recap the problem, cause, and solution regarding ${topic}`,
-      `Visualization: Paint a picture of what the world looks like if we act — and if we don't`,
-      `Call to Action: Issue a specific, direct challenge for the audience to take action on ${topic}`,
-      `Clincher: End with a bold, emotionally resonant statement that demands to be remembered`
-    ]
-  }),
-  motivational: topic => ({
-    type:'Motivational Speech',
-    opening:[
-      `Attention Getter: Open with a powerful personal story or quote that connects to ${topic}`,
-      `Connect with Audience: Show that everyone in the room can relate to the challenge of ${topic}`,
-      `Inspire Hope: Convey that growth and change are absolutely possible`,
-      `Thesis: "${topic} is not a barrier — it is a bridge to your greatest potential"`
-    ],
-    body:[
-      { point:`Acknowledge the Challenge of ${topic}`, support:[
-        `Validate the struggle — affirm that ${topic} is real and it is hard`,
-        `Share a story of someone who faced ${topic} and felt completely stuck`,
-        `Transition: "But here is what I have come to understand about overcoming ${topic}…"`
-      ]},
-      { point:`Shift Your Perspective on ${topic}`, support:[
-        `Reframe ${topic} as an invitation for growth rather than an obstacle`,
-        `Real examples of people who transformed ${topic} into strength and purpose`,
-        `Transition: "And when your perspective shifts, your actions begin to change…"`
-      ]},
-      { point:`Take Action — Your Path Forward Through ${topic}`, support:[
-        `Practical steps the audience can take right now to move forward`,
-        `A vision of what life looks like on the other side of ${topic}`,
-        `Transition: "As I close, I want to leave you with this…"`
-      ]}
-    ],
-    closer:[
-      `Summary: Remind the audience of the full journey — from challenge to transformation`,
-      `Inspire: Paint a vivid vision of who they are capable of becoming`,
-      `Challenge: Issue a personal, direct challenge for each person to take one step forward`,
-      `Clincher: Close with a powerful, memorable line that will stay with them long after they leave`
-    ]
-  })
-};
-
-function genOutline() {
-  const raw = document.getElementById('outlineInput').value.trim();
-  if (!raw) { showErr('outlineErr', '⚠️ Please enter a speech topic first.'); return; }
-  const html = buildOutlineHTML(OUTLINES[speechType](raw));
-  const card = document.getElementById('outlineCard');
-  document.getElementById('outlineContent').innerHTML = html;
-  card.style.display = 'block';
-  card.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  outlineCard.style.display = 'block';
 }
 
 /* ═══════════════════════════════════════════════════
