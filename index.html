@@ -382,26 +382,35 @@
     <button class="tab-btn"        onclick="switchTab(5)"><span class="tab-icon">💬</span>Quote</button>
   </div>
 
-  <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
-  <div class="panel active" id="p0">
-    <div class="panel-title">🏷️ Speech Title Generator</div>
-    <!--comment
-    <div class="panel-sub">Enter information about your speech topic and we'll generate creative title ideas.</div>
-    <div class="field">
-      <label id="titleInputLabel">What is your speech about?</label>
-      <textarea id="titleInput" rows="4" aria-labelledby="titleInputLabel"
-        placeholder="Example: Vaping is really bad for you and causes serious health problems in young people…"></textarea>
+    <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
+    <div class="panel active" id="p0">
+        <div class="panel-title">🏷️ Speech Title Generator</div>
+        <!--comment
+        <div class="panel-sub">Enter information about your speech topic and we'll generate creative title ideas.</div>
+        <div class="field">
+          <label id="titleInputLabel">What is your speech about?</label>
+          <textarea id="titleInput" rows="4" aria-labelledby="titleInputLabel"
+            placeholder="Example: Vaping is really bad for you and causes serious health problems in young people…"></textarea>
+        </div>
+        <button class="btn" onclick="genTitles()">✨ Generate Speech Titles</button>
+        <div class="notice show" id="titleErr" style="display:none;margin-top:10px"></div>
+        <div class="card" id="titleCard" style="display:none">
+          <ul class="title-list" id="titleList"></ul>
+        </div>
+        -->
+        <div class="panel-sub">Check out this website!</div>
+        <div>
+            <a
+                    class="btn"
+                    href="https://www.summarizer.org/title-generator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="display:inline-block; text-align:center; text-decoration:none;"
+            >
+                Click me!
+            </a>
+        </div>
     </div>
-    <button class="btn" onclick="genTitles()">✨ Generate Speech Titles</button>
-    <div class="notice show" id="titleErr" style="display:none;margin-top:10px"></div>
-    <div class="card" id="titleCard" style="display:none">
-      <ul class="title-list" id="titleList"></ul>
-    </div>
-    -->
-<div class="panel-sub">Check out this website!</div>
-<div>
-  <a href="https://www.summarizer.org/title-generator">https://www.summarizer.org/title-generator</a>
-</div>
     
   <!-- ── PANEL 1 · SPEECH OUTLINE GENERATOR ───────── -->
 <div class="panel" id="p1">
