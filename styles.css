@@ -165,3 +165,143 @@ footer {
     height: 60px;
   }
 }
+.wheel-hint {
+  color: #d7dff3;
+  margin: 0 0 0.75rem;
+}
+
+.wheel-input-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.25rem;
+}
+
+.wheel-input-row input {
+  flex: 1 1 200px;
+  margin: 0;
+}
+
+.wheel-error {
+  color: #f87171;
+  min-height: 1.25rem;
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+}
+
+.wheel-layout {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.wheel-names-panel {
+  flex: 1 1 180px;
+  min-width: 160px;
+}
+
+.wheel-names-panel h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+.wheel-name-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.wheel-name-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.07);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.wheel-name-list li button {
+  background: none;
+  border: none;
+  color: #f87171;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 0.2rem;
+}
+
+.wheel-canvas-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.wheel-pointer {
+  font-size: 2rem;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: -0.5rem;
+}
+
+#wheelCanvas {
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  display: block;
+  max-width: 100%;
+}
+
+.wheel-spin-btn {
+  min-width: 120px;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.wheel-result {
+  margin-top: 1.25rem;
+  background: rgba(255,255,255,0.09);
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.wheel-result p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 0 0.75rem;
+}
+
+.wheel-result-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.wheel-keep-btn {
+  background: #1A2F5E;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+
+@media (max-width: 768px) {
+  .wheel-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  .wheel-names-panel {
+    width: 100%;
+  }
+  #wheelCanvas {
+    width: 300px;
+    height: 300px;
+  }
+}

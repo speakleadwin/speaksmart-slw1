@@ -39,6 +39,7 @@
       <button class="tab-btn" data-tab="wordTab">4. Word of the Day</button>
       <button class="tab-btn" data-tab="jokeTab">5. Joke of the Day</button>
       <button class="tab-btn" data-tab="quoteTab">6. Quote of the Day</button>
+      <button class="tab-btn" data-tab="wheelTab">7. Name Wheel</button>
     </section>
 
     <section id="titleTab" class="panel tab-content active">
@@ -85,6 +86,37 @@
       </select>
       <button id="generateQuote" class="gold-btn">Generate 1 Quote</button>
       <p id="quoteResult" class="single-result"></p>
+    </section>
+    <section id="wheelTab" class="panel tab-content">
+      <h2>Name Wheel Picker</h2>
+      <p class="wheel-hint">Add up to 50 names, then spin to pick who goes next!</p>
+
+      <div class="wheel-input-row">
+        <input id="wheelNameInput" type="text" placeholder="Enter a name…" maxlength="40" />
+        <button id="wheelAddBtn" class="gold-btn">Add Name</button>
+      </div>
+      <p id="wheelInputError" class="wheel-error" aria-live="polite"></p>
+
+      <div class="wheel-layout">
+        <div class="wheel-names-panel">
+          <h3>Names (<span id="wheelCount">0</span>/50)</h3>
+          <ul id="wheelNameList" class="wheel-name-list"></ul>
+        </div>
+
+        <div class="wheel-canvas-panel">
+          <div class="wheel-pointer" aria-hidden="true">▼</div>
+          <canvas id="wheelCanvas" width="360" height="360"></canvas>
+          <button id="wheelSpinBtn" class="gold-btn wheel-spin-btn" disabled>Spin!</button>
+        </div>
+      </div>
+
+      <div id="wheelResult" class="wheel-result" aria-live="polite" hidden>
+        <p id="wheelResultText"></p>
+        <div class="wheel-result-actions">
+          <button id="wheelRemoveBtn" class="gold-btn">Remove &amp; Spin Again</button>
+          <button id="wheelKeepBtn" class="gold-btn wheel-keep-btn">Keep &amp; Spin Again</button>
+        </div>
+      </div>
     </section>
   </main>
 

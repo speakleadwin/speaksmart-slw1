@@ -210,3 +210,240 @@ document.getElementById('generateQuote').addEventListener('click', () => {
   const pool = getPool('quotes', topic, data.quotes[topic]);
   document.getElementById('quoteResult').textContent = pool.next();
 });
+
+// ── Name Wheel ──────────────────────────────────────────────────────────────
+(function () {
+  const MAX_NAMES = 50;
+  const COLORS = [
+    '#C9A84C', '#1A2F5E', '#2E5EA8', '#8B5CF6', '#EC4899',
+    '#10B981', '#F59E0B', '#EF4444', '#3B82F6', '#14B8A6'
+  ];
+
+  let names = [];
+  let spinning = false;
+  let currentAngle = 0; // radians, tracked across spins
+
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+  const nameInput = document.getElementById('wheelNameInput');
+  const addBtn = document.getElementById('wheelAddBtn');
+  const nameList = document.getElementById('wheelNameList');
+  const countSpan = document.getElementById('wheelCount');
+  const spinBtn = document.getElementById('wheelSpinBtn');
+  const resultDiv = document.getElementById('wheelResult');
+  const resultText = document.getElementById('wheelResultText');
+  const removeBtn = document.getElementById('wheelRemoveBtn');
+  const keepBtn = document.getElementById('wheelKeepBtn');
+  const errorEl = document.getElementById('wheelInputError');
+
+  // ── Audio: generate a short tick using Web Audio API ──────────────────────
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+  function playTick(freq = 880, duration = 0.04) {
+    try {
+      const ctx = getAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'square';
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + duration);
+    } catch (e) { /* silently ignore if audio unavailable */ }
+  }
+  function playWinSound() {
+    const notes = [523, 659, 784, 1047];
+    notes.forEach((freq, i) => setTimeout(() => playTick(freq, 0.12), i * 120));
+  }
+
+  // ── Draw wheel ─────────────────────────────────────────────────────────────
+  function drawWheel(rotationAngle) {
+    const W = canvas.width;
+    const H = canvas.height;
+    const cx = W / 2;
+    const cy = H / 2;
+    const r = Math.min(cx, cy) - 6;
+    ctx.clearRect(0, 0, W, H);
+
+    if (names.length === 0) {
+      ctx.fillStyle = '#1A2F5E';
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#C9A84C';
+      ctx.font = 'bold 18px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Add names to spin!', cx, cy);
+      return;
+    }
+
+    const slice = (Math.PI * 2) / names.length;
+
+    names.forEach((name, i) => {
+      const start = rotationAngle + i * slice;
+      const end = start + slice;
+
+      // Slice
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, start, end);
+      ctx.closePath();
+      ctx.fillStyle = COLORS[i % COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = '#071A2F';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Label
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(start + slice / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `bold ${names.length > 20 ? 10 : 13}px Arial`;
+      ctx.shadowColor = 'rgba(0,0,0,0.7)';
+      ctx.shadowBlur = 3;
+      const maxLen = 14;
+      const label = name.length > maxLen ? name.slice(0, maxLen - 1) + '…' : name;
+      ctx.fillText(label, r - 8, 4);
+      ctx.restore();
+    });
+
+    // Center circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+    ctx.fillStyle = '#071A2F';
+    ctx.fill();
+    ctx.strokeStyle = '#C9A84C';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // ── Update name list UI ────────────────────────────────────────────────────
+  function renderList() {
+    nameList.innerHTML = '';
+    names.forEach((name, i) => {
+      const li = document.createElement('li');
+      li.textContent = name;
+      const del = document.createElement('button');
+      del.textContent = '✕';
+      del.title = 'Remove ' + name;
+      del.addEventListener('click', () => {
+        names.splice(i, 1);
+        afterNamesChange();
+      });
+      li.appendChild(del);
+      nameList.appendChild(li);
+    });
+    countSpan.textContent = names.length;
+    spinBtn.disabled = names.length < 2;
+    drawWheel(currentAngle);
+  }
+
+  function afterNamesChange() {
+    resultDiv.hidden = true;
+    renderList();
+  }
+
+  // ── Add name ───────────────────────────────────────────────────────────────
+  function addName() {
+    const val = nameInput.value.trim();
+    errorEl.textContent = '';
+    if (!val) { errorEl.textContent = 'Please enter a name.'; return; }
+    if (names.length >= MAX_NAMES) { errorEl.textContent = `Maximum of ${MAX_NAMES} names reached.`; return; }
+    if (names.map(n => n.toLowerCase()).includes(val.toLowerCase())) {
+      errorEl.textContent = 'That name is already in the list.'; return;
+    }
+    names.push(val);
+    nameInput.value = '';
+    nameInput.focus();
+    afterNamesChange();
+  }
+
+  addBtn.addEventListener('click', addName);
+  nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') addName(); });
+
+  // ── Spin ───────────────────────────────────────────────────────────────────
+  spinBtn.addEventListener('click', () => {
+    if (spinning || names.length < 2) return;
+    spinning = true;
+    spinBtn.disabled = true;
+    resultDiv.hidden = true;
+
+    // Total rotation: 5–10 full rotations + random offset
+    const totalRotation = (Math.PI * 2) * (5 + Math.random() * 5);
+    const duration = 4000; // ms
+    const startAngle = currentAngle;
+    const endAngle = startAngle + totalRotation;
+    const startTime = performance.now();
+
+    // How many ticks to play (proportional to speed)
+    let lastTickSlice = -1;
+
+    function easeOut(t) {
+      return 1 - Math.pow(1 - t, 4);
+    }
+
+    function frame(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOut(progress);
+      const angle = startAngle + totalRotation * eased;
+      currentAngle = angle;
+      drawWheel(angle);
+
+      // Tick sound: fire when the pointer crosses a slice boundary
+      const slice = (Math.PI * 2) / names.length;
+      // Pointer is at top (angle = -Math.PI/2 relative to canvas top)
+      // We treat the "pointer position" as the top: normalise current rotation
+      const normalised = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+      const currentSlice = Math.floor(((Math.PI * 2 - normalised) % (Math.PI * 2)) / slice);
+      if (currentSlice !== lastTickSlice) {
+        const speed = progress < 0.9 ? 0.3 : 1; // quieter during fast spin
+        if (Math.random() < speed) playTick(660 + currentSlice * 30, 0.03);
+        lastTickSlice = currentSlice;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        // Determine winner: pointer at top = angle 0 in our coordinate
+        const finalNormalised = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+        const winnerIndex = Math.floor(((Math.PI * 2 - finalNormalised) % (Math.PI * 2)) / slice) % names.length;
+        const winner = names[winnerIndex];
+        spinning = false;
+        spinBtn.disabled = false;
+        resultText.textContent = `🎉 ${winner} is selected!`;
+        resultDiv.hidden = false;
+
+        // Store winner index so remove button knows which to remove
+        removeBtn.dataset.winner = winner;
+        playWinSound();
+      }
+    }
+
+    requestAnimationFrame(frame);
+  });
+
+  // ── After result: Remove or Keep ───────────────────────────────────────────
+  removeBtn.addEventListener('click', () => {
+    const winner = removeBtn.dataset.winner;
+    names = names.filter(n => n !== winner);
+    afterNamesChange();
+  });
+
+  keepBtn.addEventListener('click', () => {
+    resultDiv.hidden = true;
+    spinBtn.disabled = names.length < 2;
+  });
+
+  // Initial draw
+  drawWheel(currentAngle);
+})();
