@@ -346,6 +346,177 @@
       .topic-text { font-size: 1.12rem; }
       .q-text { font-size: 1.05rem; }
     }
+
+    /* ── SPINNING WHEEL ───────────────────────── */
+    .wheel-layout {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .wheel-controls { flex: 1; min-width: 220px; }
+    .wheel-canvas-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    #wheelCanvas {
+      border-radius: 50%;
+      display: block;
+      max-width: 100%;
+    }
+    .wheel-pointer {
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: -8px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    }
+    .wheel-name-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .wheel-name-input-row input[type="text"] {
+      flex: 1;
+      margin: 0;
+    }
+    .btn-add-name {
+      padding: 11px 16px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: background 0.18s;
+      white-space: nowrap;
+    }
+    .btn-add-name:hover { background: var(--accent-h); }
+    .wheel-err {
+      color: #ff7b7b;
+      font-size: 0.85rem;
+      min-height: 1.1em;
+      margin-bottom: 8px;
+    }
+    .wheel-count {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+    .wheel-name-list {
+      list-style: none;
+      max-height: 240px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+      padding-right: 2px;
+    }
+    .wheel-name-list::-webkit-scrollbar { width: 4px; }
+    .wheel-name-list::-webkit-scrollbar-track { background: transparent; }
+    .wheel-name-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .wheel-name-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .wheel-name-list li span { flex: 1; word-break: break-word; }
+    .btn-remove-name {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0 0 0 8px;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .btn-remove-name:hover { color: #ff7b7b; }
+    .btn-clear-all {
+      width: 100%;
+      padding: 9px;
+      background: transparent;
+      color: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: color 0.18s, border-color 0.18s;
+      margin-bottom: 14px;
+    }
+    .btn-clear-all:hover { color: #ff7b7b; border-color: rgba(255,100,100,0.4); }
+    .btn-spin {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: inherit;
+      transition: background 0.18s, transform 0.1s, opacity 0.18s;
+    }
+    .btn-spin:hover:not(:disabled)  { background: var(--accent-h); }
+    .btn-spin:active:not(:disabled) { transform: scale(0.98); }
+    .btn-spin:disabled { opacity: 0.45; cursor: not-allowed; }
+    .wheel-result {
+      margin-top: 18px;
+      padding: 18px 20px;
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      animation: fadeUp 0.28s ease;
+    }
+    .wheel-result-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+    .wheel-result-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-keep, .btn-remove-winner {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .btn-keep {
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+    }
+    .btn-keep:hover { background: rgba(201,168,76,0.12); }
+    .btn-remove-winner {
+      background: var(--accent);
+      color: var(--dark);
+      border: 2px solid var(--accent);
+    }
+    .btn-remove-winner:hover { background: var(--accent-h); border-color: var(--accent-h); }
+    @media (max-width: 560px) {
+      .wheel-layout { flex-direction: column; }
+      .wheel-canvas-wrap { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -380,6 +551,7 @@
     <button class="tab-btn"        onclick="switchTab(3)"><span class="tab-icon">📖</span>Word</button>
     <button class="tab-btn"        onclick="switchTab(4)"><span class="tab-icon">😄</span>Joke</button>
     <button class="tab-btn"        onclick="switchTab(5)"><span class="tab-icon">💬</span>Quote</button>
+    <button class="tab-btn"        onclick="switchTab(6)"><span class="tab-icon">🎡</span>Wheel</button>
   </div>
 
     <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
@@ -493,6 +665,41 @@
       <div class="q-author" id="qAuthor"></div>
       <div class="counter"  id="quoteCounter"></div>
       <div class="notice"   id="quoteNotice">🎉 You've seen all quotes for this topic! Shuffling for a fresh round…</div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 6 · SPINNING WHEEL ────────────────── -->
+  <div class="panel" id="p6">
+    <div class="panel-title">🎡 Name Picker Wheel</div>
+    <div class="panel-sub">Add names, spin the wheel, and randomly select a winner!</div>
+    <div class="wheel-layout">
+      <!-- Controls -->
+      <div class="wheel-controls">
+        <div class="wheel-name-input-row">
+          <input type="text" id="wheelNameInput" placeholder="Enter a name…" maxlength="60"
+            aria-label="Enter a name to add to the wheel"
+            onkeydown="if(event.key==='Enter')wheelAddName()">
+          <button class="btn-add-name" onclick="wheelAddName()">Add</button>
+        </div>
+        <div class="wheel-err" id="wheelErr" aria-live="polite"></div>
+        <div class="wheel-count" id="wheelCount">0 / 50 names</div>
+        <ul class="wheel-name-list" id="wheelNameList" aria-label="Names on the wheel"></ul>
+        <button class="btn-clear-all" id="wheelClearBtn" onclick="wheelClearAll()">🗑 Clear all names</button>
+        <button class="btn-spin" id="wheelSpinBtn" onclick="wheelSpin()" disabled>🎡 Spin the Wheel!</button>
+        <div class="wheel-result" id="wheelResult" style="display:none">
+          <div style="color:var(--muted);font-size:0.85rem;margin-bottom:6px;">🎉 Selected!</div>
+          <div class="wheel-result-name" id="wheelResultName"></div>
+          <div class="wheel-result-btns">
+            <button class="btn-keep" onclick="wheelKeep()">Keep &amp; Spin Again</button>
+            <button class="btn-remove-winner" onclick="wheelRemoveWinner()">Remove from Wheel</button>
+          </div>
+        </div>
+      </div>
+      <!-- Canvas -->
+      <div class="wheel-canvas-wrap">
+        <div class="wheel-pointer" aria-hidden="true">▼</div>
+        <canvas id="wheelCanvas" width="280" height="280" aria-label="Spinning wheel"></canvas>
+      </div>
     </div>
   </div>
 
@@ -1804,6 +2011,280 @@ function genQuote() {
   card.style.display = 'block';
   showNotice('quoteNotice', cycled);
 }
+
+/* ═══════════════════════════════════════════════════
+   TAB 6 — SPINNING WHEEL
+═══════════════════════════════════════════════════ */
+(function () {
+  const MAX_NAMES = 50;
+  const COLORS = [
+    '#C9A84C','#1A2F5E','#0A4A72','#B8860B','#1E4D8C',
+    '#D4AF37','#0D3B6E','#C4922A','#163C6B','#E0B840',
+    '#0B3558','#CDA434','#174878','#D6BC5E','#102E5A'
+  ];
+
+  let wheelNames  = [];
+  let wheelAngle  = 0;
+  let wheelSpinning = false;
+  let wheelWinner = null;
+
+  /* ── Audio (Web Audio API — no external file needed) ── */
+  function playWinSound() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+      notes.forEach((freq, i) => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + i * 0.12;
+        gain.gain.setValueAtTime(0, t);
+        gain.gain.linearRampToValueAtTime(0.35, t + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+        osc.start(t);
+        osc.stop(t + 0.35);
+      });
+    } catch (e) { /* audio not available */ }
+  }
+
+  /* ── Draw wheel ── */
+  function drawWheel() {
+    const canvas = document.getElementById('wheelCanvas');
+    if (!canvas) return;
+    const ctx    = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2, r = Math.min(cx, cy) - 4;
+    ctx.clearRect(0, 0, W, H);
+
+    const n = wheelNames.length;
+    if (n === 0) {
+      // Empty state
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = '#1A2F5E';
+      ctx.fill();
+      ctx.strokeStyle = '#C9A84C';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      ctx.font = 'bold 13px Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Add names to', cx, cy - 10);
+      ctx.fillText('spin the wheel', cx, cy + 10);
+      return;
+    }
+
+    const slice = (Math.PI * 2) / n;
+    wheelNames.forEach((name, i) => {
+      const start = wheelAngle + i * slice;
+      const end   = start + slice;
+      // Sector
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, r, start, end);
+      ctx.closePath();
+      ctx.fillStyle = COLORS[i % COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = '#071A2F';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Label
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(start + slice / 2);
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      const maxLen = 12;
+      const label  = name.length > maxLen ? name.slice(0, maxLen - 1) + '…' : name;
+      const fontSize = n > 20 ? 9 : n > 12 ? 11 : 13;
+      ctx.font = `bold ${fontSize}px Segoe UI, sans-serif`;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.shadowColor = 'rgba(0,0,0,0.6)';
+      ctx.shadowBlur  = 3;
+      ctx.fillText(label, r - 8, 0);
+      ctx.restore();
+    });
+
+    // Center circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+    ctx.fillStyle = '#0A1F38';
+    ctx.fill();
+    ctx.strokeStyle = '#C9A84C';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  /* ── Update name list UI ── */
+  function renderNameList() {
+    const ul    = document.getElementById('wheelNameList');
+    const count = document.getElementById('wheelCount');
+    const spin  = document.getElementById('wheelSpinBtn');
+    const clear = document.getElementById('wheelClearBtn');
+    if (!ul) return;
+
+    ul.innerHTML = '';
+    wheelNames.forEach((name, i) => {
+      const li   = document.createElement('li');
+      const span = document.createElement('span');
+      span.textContent = name;
+      const btn = document.createElement('button');
+      btn.className = 'btn-remove-name';
+      btn.title = 'Remove ' + name;
+      btn.setAttribute('aria-label', 'Remove ' + name);
+      btn.textContent = '✕';
+      btn.onclick = () => wheelRemoveName(i);
+      li.appendChild(span);
+      li.appendChild(btn);
+      ul.appendChild(li);
+    });
+
+    count.textContent = wheelNames.length + ' / ' + MAX_NAMES + ' names';
+    spin.disabled  = wheelNames.length === 0 || wheelSpinning;
+    clear.disabled = wheelNames.length === 0;
+    drawWheel();
+  }
+
+  /* ── Add name ── */
+  window.wheelAddName = function () {
+    const input = document.getElementById('wheelNameInput');
+    const errEl = document.getElementById('wheelErr');
+    const name  = input.value.trim();
+
+    errEl.textContent = '';
+
+    if (!name) {
+      errEl.textContent = 'Please enter a name before adding.';
+      return;
+    }
+    if (wheelNames.length >= MAX_NAMES) {
+      errEl.textContent = 'Maximum of 50 names reached.';
+      return;
+    }
+    const lower = name.toLowerCase();
+    if (wheelNames.some(n => n.toLowerCase() === lower)) {
+      errEl.textContent = '"' + name + '" is already on the wheel.';
+      return;
+    }
+
+    wheelNames.push(name);
+    input.value = '';
+    input.focus();
+    renderNameList();
+    hideWheelResult();
+  };
+
+  /* ── Remove single name ── */
+  window.wheelRemoveName = function (idx) {
+    wheelNames.splice(idx, 1);
+    renderNameList();
+    hideWheelResult();
+  };
+
+  /* ── Clear all ── */
+  window.wheelClearAll = function () {
+    if (wheelNames.length === 0) return;
+    if (!confirm('Remove all ' + wheelNames.length + ' names from the wheel?')) return;
+    wheelNames = [];
+    renderNameList();
+    hideWheelResult();
+  };
+
+  function hideWheelResult() {
+    const r = document.getElementById('wheelResult');
+    if (r) r.style.display = 'none';
+    wheelWinner = null;
+  }
+
+  /* ── Spin ── */
+  window.wheelSpin = function () {
+    if (wheelSpinning || wheelNames.length === 0) return;
+    wheelSpinning = true;
+    hideWheelResult();
+
+    const spinBtn = document.getElementById('wheelSpinBtn');
+    if (spinBtn) spinBtn.disabled = true;
+
+    // Pick random winner index
+    const winnerIdx    = Math.floor(Math.random() * wheelNames.length);
+    const sliceAngle   = (Math.PI * 2) / wheelNames.length;
+    // We want the center of the winning slice to land at the top pointer (−π/2)
+    // Pointer is at top = -π/2; sector center = wheelAngle + winnerIdx*sliceAngle + sliceAngle/2
+    // We need that to equal -π/2 + 2πk for some integer k, solved for targetAngle:
+    const extraSpins   = 5 + Math.floor(Math.random() * 4); // 5–8 full rotations
+    const targetOffset = -Math.PI / 2 - (winnerIdx * sliceAngle + sliceAngle / 2);
+    const targetAngle  = targetOffset - extraSpins * Math.PI * 2;
+
+    const startAngle  = wheelAngle;
+    const totalDelta  = targetAngle - startAngle;
+    const duration    = 3500; // ms
+    const startTime   = performance.now();
+
+    function easeOut(t) {
+      return 1 - Math.pow(1 - t, 4);
+    }
+
+    function animate(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      wheelAngle = startAngle + totalDelta * easeOut(t);
+      drawWheel();
+
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        wheelAngle = targetAngle;
+        drawWheel();
+        wheelSpinning = false;
+        wheelWinner   = winnerIdx;
+        playWinSound();
+        showWheelResult(wheelNames[winnerIdx]);
+        if (spinBtn) spinBtn.disabled = false;
+      }
+    }
+
+    requestAnimationFrame(animate);
+  };
+
+  function showWheelResult(name) {
+    const resultEl = document.getElementById('wheelResult');
+    const nameEl   = document.getElementById('wheelResultName');
+    if (!resultEl || !nameEl) return;
+    nameEl.textContent = name;
+    resultEl.style.display = 'block';
+    resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /* ── Keep winner ── */
+  window.wheelKeep = function () {
+    hideWheelResult();
+  };
+
+  /* ── Remove winner ── */
+  window.wheelRemoveWinner = function () {
+    if (wheelWinner === null) return;
+    wheelNames.splice(wheelWinner, 1);
+    wheelWinner = null;
+    renderNameList();
+    hideWheelResult();
+  };
+
+  /* ── Init wheel tab handler ── */
+  const _origSwitchTab = window.switchTab;
+  window.switchTab = function (n) {
+    _origSwitchTab(n);
+    if (n === 6) { drawWheel(); renderNameList(); }
+  };
+
+  /* ── Initial draw (DOM is already ready at script execution time) ── */
+  drawWheel();
+  renderNameList();
+})();
 
 /* ═══════════════════════════════════════════════════
    BOOT
