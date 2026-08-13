@@ -92,124 +92,272 @@ function getPool(tool, key, list) {
   return pools[tool][key];
 }
 
-ageGroupSelect.addEventListener('change', ensureAgeSelected);
-
-tabButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    tabButtons.forEach(b => b.classList.remove('active'));
-    tabContents.forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
+// ========== TAB SWITCHING ==========
+function switchTab(index) {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  
+  tabs.forEach((t, i) => {
+    t.classList.toggle('active', i === index);
   });
-});
-
-document.getElementById('generateTitle').addEventListener('click', () => {
-  if (!ensureAgeSelected()) return;
-  const topic = document.getElementById('speechTopic').value.trim();
-  const results = document.getElementById('titleResults');
-  results.innerHTML = '';
-  if (!topic) {
-    results.innerHTML = '<li>Please enter a topic first.</li>';
-    return;
-  }
-
-  const age = ageGroupSelect.value;
-  const starters = age === '10-13'
-    ? ['Why', 'How', 'The Cool Truth About', 'What Everyone Should Know About']
-    : age === '14-18'
-      ? ['The Real Impact of', 'Breaking Myths About', 'The Future of', 'Rethinking']
-      : ['A Critical Look at', 'Beyond the Surface of', 'The Case For', 'Redefining'];
-
-  const titles = [
-    `${starters[0]} ${topic}?`,
-    `${starters[1]} ${topic} Shapes Our Choices`,
-    `${starters[2]} ${topic}`,
-    `${starters[3]} ${topic}`,
-    `${topic}: Problems, Possibilities, and Solutions`
-  ];
-
-  titles.forEach(t => {
-    const li = document.createElement('li');
-    li.textContent = t;
-    results.appendChild(li);
+  
+  panels.forEach((p, i) => {
+    p.classList.toggle('active', i === index);
   });
-});
+}
 
-document.getElementById('generateOutline').addEventListener('click', () => {
+// ========== AGE SELECTION ==========
+function setAge(btn) {
+  const ageBtns = document.querySelectorAll('.age-btn');
+  ageBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ageGroupSelect.value = btn.dataset.group;
+  ensureAgeSelected();
+}
+
+// ========== SPEECH TYPE & QUOTE TOPIC ==========
+function pickSpeechType(btn) {
+  const row = btn.parentElement;
+  row.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function pickQuoteTopic(btn) {
+  const row = btn.parentElement;
+  row.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ========== OUTLINE GENERATION ==========
+function genOutline() {
   if (!ensureAgeSelected()) return;
-  const topic = document.getElementById('outlineTopic').value.trim();
-  const output = document.getElementById('outlineResult');
-
-  if (!topic) {
-    output.textContent = 'Please enter a topic first.';
-    return;
-  }
-
+  
+  const activePill = document.querySelector('.pill.active');
+  const speechType = activePill ? activePill.dataset.stype : 'informative';
+  const outlineCard = document.getElementById('outlineCard');
+  const outlineContent = document.getElementById('outlineContent');
+  
   const age = ageGroupSelect.value;
-  const complexity = age === '10-13'
-    ? {
-      opener: 'Start with a simple question your classmates can answer.',
-      body: ['Point 1: Explain the topic in simple words.', 'Point 2: Give one real-life example.', 'Point 3: Share one lesson people can use today.'],
-      close: 'End with one clear sentence that repeats your main idea.'
-    }
-    : age === '14-18'
-      ? {
-        opener: 'Open with a strong statistic, quote, or short story.',
-        body: ['Point 1: Define the issue and why it matters.', 'Point 2: Compare different views or causes.', 'Point 3: Offer a realistic action step.'],
-        close: 'Close with a challenge or call to action for your audience.'
+  
+  const outlines = {
+    informative: {
+      middle: {
+        label: 'Informative Speech',
+        intro: 'Start with an interesting fact or question.',
+        points: ['Point 1: Explain what it is.', 'Point 2: Give examples.', 'Point 3: Explain why it matters.'],
+        conclusion: 'End by reminding them of the main idea.'
+      },
+      high: {
+        label: 'Informative Speech',
+        intro: 'Open with an engaging hook or statistic.',
+        points: ['Point 1: Define the topic and context.', 'Point 2: Provide key details with evidence.', 'Point 3: Explain real-world applications.'],
+        conclusion: 'Summarize key points and leave a lasting impression.'
+      },
+      college: {
+        label: 'Informative Speech',
+        intro: 'Begin with a compelling hook and thesis statement.',
+        points: ['Point 1: Establish theoretical framework.', 'Point 2: Present comprehensive evidence.', 'Point 3: Analyze implications and applications.'],
+        conclusion: 'Synthesize key insights and suggest areas for further exploration.'
       }
-      : {
-        opener: 'Begin with a compelling hook that establishes urgency and relevance.',
-        body: ['Point 1: Present context and key framework.', 'Point 2: Analyze implications with evidence.', 'Point 3: Propose strategic solutions and expected outcomes.'],
-        close: 'Conclude by reinforcing significance and inviting informed action.'
-      };
-
-  output.innerHTML = `
-    <strong>Topic:</strong> ${topic}<br><br>
-    <strong>Opening:</strong> ${complexity.opener}<br><br>
-    <strong>Body:</strong>
-    <ul>
-      <li>${complexity.body[0]}</li>
-      <li>${complexity.body[1]}</li>
-      <li>${complexity.body[2]}</li>
-    </ul>
-    <strong>Close:</strong> ${complexity.close}
+    },
+    persuasive: {
+      middle: {
+        label: 'Persuasive Speech',
+        intro: 'Start with a problem that needs fixing.',
+        points: ['Point 1: Why this is a problem.', 'Point 2: How to solve it.', 'Point 3: Why your solution is best.'],
+        conclusion: 'Ask your audience to take action.'
+      },
+      high: {
+        label: 'Persuasive Speech',
+        intro: 'Open with a compelling problem statement.',
+        points: ['Point 1: Establish credibility and context.', 'Point 2: Present persuasive arguments with evidence.', 'Point 3: Address counterarguments.'],
+        conclusion: 'Call to action with memorable closing statement.'
+      },
+      college: {
+        label: 'Persuasive Speech',
+        intro: 'Begin with a provocative thesis and logical framework.',
+        points: ['Point 1: Establish ethos and present primary arguments.', 'Point 2: Provide empirical evidence and logical reasoning.', 'Point 3: Refute opposing viewpoints with evidence.'],
+        conclusion: 'Reinforce persuasive message with strategic call to action.'
+      }
+    },
+    motivational: {
+      middle: {
+        label: 'Motivational Speech',
+        intro: 'Start with an inspiring story or moment.',
+        points: ['Point 1: Show the challenge.', 'Point 2: Share how it was overcome.', 'Point 3: Explain what listeners can learn.'],
+        conclusion: 'Inspire them to take on their own challenges.'
+      },
+      high: {
+        label: 'Motivational Speech',
+        intro: 'Open with a relatable personal story or universal truth.',
+        points: ['Point 1: Identify obstacles and common struggles.', 'Point 2: Share transformative insights or strategies.', 'Point 3: Connect message to audience aspirations.'],
+        conclusion: 'End with an empowering message and clear action steps.'
+      },
+      college: {
+        label: 'Motivational Speech',
+        intro: 'Begin with a powerful narrative or philosophical premise.',
+        points: ['Point 1: Examine systemic and psychological barriers.', 'Point 2: Present empirically-supported strategies for resilience.', 'Point 3: Connect personal growth to larger purpose.'],
+        conclusion: 'Inspire transformative action aligned with audience values.'
+      }
+    },
+    entertainment: {
+      middle: {
+        label: 'Entertainment Speech',
+        intro: 'Start with something funny or surprising.',
+        points: ['Point 1: Tell an engaging story.', 'Point 2: Add humor and surprise moments.', 'Point 3: Keep energy high throughout.'],
+        conclusion: 'End on a funny or memorable note.'
+      },
+      high: {
+        label: 'Entertainment Speech',
+        intro: 'Open with a witty hook or unexpected statement.',
+        points: ['Point 1: Build engaging narrative with relatable moments.', 'Point 2: Use humor strategically with timing.', 'Point 3: Maintain energy with varied pacing.'],
+        conclusion: 'Land with a memorable punchline or callback.'
+      },
+      college: {
+        label: 'Entertainment Speech',
+        intro: 'Begin with a sophisticated hook blending humor and insight.',
+        points: ['Point 1: Construct layered narrative with cultural references.', 'Point 2: Deploy humor with satirical or ironic commentary.', 'Point 3: Maintain sophisticated entertainment value.'],
+        conclusion: 'Conclude with witty resolution and audience engagement.'
+      }
+    }
+  };
+  
+  const ageMap = age === 'middle' ? 'middle' : age.includes('14') ? 'high' : 'college';
+  const outline = outlines[speechType][ageMap];
+  
+  outlineContent.innerHTML = `
+    <div class="o-label">${outline.label}</div>
+    <div class="o-section">
+      <h3>Introduction</h3>
+      <p>${outline.intro}</p>
+    </div>
+    <div class="o-section">
+      <h3>Body</h3>
+      <ul>
+        <li>${outline.points[0]}</li>
+        <li>${outline.points[1]}</li>
+        <li>${outline.points[2]}</li>
+      </ul>
+    </div>
+    <div class="o-section">
+      <h3>Conclusion</h3>
+      <p>${outline.conclusion}</p>
+    </div>
   `;
-});
+  outlineCard.style.display = 'block';
+}
 
-document.getElementById('generateImpromptu').addEventListener('click', () => {
+// ========== IMPROMPTU TOPIC GENERATION ==========
+function genTopic() {
   if (!ensureAgeSelected()) return;
+  
   const age = ageGroupSelect.value;
-  const pool = getPool('impromptu', age, data.impromptu[age]);
-  document.getElementById('impromptuResult').textContent = pool.next();
-});
+  const ageKey = age === 'middle' ? '10-13' : age === 'high' ? '14-18' : '18+';
+  const pool = getPool('impromptu', ageKey, data.impromptu[ageKey]);
+  const result = pool.next();
+  
+  const topicCard = document.getElementById('topicCard');
+  const topicText = document.getElementById('topicText');
+  const topicNotice = document.getElementById('topicNotice');
+  
+  topicText.textContent = result.split(':').slice(1).join(':').trim();
+  topicCard.style.display = 'block';
+  
+  if (result.cycled) {
+    topicNotice.classList.add('show');
+  } else {
+    topicNotice.classList.remove('show');
+  }
+}
 
-document.getElementById('generateJoke').addEventListener('click', () => {
+// ========== WORD OF THE DAY ==========
+function genWord() {
   if (!ensureAgeSelected()) return;
+  
   const age = ageGroupSelect.value;
-  const pool = getPool('jokes', age, data.jokes[age]);
-  document.getElementById('jokeResult').textContent = pool.next();
-});
-
-document.getElementById('generateWord').addEventListener('click', () => {
-  if (!ensureAgeSelected()) return;
-  const age = ageGroupSelect.value;
-  const pool = getPool('words', age, data.words[age]);
+  const ageKey = age === 'middle' ? '10-13' : age === 'high' ? '14-18' : '18+';
+  const pool = getPool('words', ageKey, data.words[ageKey]);
   const word = pool.next();
-  document.getElementById('wordResult').innerHTML = `
-    <strong>${word.word}</strong><br>
-    Definition: ${word.definition}<br>
-    Pronunciation: ${word.pronunciation}<br>
-    Example: ${word.example}
-  `;
-});
+  
+  const wordCard = document.getElementById('wordCard');
+  const wWord = document.getElementById('wWord');
+  const wPron = document.getElementById('wPron');
+  const wDef = document.getElementById('wDef');
+  const wEx = document.getElementById('wEx');
+  const wordNotice = document.getElementById('wordNotice');
+  
+  wWord.textContent = word.word;
+  wPron.textContent = word.pronunciation;
+  wDef.textContent = word.definition;
+  wEx.textContent = word.example;
+  wordCard.style.display = 'block';
+  
+  if (result.cycled) {
+    wordNotice.classList.add('show');
+  } else {
+    wordNotice.classList.remove('show');
+  }
+}
 
-document.getElementById('generateQuote').addEventListener('click', () => {
+// ========== JOKE OF THE DAY ==========
+function genJoke() {
   if (!ensureAgeSelected()) return;
-  const topic = document.getElementById('quoteTopic').value;
-  const pool = getPool('quotes', topic, data.quotes[topic]);
-  document.getElementById('quoteResult').textContent = pool.next();
-});
+  
+  const age = ageGroupSelect.value;
+  const ageKey = age === 'middle' ? '10-13' : age === 'high' ? '14-18' : '18+';
+  const pool = getPool('jokes', ageKey, data.jokes[ageKey]);
+  const joke = pool.next();
+  
+  const jokeCard = document.getElementById('jokeCard');
+  const jokeText = document.getElementById('jokeText');
+  const jokeNotice = document.getElementById('jokeNotice');
+  
+  jokeText.textContent = joke.split(':').slice(1).join(':').trim();
+  jokeCard.style.display = 'block';
+  
+  if (joke.cycled) {
+    jokeNotice.classList.add('show');
+  } else {
+    jokeNotice.classList.remove('show');
+  }
+}
+
+// ========== QUOTE OF THE DAY ==========
+function genQuote() {
+  if (!ensureAgeSelected()) return;
+  
+  const activePill = document.querySelector('#quoteTopicRow .pill.active');
+  const quoteTopic = activePill ? activePill.dataset.qtopic : 'speaking';
+  const topicMap = {
+    'speaking': 'publicSpeaking',
+    'leadership': 'leadership',
+    'confidence': 'confidence',
+    'communication': 'publicSpeaking',
+    'courage': 'publicSpeaking',
+    'success': 'publicSpeaking'
+  };
+  
+  const key = topicMap[quoteTopic] || 'publicSpeaking';
+  const pool = getPool('quotes', key, data.quotes[key]);
+  const quote = pool.next();
+  
+  const quoteCard = document.getElementById('quoteCard');
+  const qText = document.getElementById('qText');
+  const qAuthor = document.getElementById('qAuthor');
+  const quoteNotice = document.getElementById('quoteNotice');
+  
+  qText.textContent = quote.split(':').slice(1).join(':').trim();
+  qAuthor.textContent = '— SpeakSmart';
+  quoteCard.style.display = 'block';
+  
+  if (quote.cycled) {
+    quoteNotice.classList.add('show');
+  } else {
+    quoteNotice.classList.remove('show');
+  }
+}
+
+ageGroupSelect.addEventListener('change', ensureAgeSelected);
 
 // ========== NAME WHEEL FUNCTIONALITY ==========
 
