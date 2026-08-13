@@ -309,6 +309,169 @@
     .q-text::after  { content:'\201D'; margin-left: 4px; }
     .q-author { text-align:center; color:var(--accent); font-weight:600; font-size:0.97rem; }
 
+    /* ── SPIN WHEEL ─────────────────────────────── */
+    .wheel-tools { display: grid; gap: 14px; }
+    .wheel-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .wheel-btn {
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.1s, opacity 0.18s;
+    }
+    .wheel-btn:active { transform: scale(0.98); }
+    .wheel-btn-main {
+      background: var(--accent);
+      color: var(--dark);
+      padding: 11px 16px;
+      white-space: nowrap;
+    }
+    .wheel-btn-main:hover { background: var(--accent-h); }
+    .wheel-btn-danger {
+      background: rgba(201,168,76,0.14);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+    }
+    .wheel-btn-danger:hover { background: rgba(201,168,76,0.2); }
+    .name-counter {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: -4px;
+    }
+    .wheel-names-wrap {
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .wheel-names-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .wheel-names-head h3 {
+      font-size: 0.88rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .wheel-names-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-height: 190px;
+      overflow-y: auto;
+      padding-right: 3px;
+    }
+    .wheel-empty-note { color: var(--muted); font-size: 0.92rem; }
+    .wheel-name-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,0.14);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 8px 5px 12px;
+      min-width: 0;
+      max-width: 100%;
+      font-size: 0.92rem;
+    }
+    .wheel-name-chip span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .wheel-chip-remove {
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--accent);
+      width: 24px;
+      height: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1;
+      flex: 0 0 auto;
+    }
+    .wheel-chip-remove:hover { background: rgba(201,168,76,0.18); }
+    .wheel-canvas-wrap {
+      margin-top: 4px;
+      display: flex;
+      justify-content: center;
+    }
+    .wheel-canvas-box {
+      position: relative;
+      width: min(92vw, 430px);
+      aspect-ratio: 1/1;
+    }
+    #wheelCanvas {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--section);
+      border: 2px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .wheel-pointer {
+      position: absolute;
+      left: 50%;
+      top: -2px;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 13px solid transparent;
+      border-right: 13px solid transparent;
+      border-top: 24px solid var(--accent);
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.35));
+      z-index: 2;
+    }
+    .wheel-actions { display: grid; gap: 10px; }
+    .wheel-spin-btn {
+      padding: 13px 14px;
+      font-size: 1rem;
+      letter-spacing: 0.4px;
+      width: 100%;
+    }
+    .wheel-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .wheel-result {
+      margin-top: 6px;
+      text-align: center;
+    }
+    .wheel-result-label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+    }
+    .wheel-result-name {
+      color: var(--accent);
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 6px 0 14px;
+      word-break: break-word;
+    }
+    .wheel-result-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
     /* ── COUNTER & NOTICE ─────────────────────── */
     .counter { text-align:center; color:rgba(255,255,255,0.3); font-size:0.78rem; margin-top:14px; }
     .notice  {
@@ -345,6 +508,9 @@
       .w-word { font-size: 1.7rem; }
       .topic-text { font-size: 1.12rem; }
       .q-text { font-size: 1.05rem; }
+      .wheel-input-row { grid-template-columns: 1fr; }
+      .wheel-result-actions { grid-template-columns: 1fr; }
+      .wheel-result-name { font-size: 1.55rem; }
     }
   </style>
 </head>
@@ -380,6 +546,7 @@
     <button class="tab-btn"        onclick="switchTab(3)"><span class="tab-icon">📖</span>Word</button>
     <button class="tab-btn"        onclick="switchTab(4)"><span class="tab-icon">😄</span>Joke</button>
     <button class="tab-btn"        onclick="switchTab(5)"><span class="tab-icon">💬</span>Quote</button>
+    <button class="tab-btn"        onclick="switchTab(6)"><span class="tab-icon">🎯</span>Wheel</button>
   </div>
 
     <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
@@ -493,6 +660,52 @@
       <div class="q-author" id="qAuthor"></div>
       <div class="counter"  id="quoteCounter"></div>
       <div class="notice"   id="quoteNotice">🎉 You've seen all quotes for this topic! Shuffling for a fresh round…</div>
+    </div>
+  </div>
+
+  <!-- ── PANEL 6 · SPIN WHEEL ─────────────────────── -->
+  <div class="panel" id="p6">
+    <div class="panel-title">🎯 Spin Wheel</div>
+    <div class="panel-sub">Add up to 50 names, spin, and pick someone at random.</div>
+    <div class="wheel-tools">
+      <div class="field" style="margin-bottom:0">
+        <label for="wheelNameInput">Add Name</label>
+        <div class="wheel-input-row">
+          <input id="wheelNameInput" type="text" maxlength="50" placeholder="Type a name and press Enter" />
+          <button class="wheel-btn wheel-btn-main" id="wheelAddBtn" type="button">Add Name</button>
+        </div>
+      </div>
+      <div class="name-counter" id="wheelNameCounter">Names added: 0/50</div>
+
+      <div class="wheel-names-wrap">
+        <div class="wheel-names-head">
+          <h3>Names</h3>
+          <button class="wheel-btn wheel-btn-danger" id="wheelClearAllBtn" type="button">Clear All</button>
+        </div>
+        <ul class="wheel-names-list" id="wheelNamesList" aria-live="polite">
+          <li class="wheel-empty-note" id="wheelEmptyMsg">No names yet. Add names to start.</li>
+        </ul>
+      </div>
+
+      <div class="wheel-canvas-wrap">
+        <div class="wheel-canvas-box">
+          <div class="wheel-pointer" aria-hidden="true"></div>
+          <canvas id="wheelCanvas" width="420" height="420"></canvas>
+        </div>
+      </div>
+
+      <div class="wheel-actions">
+        <button class="btn wheel-spin-btn" id="wheelSpinBtn" type="button" disabled>🎯 Spin the Wheel</button>
+      </div>
+
+      <div class="card wheel-result" id="wheelResult" style="display:none">
+        <div class="wheel-result-label">Selected name</div>
+        <div class="wheel-result-name" id="wheelSelectedName"></div>
+        <div class="wheel-result-actions">
+          <button class="wheel-btn wheel-btn-danger" id="wheelRemoveSelectedBtn" type="button">Remove Selected Name</button>
+          <button class="wheel-btn wheel-btn-main" id="wheelSpinAgainBtn" type="button">Spin Again</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1806,10 +2019,326 @@ function genQuote() {
 }
 
 /* ═══════════════════════════════════════════════════
+   TAB 7 — SPIN WHEEL
+═══════════════════════════════════════════════════ */
+class SpinWheel {
+  constructor() {
+    this.maxNames = 50;
+    this.names = [];
+    this.selectedName = '';
+    this.rotation = 0;
+    this.isSpinning = false;
+    this.colors = [
+      '#C9A84C','#D7B965','#E2C889','#F0D9AA','#CDAF72','#B38F45',
+      '#8E6A2E','#5A79A8','#4E8BA8','#4AA37D','#8C7FC0','#AB6FA3'
+    ];
+
+    this.input = document.getElementById('wheelNameInput');
+    this.addBtn = document.getElementById('wheelAddBtn');
+    this.counter = document.getElementById('wheelNameCounter');
+    this.clearAllBtn = document.getElementById('wheelClearAllBtn');
+    this.namesList = document.getElementById('wheelNamesList');
+    this.canvas = document.getElementById('wheelCanvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.spinBtn = document.getElementById('wheelSpinBtn');
+    this.resultCard = document.getElementById('wheelResult');
+    this.selectedNameEl = document.getElementById('wheelSelectedName');
+    this.removeSelectedBtn = document.getElementById('wheelRemoveSelectedBtn');
+    this.spinAgainBtn = document.getElementById('wheelSpinAgainBtn');
+
+    this.bindEvents();
+    this.resizeCanvas();
+    this.render();
+  }
+
+  bindEvents() {
+    this.addBtn.addEventListener('click', () => this.addName());
+    this.input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        this.addName();
+      }
+    });
+    this.clearAllBtn.addEventListener('click', () => this.clearAllNames());
+    this.spinBtn.addEventListener('click', () => this.spin());
+    this.removeSelectedBtn.addEventListener('click', () => this.removeSelectedName());
+    this.spinAgainBtn.addEventListener('click', () => this.hideResult());
+    window.addEventListener('resize', () => this.resizeCanvas());
+  }
+
+  normalizeName(name) {
+    return name.trim().replace(/\s+/g, ' ');
+  }
+
+  addName() {
+    const normalized = this.normalizeName(this.input.value);
+    if (!normalized) {
+      alert('Please enter a name.');
+      return;
+    }
+    if (normalized.length > 50) {
+      alert('Name is too long (maximum 50 characters).');
+      return;
+    }
+    const exists = this.names.some((name) => name.toLowerCase() === normalized.toLowerCase());
+    if (exists) {
+      alert('That name is already on the wheel.');
+      return;
+    }
+    if (this.names.length >= this.maxNames) {
+      alert('You can add up to 50 names.');
+      return;
+    }
+
+    this.names.push(normalized);
+    this.input.value = '';
+    this.hideResult();
+    this.render();
+  }
+
+  removeName(index) {
+    this.names.splice(index, 1);
+    if (!this.names.length) this.rotation = 0;
+    this.hideResult();
+    this.render();
+  }
+
+  clearAllNames() {
+    if (!this.names.length) {
+      alert('There are no names to clear.');
+      return;
+    }
+    if (!confirm('Clear all names from the wheel?')) return;
+    this.names = [];
+    this.rotation = 0;
+    this.hideResult();
+    this.render();
+  }
+
+  removeSelectedName() {
+    if (!this.selectedName) return;
+    const index = this.names.findIndex((name) => name === this.selectedName);
+    if (index !== -1) {
+      this.removeName(index);
+    } else {
+      this.hideResult();
+    }
+  }
+
+  hideResult() {
+    this.selectedName = '';
+    this.resultCard.style.display = 'none';
+    this.updateButtons();
+  }
+
+  updateButtons() {
+    this.spinBtn.disabled = this.isSpinning || this.names.length === 0;
+    this.clearAllBtn.disabled = this.isSpinning || this.names.length === 0;
+    this.addBtn.disabled = this.isSpinning || this.names.length >= this.maxNames;
+    this.input.disabled = this.isSpinning || this.names.length >= this.maxNames;
+  }
+
+  renderList() {
+    this.namesList.innerHTML = '';
+    if (!this.names.length) {
+      const li = document.createElement('li');
+      li.className = 'wheel-empty-note';
+      li.id = 'wheelEmptyMsg';
+      li.textContent = 'No names yet. Add names to start.';
+      this.namesList.appendChild(li);
+      return;
+    }
+
+    this.names.forEach((name, index) => {
+      const li = document.createElement('li');
+      li.className = 'wheel-name-chip';
+
+      const label = document.createElement('span');
+      label.textContent = name;
+      li.appendChild(label);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'wheel-chip-remove';
+      removeBtn.setAttribute('aria-label', `Remove ${name}`);
+      removeBtn.textContent = '×';
+      removeBtn.addEventListener('click', () => this.removeName(index));
+      li.appendChild(removeBtn);
+      this.namesList.appendChild(li);
+    });
+  }
+
+  drawEmptyWheel() {
+    const { ctx, wheelCenterX, wheelCenterY, wheelRadius } = this;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.beginPath();
+    ctx.fillStyle = '#1A2F5E';
+    ctx.arc(wheelCenterX, wheelCenterY, wheelRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#C9A84C';
+    ctx.lineWidth = Math.max(2, wheelRadius * 0.014);
+    ctx.stroke();
+
+    ctx.fillStyle = '#C9A84C';
+    ctx.font = `600 ${Math.max(14, wheelRadius * 0.1)}px Segoe UI`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Add names to start', wheelCenterX, wheelCenterY);
+  }
+
+  truncateName(name, maxLen = 14) {
+    return name.length > maxLen ? `${name.slice(0, maxLen - 3)}...` : name;
+  }
+
+  drawWheel() {
+    if (!this.names.length) {
+      this.drawEmptyWheel();
+      return;
+    }
+
+    const { ctx, wheelCenterX, wheelCenterY, wheelRadius } = this;
+    const sliceAngle = (Math.PI * 2) / this.names.length;
+    const pointerAngle = -Math.PI / 2;
+    const textRadius = wheelRadius * 0.68;
+
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    this.names.forEach((name, index) => {
+      const start = this.rotation + pointerAngle + (index * sliceAngle);
+      const end = start + sliceAngle;
+
+      ctx.beginPath();
+      ctx.moveTo(wheelCenterX, wheelCenterY);
+      ctx.arc(wheelCenterX, wheelCenterY, wheelRadius, start, end);
+      ctx.closePath();
+      ctx.fillStyle = this.colors[index % this.colors.length];
+      ctx.fill();
+      ctx.lineWidth = Math.max(1.5, wheelRadius * 0.01);
+      ctx.strokeStyle = 'rgba(7,26,47,0.8)';
+      ctx.stroke();
+
+      const textAngle = start + sliceAngle / 2;
+      const textX = wheelCenterX + Math.cos(textAngle) * textRadius;
+      const textY = wheelCenterY + Math.sin(textAngle) * textRadius;
+
+      ctx.save();
+      ctx.translate(textX, textY);
+      ctx.rotate(textAngle + Math.PI / 2);
+      ctx.fillStyle = '#071A2F';
+      ctx.font = `700 ${Math.max(10, wheelRadius * 0.09)}px Segoe UI`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.truncateName(name), 0, 0);
+      ctx.restore();
+    });
+
+    ctx.beginPath();
+    ctx.arc(wheelCenterX, wheelCenterY, Math.max(16, wheelRadius * 0.12), 0, Math.PI * 2);
+    ctx.fillStyle = '#071A2F';
+    ctx.fill();
+    ctx.lineWidth = Math.max(2, wheelRadius * 0.016);
+    ctx.strokeStyle = '#C9A84C';
+    ctx.stroke();
+  }
+
+  selectNameFromRotation() {
+    const count = this.names.length;
+    const slice = (Math.PI * 2) / count;
+    const normalized = ((this.rotation % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+    const offset = (Math.PI * 2 - normalized) % (Math.PI * 2);
+    const index = Math.floor(offset / slice) % count;
+    return this.names[index];
+  }
+
+  spin() {
+    if (!this.names.length || this.isSpinning) return;
+
+    this.isSpinning = true;
+    this.hideResult();
+    this.updateButtons();
+
+    const startRotation = this.rotation;
+    const fullRotations = 5 + Math.random() * 3;
+    const randomOffset = Math.random() * Math.PI * 2;
+    const targetRotation = startRotation + fullRotations * Math.PI * 2 + randomOffset;
+    const duration = 3000 + Math.random() * 1000;
+    const startTime = performance.now();
+
+    const animate = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      this.rotation = startRotation + (targetRotation - startRotation) * eased;
+      this.drawWheel();
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+        return;
+      }
+
+      this.rotation = targetRotation;
+      this.drawWheel();
+      this.selectedName = this.selectNameFromRotation();
+      this.selectedNameEl.textContent = this.selectedName;
+      this.resultCard.style.display = 'block';
+      this.playCompleteSound();
+      this.isSpinning = false;
+      this.updateButtons();
+    };
+
+    requestAnimationFrame(animate);
+  }
+
+  playCompleteSound() {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const context = new AudioCtx();
+      const oscillator = context.createOscillator();
+      const gain = context.createGain();
+      oscillator.type = 'triangle';
+      oscillator.frequency.setValueAtTime(880, context.currentTime);
+      gain.gain.setValueAtTime(0.001, context.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.22, context.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.3);
+      oscillator.connect(gain);
+      gain.connect(context.destination);
+      oscillator.start();
+      oscillator.stop(context.currentTime + 0.32);
+      oscillator.onended = () => context.close().catch(() => {});
+    } catch (err) {
+      // Audio is optional; ignore unsupported environments.
+    }
+  }
+
+  resizeCanvas() {
+    const box = this.canvas.parentElement;
+    const cssSize = Math.max(260, Math.min(430, Math.floor(box.clientWidth)));
+    const dpr = window.devicePixelRatio || 1;
+    this.canvas.style.width = `${cssSize}px`;
+    this.canvas.style.height = `${cssSize}px`;
+    this.canvas.width = Math.floor(cssSize * dpr);
+    this.canvas.height = Math.floor(cssSize * dpr);
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.scale(dpr, dpr);
+    this.wheelCenterX = cssSize / 2;
+    this.wheelCenterY = cssSize / 2;
+    this.wheelRadius = (cssSize / 2) - 6;
+    this.drawWheel();
+  }
+
+  render() {
+    this.counter.textContent = `Names added: ${this.names.length}/${this.maxNames}`;
+    this.renderList();
+    this.updateButtons();
+    this.drawWheel();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
    BOOT
 ═══════════════════════════════════════════════════ */
 initAll();
+new SpinWheel();
 </script>
 </body>
 </html>
-
