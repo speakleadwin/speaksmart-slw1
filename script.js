@@ -210,3 +210,228 @@ document.getElementById('generateQuote').addEventListener('click', () => {
   const pool = getPool('quotes', topic, data.quotes[topic]);
   document.getElementById('quoteResult').textContent = pool.next();
 });
+
+/* ── Name Wheel ─────────────────────────────────────────── */
+(function () {
+  const MAX_NAMES = 50;
+  const COLORS = [
+    '#1a6b8a', '#2e86ab', '#a23b72', '#f18f01', '#c73e1d',
+    '#3b1f2b', '#44bba4', '#e94f37', '#393e41', '#d4b483',
+    '#3c91e6', '#fa7921', '#9b2335', '#006494', '#6b4226',
+    '#7b2d8b', '#1a7a4a', '#c05640', '#5c4033', '#2c5f2e'
+  ];
+
+  let names = [];
+  let spinning = false;
+  let selectedIndex = null;
+
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+  const nameInput = document.getElementById('wheelNameInput');
+  const addBtn = document.getElementById('wheelAddBtn');
+  const statusEl = document.getElementById('wheelStatus');
+  const countEl = document.getElementById('wheelCount');
+  const nameList = document.getElementById('wheelNameList');
+  const clearAllBtn = document.getElementById('wheelClearAllBtn');
+  const spinBtn = document.getElementById('wheelSpinBtn');
+  const resultBox = document.getElementById('wheelResult');
+  const resultName = document.getElementById('wheelResultName');
+  const removeBtn = document.getElementById('wheelRemoveBtn');
+  const againBtn = document.getElementById('wheelAgainBtn');
+
+  /* ── Web Audio beep ── */
+  function playBeep() {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.6);
+    } catch (e) { /* silently ignore if audio not available */ }
+  }
+
+  /* ── Wheel drawing ── */
+  function drawWheel(rotationAngle) {
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const radius = cx - 4;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (names.length === 0) {
+      ctx.fillStyle = '#1A2F5E';
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#d7dff3';
+      ctx.font = '16px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Add names to spin!', cx, cy);
+      return;
+    }
+
+    const slice = (2 * Math.PI) / names.length;
+    names.forEach((name, i) => {
+      const start = rotationAngle + i * slice;
+      const end = start + slice;
+      /* segment */
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, start, end);
+      ctx.closePath();
+      ctx.fillStyle = COLORS[i % COLORS.length];
+      ctx.fill();
+      ctx.strokeStyle = '#071A2F';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      /* label */
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(start + slice / 2);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `bold ${names.length > 20 ? 10 : 13}px Arial`;
+      ctx.textBaseline = 'middle';
+      const maxLen = 14;
+      const label = name.length > maxLen ? name.slice(0, maxLen - 1) + '…' : name;
+      ctx.fillText(label, radius - 8, 0);
+      ctx.restore();
+    });
+
+    /* center circle */
+    ctx.beginPath();
+    ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+    ctx.fillStyle = '#071A2F';
+    ctx.fill();
+    ctx.strokeStyle = '#C9A84C';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  /* ── UI helpers ── */
+  function updateUI() {
+    countEl.textContent = `Names: ${names.length} / ${MAX_NAMES}`;
+    spinBtn.disabled = names.length < 2 || spinning;
+    nameList.innerHTML = '';
+    names.forEach((name, i) => {
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.textContent = name;
+      const btn = document.createElement('button');
+      btn.textContent = '✕';
+      btn.className = 'wheel-name-remove';
+      btn.title = `Remove ${name}`;
+      btn.addEventListener('click', () => removeName(i));
+      li.appendChild(span);
+      li.appendChild(btn);
+      nameList.appendChild(li);
+    });
+    drawWheel(0);
+  }
+
+  function setStatus(msg, isError) {
+    statusEl.textContent = msg;
+    statusEl.style.color = isError ? '#f7a4a4' : '#f7df9a';
+  }
+
+  function removeName(index) {
+    names.splice(index, 1);
+    hideResult();
+    updateUI();
+  }
+
+  function hideResult() {
+    selectedIndex = null;
+    resultBox.hidden = true;
+    resultName.textContent = '';
+  }
+
+  /* ── Add name ── */
+  function addName() {
+    const val = nameInput.value.trim();
+    if (!val) { setStatus('Please enter a name.', true); return; }
+    if (names.length >= MAX_NAMES) { setStatus(`Maximum of ${MAX_NAMES} names reached.`, true); return; }
+    if (names.some(n => n.toLowerCase() === val.toLowerCase())) {
+      setStatus(`"${val}" is already in the list.`, true); return;
+    }
+    names.push(val);
+    nameInput.value = '';
+    setStatus('');
+    updateUI();
+  }
+
+  addBtn.addEventListener('click', addName);
+  nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') addName(); });
+
+  clearAllBtn.addEventListener('click', () => {
+    if (names.length === 0) return;
+    names = [];
+    hideResult();
+    updateUI();
+  });
+
+  /* ── Spin ── */
+  spinBtn.addEventListener('click', () => {
+    if (spinning || names.length < 2) return;
+    hideResult();
+    spinning = true;
+    spinBtn.disabled = true;
+
+    /* pick a target index randomly */
+    const targetIndex = Math.floor(Math.random() * names.length);
+    const slice = (2 * Math.PI) / names.length;
+
+    /* We want the pointer (top = -π/2) to land on the middle of targetIndex's slice.
+       targetAngle is the rotation so that segment centers at the top. */
+    const extraSpins = (3 + Math.random()) * 2 * Math.PI; /* 3–4 full rotations */
+    const targetAngle = -(targetIndex * slice + slice / 2) - Math.PI / 2;
+    const totalAngle = extraSpins + ((targetAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+
+    const duration = 3500; /* ms */
+    const startTime = performance.now();
+
+    function ease(t) {
+      /* cubic ease-out */
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function animate(now) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const angle = ease(t) * totalAngle;
+      drawWheel(angle);
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        spinning = false;
+        selectedIndex = targetIndex;
+        playBeep();
+        resultName.textContent = `🎉 ${names[targetIndex]}`;
+        resultBox.hidden = false;
+        spinBtn.disabled = names.length < 2;
+      }
+    }
+
+    requestAnimationFrame(animate);
+  });
+
+  removeBtn.addEventListener('click', () => {
+    if (selectedIndex !== null) {
+      removeName(selectedIndex);
+    }
+  });
+
+  againBtn.addEventListener('click', () => {
+    hideResult();
+    spinBtn.disabled = names.length < 2;
+  });
+
+  /* initial draw */
+  drawWheel(0);
+})();
