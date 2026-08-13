@@ -406,8 +406,9 @@ document.getElementById('generateQuote').addEventListener('click', () => {
       const normalised = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
       const currentSlice = Math.floor(((Math.PI * 2 - normalised) % (Math.PI * 2)) / slice);
       if (currentSlice !== lastTickSlice) {
-        const speed = progress < 0.9 ? 0.3 : 1; // quieter during fast spin
-        if (Math.random() < speed) playTick(660 + currentSlice * 30, 0.03);
+        // During the fast part of the spin, only play a fraction of ticks to avoid noise overload
+        const tickProbability = progress < 0.9 ? 0.3 : 1;
+        if (Math.random() < tickProbability) playTick(660 + currentSlice * 30, 0.03);
         lastTickSlice = currentSlice;
       }
 
@@ -423,8 +424,8 @@ document.getElementById('generateQuote').addEventListener('click', () => {
         resultText.textContent = `🎉 ${winner} is selected!`;
         resultDiv.hidden = false;
 
-        // Store winner index so remove button knows which to remove
-        removeBtn.dataset.winner = winner;
+        // Store winner index so remove button knows which exact entry to remove
+        removeBtn.dataset.winnerIndex = winnerIndex;
         playWinSound();
       }
     }
@@ -434,8 +435,8 @@ document.getElementById('generateQuote').addEventListener('click', () => {
 
   // ── After result: Remove or Keep ───────────────────────────────────────────
   removeBtn.addEventListener('click', () => {
-    const winner = removeBtn.dataset.winner;
-    names = names.filter(n => n !== winner);
+    const winnerIndex = parseInt(removeBtn.dataset.winnerIndex, 10);
+    names.splice(winnerIndex, 1);
     afterNamesChange();
   });
 
