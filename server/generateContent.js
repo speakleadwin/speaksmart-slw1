@@ -59,11 +59,18 @@ function parseJsonSafely(raw) {
   }
 }
 
+/**
+ * Proxy Endpoint: /api/generate
+ * Frontend sends requests to this endpoint without exposing the API key.
+ * Server attaches GEMINI_API_KEY from .env and calls Gemini API securely.
+ */
 router.post("/api/generate", async (req, res) => {
   try {
+    // Load API key from environment variables (never exposed to client)
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ ok: false, error: "Missing GEMINI_API_KEY" });
+      console.error("Missing GEMINI_API_KEY in environment variables");
+      return res.status(500).json({ ok: false, error: "Server configuration error" });
     }
 
     const { type, topic = "" } = req.body || {};
@@ -80,15 +87,18 @@ router.post("/api/generate", async (req, res) => {
       return res.status(400).json({ ok: false, error: "Invalid type" });
     }
 
+    // Initialize Gemini API with securely stored API key
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
       model: MODEL,
       systemInstruction: SYSTEM_RULES
     });
 
+    // Call Gemini API (server-side only)
     const result = await model.generateContent(promptByType[type]);
     const raw = result?.response?.text?.() || "";
 
+    // Parse and validate response
     const parsed = parseJsonSafely(raw);
     if (!parsed) {
       return res.json({ ok: true, data: fallback(type), source: "fallback_json_parse" });
@@ -99,8 +109,10 @@ router.post("/api/generate", async (req, res) => {
       return res.json({ ok: true, data: fallback(type), source: "fallback_safety_filter" });
     }
 
+    // Return safe content to frontend
     return res.json({ ok: true, data: parsed, source: "gemini" });
-  } catch (_err) {
+  } catch (err) {
+    console.error("Error in /api/generate:", err);
     return res.json({ ok: true, data: fallback(req.body?.type || "topic"), source: "fallback_error" });
   }
 });

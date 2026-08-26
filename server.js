@@ -1,7 +1,11 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 import generateContentRouter from "./server/generateContent.js";
+
+// Load environment variables from .env file
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +19,7 @@ app.use(express.json());
 // Static files (frontend)
 app.use(express.static(path.join(__dirname, ".")));
 
-// API routes
+// API routes - Proxy endpoint for Gemini API
 app.use(generateContentRouter);
 
 // Fallback to index.html for SPA routing
