@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const router = express.Router();
 
-const MODEL = "gemini-3.5-flash-lite";
+const MODEL = "gemini-2.0-flash";
 
 const SYSTEM_RULES = `
 You are generating professional, workplace-safe content for a public speaking app.
