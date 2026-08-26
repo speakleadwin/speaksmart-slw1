@@ -1,343 +1,499 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SpeakSmart</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpeakSmart — SLW Academy</title>
+  <style>
+    :root {
+      --bg:       #071A2F;
+      --accent:   #C9A84C;
+      --text:     #FFFFFF;
+      --section:  #1A2F5E;
+      --dark:     #0A1F38;
+      --accent-h: #dfc06a;
+      --muted:    rgba(255,255,255,0.55);
+      --border:   rgba(201,168,76,0.25);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ───────────────────────────────── */
+    header {
+      background: var(--dark);
+      padding: 22px 20px 18px;
+      text-align: center;
+      border-bottom: 3px solid var(--accent);
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .logo-svg { flex-shrink: 0; }
+    .logo-name {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .brand { font-size: 2.6rem; font-weight: 800; letter-spacing: 1px; }
+    .brand span { color: var(--accent); }
+    .tagline { color: var(--muted); font-size: 0.95rem; margin-top: 4px; }
+
+    /* ── AGE SELECTOR ─────────────────────────── */
+    .age-bar {
+      background: var(--section);
+      padding: 14px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .age-label {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .age-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .age-btn {
+      padding: 9px 22px;
+      border: 2px solid var(--accent);
+      background: transparent;
+      color: var(--text);
+      border-radius: 24px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: background 0.18s, color 0.18s;
+    }
+    .age-btn:hover, .age-btn.active {
+      background: var(--accent);
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    /* ── WRAPPER ──────────────────────────────── */
+    .wrapper {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    /* ── TAB BAR ──────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      overflow-x: auto;
+      background: var(--dark);
+      border-bottom: 2px solid var(--section);
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      padding: 13px 14px 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.78rem;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      min-width: 72px;
+      transition: color 0.18s;
+    }
+    .tab-icon { font-size: 1.3rem; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── PANELS ───────────────────────────────── */
+    .panel { display: none; padding: 26px 0 40px; }
+    .panel.active { display: block; }
+    .panel-title  { font-size: 1.55rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+    .panel-sub    { color: var(--muted); font-size: 0.88rem; margin-bottom: 22px; }
+
+    /* ── INPUTS ───────────────────────────────── */
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 7px;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 11px 15px;
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.97rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.18s;
+    }
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    textarea::placeholder, input::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ── PILL SELECTORS ───────────────────────── */
+    .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .pill {
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.83rem;
+      font-family: inherit;
+      transition: all 0.18s;
+    }
+    .pill:hover, .pill.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(201,168,76,0.08);
+    }
+
+    /* ── PRIMARY BUTTON ───────────────────────── */
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 0.5px;
+      transition: background 0.18s, transform 0.1s;
+    }
+    .btn:hover  { background: var(--accent-h); }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ── RESULT CARD ──────────────────────────── */
+    .card {
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px 18px;
+      margin-top: 20px;
+      animation: fadeUp 0.28s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── TITLE LIST ───────────────────────────── */
+    .title-list { list-style: none; }
+    .title-list li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+    .title-list li:last-child { border-bottom: none; }
+    .tnum { color: var(--accent); font-weight: 700; min-width: 22px; }
+
+    /* ── OUTLINE ──────────────────────────────── */
+    .o-section { margin-bottom: 22px; }
+    .o-section h3 {
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding-bottom: 7px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .o-section ul { list-style: none; }
+    .o-section ul li {
+      padding: 5px 0 5px 18px;
+      position: relative;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.96rem;
+      line-height: 1.45;
+    }
+    .o-section ul li::before { content:'▸'; position:absolute; left:0; color:var(--accent); }
+    .o-section ul ul { padding-left: 16px; margin-top: 4px; }
+    .o-section ul ul li::before { content:'–'; color:rgba(201,168,76,0.5); }
+    .o-label {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      color: var(--accent);
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    /* ── TOPIC DISPLAY ────────────────────────── */
+    .topic-text {
+      font-size: 1.35rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.55;
+      padding: 8px 0;
+    }
+
+    /* ── WORD OF THE DAY ─────────────────────── */
+    .w-word  { font-size: 2.1rem; font-weight: 800; color: var(--accent); margin-bottom: 2px; }
+    .w-pron  { color: var(--muted); font-style: italic; font-size: 0.97rem; margin-bottom: 16px; }
+    .w-def   {
+      font-size: 1rem;
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .w-ex    { color: rgba(255,255,255,0.68); font-style: italic; font-size: 0.93rem; line-height: 1.5; }
+    .w-ex strong { color: var(--accent); font-style: normal; }
+
+    /* ── JOKE ─────────────────────────────────── */
+    .joke-text {
+      font-size: 1.18rem;
+      text-align: center;
+      line-height: 1.75;
+      padding: 6px 0;
+    }
+
+    /* ── QUOTE ────────────────────────────────── */
+    .q-text {
+      font-size: 1.22rem;
+      line-height: 1.7;
+      font-style: italic;
+      text-align: center;
+      padding: 4px 10px 14px;
+      position: relative;
+    }
+    .q-text::before,
+    .q-text::after {
+      font-style: normal;
+      font-size: 2.4rem;
+      color: var(--accent);
+      line-height: 0;
+      vertical-align: -0.4rem;
+    }
+    .q-text::before { content:'\201C'; margin-right: 4px; }
+    .q-text::after  { content:'\201D'; margin-left: 4px; }
+    .q-author { text-align:center; color:var(--accent); font-weight:600; font-size:0.97rem; }
+
+    /* ── COUNTER & NOTICE ─────────────────────── */
+    .counter { text-align:center; color:rgba(255,255,255,0.3); font-size:0.78rem; margin-top:14px; }
+    .notice  {
+      margin-top: 12px;
+      padding: 9px 14px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--accent);
+      font-size: 0.87rem;
+      text-align: center;
+      display: none;
+    }
+    .notice.show { display: block; }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      background: var(--dark);
+      padding: 18px 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.35);
+      font-size: 0.82rem;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ───────────────────────────── */
+    @media (max-width: 560px) {
+      .brand { font-size: 1.9rem; }
+      .tab-btn { min-width: 58px; padding: 11px 8px 8px; font-size: 0.72rem; }
+      .tab-icon { font-size: 1.15rem; }
+      .panel-title { font-size: 1.28rem; }
+      .w-word { font-size: 1.7rem; }
+      .topic-text { font-size: 1.12rem; }
+      .q-text { font-size: 1.05rem; }
+    }
+  </style>
 </head>
 <body>
-  <script>
-    // =====================================================
-    // Shared API helper + UI helpers
-    // =====================================================
-    async function aiGenerate(type, topic = "") {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, topic })
-      });
 
-      if (!res.ok) {
-        const err = new Error(`API error ${res.status}`);
-        err.status = res.status;
-        err.retryAfterMs = parseRetryAfterMs(res);
-        throw err;
-      }
+<!-- ═══════════════════  HEADER  ═══════════════════ -->
+<header>
+  <div class="logo-row">
+   <img src="slw_acadamy.jpg" alt="Speak Lead Win Academy Logo" class="logo" style="width:100px;height:auto;" />
+  </div>
+  <div class="brand">Speak<span>Smart</span></div>
+  <div class="tagline">Your free public speaking toolkit</div>
+</header>
 
-      const payload = await res.json();
-      if (!payload?.ok || !payload?.data) {
-        const err = new Error("Invalid API payload");
-        err.status = 500;
-        throw err;
-      }
-      return payload;
-    }
+<!-- ═══════════════════  AGE BAR  ══════════════════ -->
+<div class="age-bar">
+  <div class="age-label">Select Your Age Group</div>
+  <div class="age-btns">
+    <button class="age-btn active" data-group="middle"  onclick="setAge(this)">Ages 10–13 · Middle School</button>
+    <button class="age-btn"        data-group="high"    onclick="setAge(this)">Ages 14–18 · High School</button>
+    <button class="age-btn"        data-group="college" onclick="setAge(this)">Ages 18+ · College &amp; Professionals</button>
+  </div>
+</div>
 
-    function showEl(id) {
-      const el = document.getElementById(id);
-      if (el) el.style.display = "";
-    }
+<!-- ═══════════════════  MAIN  ══════════════════════ -->
+<div class="wrapper">
 
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value ?? "";
-    }
+  <!-- TAB BAR -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" onclick="switchTab(0)"><span class="tab-icon">🏷️</span>Titles</button>
+    <button class="tab-btn"        onclick="switchTab(1)"><span class="tab-icon">📝</span>Outline</button>
+    <button class="tab-btn"        onclick="switchTab(2)"><span class="tab-icon">🎲</span>Topics</button>
+    <button class="tab-btn"        onclick="switchTab(3)"><span class="tab-icon">📖</span>Word</button>
+    <button class="tab-btn"        onclick="switchTab(4)"><span class="tab-icon">😄</span>Joke</button>
+    <button class="tab-btn"        onclick="switchTab(5)"><span class="tab-icon">💬</span>Quote</button>
+  </div>
 
-    // =====================================================
-    // Lightweight toast messages
-    // =====================================================
-    (function ensureToastHost() {
-      if (document.getElementById("toastHost")) return;
-      const host = document.createElement("div");
-      host.id = "toastHost";
-      host.setAttribute("aria-live", "polite");
-      host.style.position = "fixed";
-      host.style.right = "16px";
-      host.style.bottom = "16px";
-      host.style.zIndex = "9999";
-      host.style.display = "flex";
-      host.style.flexDirection = "column";
-      host.style.gap = "8px";
-      document.body.appendChild(host);
-    })();
+    <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
+    <div class="panel active" id="p0">
+        <div class="panel-title">🏷️ Speech Title Generator</div>
+        <div class="panel-sub">Check out this website!</div>
+        <div>
+            <a
+                    class="btn"
+                    href="https://www.summarizer.org/title-generator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="display:inline-block; text-align:center; text-decoration:none;"
+            >
+                Click me!
+            </a>
+        </div>
+    </div>
+    
+  <!-- ── PANEL 1 · SPEECH OUTLINE GENERATOR ───────── -->
+<div class="panel" id="p1">
+  <div class="panel-title">📝 Speech Outline Generator</div>
+  <div class="panel-sub">Choose a speech type to get a structured outline.</div>
+  <div class="field">
+    <label>Speech Type</label>
+    <div class="pill-row" id="speechTypeRow">
+      <button class="pill active" data-stype="informative"  onclick="pickSpeechType(this)">Informative</button>
+      <button class="pill"        data-stype="persuasive"   onclick="pickSpeechType(this)">Persuasive</button>
+      <button class="pill"        data-stype="motivational" onclick="pickSpeechType(this)">Motivational</button>
+      <button class="pill"        data-stype="entertainment" onclick="pickSpeechType(this)">Entertainment</button>
+    </div>
+  </div>
+  <button class="btn" onclick="genOutline()">📋 Generate Outline</button>
+  <div class="card" id="outlineCard" style="display:none">
+    <div id="outlineContent"></div>
+  </div>
+</div>
 
-    function showToast(message, type = "info", ms = 1800) {
-      const host = document.getElementById("toastHost");
-      if (!host) return;
+<!-- ── PANEL 2 · IMPROMPTU TOPIC GENERATOR ──────── -->
+  <div class="panel" id="p2">
+    <div class="panel-title">🎲 Impromptu Topic Generator</div>
+    <div class="panel-sub">Practice thinking on your feet. Hit Generate for a random speaking topic!</div>
+    <button class="btn" onclick="genTopic()">🎲 Generate Impromptu Topic</button>
+    <div class="card" id="topicCard" style="display:none">
+      <div class="topic-text" id="topicText"></div>
+      <div class="counter"    id="topicCounter"></div>
+      <div class="notice"     id="topicNotice">🎉 You've seen all 50 topics! Shuffling for a fresh round…</div>
+    </div>
+  </div>
 
-      const t = document.createElement("div");
-      t.textContent = message;
-      t.style.padding = "10px 12px";
-      t.style.borderRadius = "10px";
-      t.style.fontSize = "14px";
-      t.style.boxShadow = "0 6px 18px rgba(0,0,0,.15)";
-      t.style.background = "#1f2937";
-      t.style.color = "#fff";
-      t.style.opacity = "0";
-      t.style.transform = "translateY(6px)";
-      t.style.transition = "all .18s ease";
+  <!-- ── PANEL 3 · WORD OF THE DAY ────────────────── -->
+  <div class="panel" id="p3">
+    <div class="panel-title">📖 Word of the Day</div>
+    <div class="panel-sub">Expand your vocabulary with a powerful new word each time you click.</div>
+    <button class="btn" onclick="genWord()">📖 Get Word of the Day</button>
+    <div class="card" id="wordCard" style="display:none">
+      <div class="w-word" id="wWord"></div>
+      <div class="w-pron" id="wPron"></div>
+      <div class="w-def"  id="wDef"></div>
+      <div class="w-ex">
+        <strong>Example:</strong> <span id="wEx"></span>
+      </div>
+      <div class="counter" id="wordCounter"></div>
+      <div class="notice"  id="wordNotice">🎉 You've seen all 50 words! Shuffling for a fresh round…</div>
+    </div>
+  </div>
 
-      if (type === "success") t.style.background = "#166534";
-      if (type === "warn") t.style.background = "#92400e";
-      if (type === "error") t.style.background = "#991b1b";
+  <!-- ── PANEL 4 · JOKE OF THE DAY ────────────────── -->
+  <div class="panel" id="p4">
+    <div class="panel-title">😄 Joke of the Day</div>
+    <div class="panel-sub">A clean, age-appropriate joke to bring some laughter to your day.</div>
+    <button class="btn" onclick="genJoke()">😄 Tell Me a Joke!</button>
+    <div class="card" id="jokeCard" style="display:none">
+      <div class="joke-text" id="jokeText"></div>
+      <div class="counter"   id="jokeCounter"></div>
+      <div class="notice"    id="jokeNotice">🎉 You've heard all 50 jokes! Shuffling for a fresh round…</div>
+    </div>
+  </div>
 
-      host.appendChild(t);
-      requestAnimationFrame(() => {
-        t.style.opacity = "1";
-        t.style.transform = "translateY(0)";
-      });
+  <!-- ── PANEL 5 · QUOTE OF THE DAY ───────────────── -->
+  <div class="panel" id="p5">
+    <div class="panel-title">💬 Quote of the Day</div>
+    <div class="panel-sub">Get an inspiring quote to fuel your public speaking journey.</div>
+    <div class="field">
+      <label>Choose a Topic</label>
+      <div class="pill-row" id="quoteTopicRow">
+        <button class="pill active" data-qtopic="speaking"      onclick="pickQuoteTopic(this)">Public Speaking</button>
+        <button class="pill"        data-qtopic="leadership"    onclick="pickQuoteTopic(this)">Leadership</button>
+        <button class="pill"        data-qtopic="confidence"    onclick="pickQuoteTopic(this)">Confidence</button>
+        <button class="pill"        data-qtopic="communication" onclick="pickQuoteTopic(this)">Communication</button>
+        <button class="pill"        data-qtopic="courage"       onclick="pickQuoteTopic(this)">Courage</button>
+        <button class="pill"        data-qtopic="success"       onclick="pickQuoteTopic(this)">Success</button>
+      </div>
+    </div>
+    <button class="btn" onclick="genQuote()">💬 Get Inspired</button>
+    <div class="card" id="quoteCard" style="display:none">
+      <div class="q-text"   id="qText"></div>
+      <div class="q-author" id="qAuthor"></div>
+      <div class="counter"  id="quoteCounter"></div>
+      <div class="notice"   id="quoteNotice">🎉 You've seen all quotes for this topic! Shuffling for a fresh round…</div>
+    </div>
+  </div>
 
-      setTimeout(() => {
-        t.style.opacity = "0";
-        t.style.transform = "translateY(6px)";
-        setTimeout(() => t.remove(), 180);
-      }, ms);
-    }
+</div><!-- /.wrapper -->
 
-    // =====================================================
-    // Rate limiting + retry/backoff
-    // =====================================================
-    const RL_MIN_INTERVAL_MS = 1500;
-    const RL_COOLDOWN_MS = 1200;
-    const RETRY_MAX_ATTEMPTS = 3;
-    const RETRY_BASE_MS = 400;
+<!-- ═══════════════════  FOOTER  ════════════════════ -->
+<footer>
+  Built by SLW Technology Intern &middot; SLW Academy Digital Intern 2026 &middot;
+  <a href="https://speakleadwinacademy.com" target="_blank" rel="noopener">speakleadwinacademy.com</a>
+</footer>
 
-    const _rlState = new Map();
-    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+<!-- ═══════════════════  SCRIPT  ════════════════════ -->
+<script src="script.js"></script>
 
-    function parseRetryAfterMs(response) {
-      const h = response?.headers?.get?.("Retry-After");
-      if (!h) return null;
-
-      const seconds = Number(h);
-      if (!Number.isNaN(seconds) && seconds >= 0) return Math.round(seconds * 1000);
-
-      const at = Date.parse(h);
-      if (!Number.isNaN(at)) {
-        const ms = at - Date.now();
-        return ms > 0 ? ms : 0;
-      }
-      return null;
-    }
-
-    function _now() { return Date.now(); }
-
-    function _getState(key) {
-      if (!_rlState.has(key)) {
-        _rlState.set(key, { lastAt: 0, inFlight: false, cooldownUntil: 0 });
-      }
-      return _rlState.get(key);
-    }
-
-    function _remainingCooldownMs(key) {
-      const s = _getState(key);
-      return Math.max(0, s.cooldownUntil - _now());
-    }
-
-    function _setButtonBusy(btn, labelBusy = "Generating...") {
-      if (!btn) return;
-      if (!btn.dataset.origText) btn.dataset.origText = btn.textContent;
-      btn.disabled = true;
-      btn.textContent = labelBusy;
-    }
-
-    function _restoreButton(btn) {
-      if (!btn) return;
-      btn.disabled = false;
-      btn.textContent = btn.dataset.origText || btn.textContent;
-    }
-
-    function _setButtonCooldown(btn, ms) {
-      if (!btn) return;
-      const orig = btn.dataset.origText || btn.textContent;
-      const end = _now() + ms;
-      btn.disabled = true;
-
-      const tick = () => {
-        const left = Math.max(0, end - _now());
-        if (left <= 0) {
-          btn.disabled = false;
-          btn.textContent = orig;
-          return;
-        }
-        btn.textContent = `${orig} (${Math.ceil(left / 1000)}s)`;
-        requestAnimationFrame(tick);
-      };
-      tick();
-    }
-
-    async function withRetry(fn, opts = {}) {
-      const maxAttempts = opts.maxAttempts ?? RETRY_MAX_ATTEMPTS;
-      const baseMs = opts.baseMs ?? RETRY_BASE_MS;
-      const maxDelayMs = opts.maxDelayMs ?? 15000;
-
-      let lastErr;
-      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        try {
-          return await fn();
-        } catch (err) {
-          lastErr = err;
-          if (attempt >= maxAttempts) break;
-
-          const status = err?.status;
-          const transient = [429, 500, 502, 503, 504].includes(status) ||
-            String(err?.message || "").includes("Failed to fetch") ||
-            String(err?.message || "").includes("NetworkError");
-
-          if (!transient) break;
-
-          let delay;
-          if (status === 429 && Number.isFinite(err?.retryAfterMs)) {
-            delay = err.retryAfterMs;
-          } else {
-            const jitter = Math.floor(Math.random() * 150);
-            delay = baseMs * Math.pow(2, attempt - 1) + jitter;
-          }
-
-          delay = Math.max(100, Math.min(delay, maxDelayMs));
-          showToast("Retrying…", "info", 1000);
-          await sleep(delay);
-        }
-      }
-      throw lastErr;
-    }
-
-    async function runGuardedAction({ key, btn, busyLabel = "Generating...", run }) {
-      const s = _getState(key);
-      const now = _now();
-
-      if (s.inFlight) {
-        showToast("Please wait…", "warn", 1200);
-        return { blocked: true, reason: "in_flight" };
-      }
-
-      if (now - s.lastAt < RL_MIN_INTERVAL_MS) {
-        showToast("Please wait…", "warn", 1200);
-        const wait = RL_MIN_INTERVAL_MS - (now - s.lastAt);
-        if (btn) _setButtonCooldown(btn, Math.min(wait, RL_COOLDOWN_MS));
-        return { blocked: true, reason: "rate_limited" };
-      }
-
-      const remain = _remainingCooldownMs(key);
-      if (remain > 0) {
-        showToast("Please wait…", "warn", 1200);
-        if (btn) _setButtonCooldown(btn, Math.min(remain, RL_COOLDOWN_MS));
-        return { blocked: true, reason: "cooldown" };
-      }
-
-      s.inFlight = true;
-      s.lastAt = now;
-      s.cooldownUntil = now + RL_COOLDOWN_MS;
-      _setButtonBusy(btn, busyLabel);
-
-      try {
-        const out = await withRetry(run);
-        return { blocked: false, result: out };
-      } finally {
-        s.inFlight = false;
-        const remaining = _remainingCooldownMs(key);
-        if (btn && remaining > 0) {
-          _setButtonCooldown(btn, remaining);
-        } else {
-          _restoreButton(btn);
-        }
-      }
-    }
-
-    // =====================================================
-    // Generators (wired to existing ids)
-    // =====================================================
-    let selectedQuoteTopic = "public speaking";
-
-    function pickQuoteTopic(btn) {
-      const row = document.getElementById("quoteTopicRow");
-      if (row) row.querySelectorAll(".pill").forEach((p) => p.classList.remove("active"));
-      btn.classList.add("active");
-      selectedQuoteTopic = btn.dataset.qtopic || "public speaking";
-    }
-
-    async function genTopic() {
-      const btn = document.querySelector("#p2 .btn");
-      const guard = await runGuardedAction({ key: "topic", btn, run: async () => aiGenerate("topic") });
-      if (guard.blocked) return;
-      try {
-        const { data, source } = guard.result;
-        setText("topicText", data.text || "Describe a lesson learned from teamwork.");
-        showEl("topicCard");
-        if (source !== "gemini") showToast("Using safe fallback", "warn", 1800);
-      } catch {
-        setText("topicText", "Describe a lesson learned from teamwork.");
-        showEl("topicCard");
-      }
-    }
-
-    async function genWord() {
-      const btn = document.querySelector("#p3 .btn");
-      const guard = await runGuardedAction({ key: "word", btn, run: async () => aiGenerate("word") });
-      if (guard.blocked) return;
-      try {
-        const { data, source } = guard.result;
-        setText("wWord", data.word || "Articulate");
-        setText("wPron", data.pronunciation || "ar-TIK-yuh-lit");
-        setText("wDef", data.definition || "Able to express ideas clearly.");
-        setText("wEx", data.example || "She gave an articulate project update.");
-        showEl("wordCard");
-        if (source !== "gemini") showToast("Using safe fallback", "warn", 1800);
-      } catch {
-        setText("wWord", "Articulate");
-        setText("wPron", "ar-TIK-yuh-lit");
-        setText("wDef", "Able to express ideas clearly.");
-        setText("wEx", "She gave an articulate project update.");
-        showEl("wordCard");
-      }
-    }
-
-    async function genJoke() {
-      const btn = document.querySelector("#p4 .btn");
-      const guard = await runGuardedAction({ key: "joke", btn, run: async () => aiGenerate("joke") });
-      if (guard.blocked) return;
-      try {
-        const { data, source } = guard.result;
-        setText("jokeText", data.text || "Why did the speaker bring a pencil? To draw attention.");
-        showEl("jokeCard");
-        if (source !== "gemini") showToast("Using safe fallback", "warn", 1800);
-      } catch {
-        setText("jokeText", "Why did the speaker bring a pencil? To draw attention.");
-        showEl("jokeCard");
-      }
-    }
-
-    async function genQuote() {
-      const btn = document.querySelector("#p5 .btn");
-      const guard = await runGuardedAction({ key: "quote", btn, run: async () => aiGenerate("quote", selectedQuoteTopic) });
-      if (guard.blocked) return;
-      try {
-        const { data, source } = guard.result;
-        setText("quoteText", data.text || "Small consistent effort builds speaking confidence.");
-        setText("quoteAuthor", data.author ? `— ${data.author}` : "— Unknown");
-        showEl("quoteCard");
-        if (source !== "gemini") showToast("Using safe fallback", "warn", 1800);
-      } catch {
-        setText("quoteText", "Small consistent effort builds speaking confidence.");
-        setText("quoteAuthor", "— Unknown");
-        showEl("quoteCard");
-      }
-    }
-
-    async function genSpeechTitle() {
-      const btn = document.querySelector("#p6 .btn");
-      const guard = await runGuardedAction({ key: "speechTitle", btn, run: async () => aiGenerate("speechTitle") });
-      if (guard.blocked) return;
-      try {
-        const { data, source } = guard.result;
-        setText("speechTitleText", data.text || "Speak with Clarity: Turning Ideas into Impact");
-        showEl("speechTitleCard");
-        if (source !== "gemini") showToast("Using safe fallback", "warn", 1800);
-      } catch {
-        setText("speechTitleText", "Speak with Clarity: Turning Ideas into Impact");
-        showEl("speechTitleCard");
-      }
-    }
-  </script>
 </body>
 </html>
