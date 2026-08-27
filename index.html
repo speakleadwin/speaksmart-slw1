@@ -3127,7 +3127,7 @@ function l2AdminLogin() {
   const pass = (document.getElementById('adminPassInput').value || '').trim();
   const err = document.getElementById('adminLoginErr');
   if (pass !== l2AdminPass()) {
-    err.textContent = '❌ Incorrect passcode. Try: SLW-ADMIN-2026';
+    err.textContent = '❌ Incorrect passcode. Please check the access hint below.';
     err.style.display = 'block';
     return;
   }
@@ -3145,13 +3145,16 @@ function l2StudentLogin() {
     err.style.display = 'block';
     return;
   }
-  const allEntities = [...l2Programs(), ...l2Clubs()];
+  const programs = l2Programs();
+  const clubs = l2Clubs();
+  const allEntities = [...programs, ...clubs];
   const entity = allEntities.find(e => e.code.toUpperCase() === code);
   if (!entity) {
     err.textContent = '❌ Code not found. Ask your admin for the correct code.';
     err.style.display = 'block';
     return;
   }
+  const entityType = programs.some(p => p.id === entity.id) ? 'program' : 'club';
   const roster = l2Students().filter(s => s.entityId === entity.id);
   const student = roster.find(s => s.username.toLowerCase() === username.toLowerCase());
   if (!student) {
@@ -3160,7 +3163,7 @@ function l2StudentLogin() {
     return;
   }
   err.style.display = 'none';
-  l2SetUser({ role: 'student', username: student.username, displayName: student.displayName, entityId: entity.id, entityType: l2Programs().find(p=>p.id===entity.id) ? 'program' : 'club', entityName: entity.name });
+  l2SetUser({ role: 'student', username: student.username, displayName: student.displayName, entityId: entity.id, entityType, entityName: entity.name });
   l2ShowDash();
 }
 
@@ -3247,8 +3250,11 @@ function adminDeleteEntity(type, id) {
   if (!confirm('Delete this ' + type + '? This will also remove its students and sessions.')) return;
   if (type === 'program') { l2SavePrograms(l2Programs().filter(p => p.id !== id)); renderAdminPrograms(); renderProgramList(); }
   if (type === 'club')    { l2SaveClubs(l2Clubs().filter(c => c.id !== id)); renderAdminClubs(); renderClubList(); }
+  const remainingSessions = l2Sessions().filter(s => s.entityId !== id);
+  const removedSessionIds = new Set(l2Sessions().filter(s => s.entityId === id).map(s => s.id));
   l2SaveStudents(l2Students().filter(s => s.entityId !== id));
-  l2SaveSessions(l2Sessions().filter(s => s.entityId !== id));
+  l2SaveSessions(remainingSessions);
+  l2SaveScores(l2Scores().filter(sc => !removedSessionIds.has(sc.sessionId)));
 }
 
 /* ── clubs ── */
@@ -3533,9 +3539,12 @@ function renderStudentSignup() {
   const user = l2GetUser();
   const el = document.getElementById('studentSignupContent');
   if (!el || !user) return;
+  const todayStr = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
   const sessions = l2Sessions().filter(s => s.entityId === user.entityId)
     .slice().sort((a,b) => a.date.localeCompare(b.date));
-  const upcoming = sessions.filter(s => !s.speechSlots.every(sl=>sl.studentUsername));
+  const upcoming = sessions.filter(s =>
+    s.date >= todayStr && !s.speechSlots.every(sl=>sl.studentUsername)
+  );
   if (!upcoming.length) {
     el.innerHTML = '<div style="color:var(--muted)">No upcoming sessions with open speech slots.</div>';
     return;
@@ -3566,19 +3575,32 @@ function renderStudentSignup() {
 
     ${next.roleOpen ? `
       <div class="section-h">Role Signup</div>
-      ${SESSION_ROLES.map(role => {
-        const taken = next.roles && next.roles[role];
-        const mine = taken === user.username;
-        return `
-        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
-          <div style="flex:1">${l2EscHtml(role)}</div>
-          ${taken
-            ? `<span style="color:${mine?'var(--accent)':'var(--muted)'};font-size:0.85rem">${mine?'✅ You':'👤 '+l2EscHtml(taken)}</span>`
-            : `<button class="btn-sm" onclick="studentClaimRole('${next.id}','${l2EscHtml(role)}')">Take Role</button>`}
-        </div>`;
-      }).join('')}
+      <div id="roleSignupRows">
+        ${SESSION_ROLES.map((role, ri) => {
+          const taken = next.roles && next.roles[role];
+          const mine = taken === user.username;
+          return `
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+            <div style="flex:1">${l2EscHtml(role)}</div>
+            ${taken
+              ? `<span style="color:${mine?'var(--accent)':'var(--muted)'};font-size:0.85rem">${mine?'✅ You':'👤 '+l2EscHtml(taken)}</span>`
+              : `<button class="btn-sm" data-session="${next.id}" data-role-idx="${ri}">Take Role</button>`}
+          </div>`;
+        }).join('')}
+      </div>
     ` : '<div style="color:var(--muted);font-size:0.87rem;margin-top:12px">Role signup is currently closed by admin.</div>'}
   `;
+
+  /* Attach role-claim handlers via data attributes (avoids inline string injection) */
+  el.querySelectorAll('[data-role-idx]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const idx = parseInt(this.dataset.roleIdx, 10);
+      const sid = this.dataset.session;
+      if (!isNaN(idx) && idx >= 0 && idx < SESSION_ROLES.length) {
+        studentClaimRole(sid, SESSION_ROLES[idx]);
+      }
+    });
+  });
 }
 
 function studentClaimSlot(sessionId, slotIndex) {
