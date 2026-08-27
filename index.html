@@ -2342,3 +2342,258 @@ new SpinWheel();
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeakSmart - SLW</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>SpeakSmart</h1>
+    <p class="subtitle">Website for topic generation and enhancement of speech.</p>
+  </header>
+
+  <main class="container">
+    <!-- =========================
+         LAYER 1: KEEP AS-IS AREA
+         ========================= -->
+    <section class="card layer1">
+      <h2>Public Free Toolkit (No Login)</h2>
+      <p class="muted">
+        Keep your current toolkit implementation unchanged. This section is intentionally untouched.
+      </p>
+
+      <!-- Your existing tools can remain exactly as they are. -->
+      <div class="toolkit-grid">
+        <div class="tool-box">Speech Title Generator</div>
+        <div class="tool-box">Speech Outline Generator</div>
+        <div class="tool-box">Word of the Day</div>
+        <div class="tool-box">Joke of the Day</div>
+        <div class="tool-box">Quote / Inspiration Tool</div>
+        <div class="tool-box">Impromptu Topics / Wheel / Practice Tools</div>
+      </div>
+    </section>
+
+    <!-- =========================
+         LAYER 2: NEW ADDITIONS
+         ========================= -->
+    <section class="card layer2">
+      <h2>SLW Academy Layer (Programs & Clubs)</h2>
+      <p class="muted">
+        New operational features for academy usage. Public toolkit remains open and frictionless.
+      </p>
+
+      <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="programs">Regular SLW Programs</button>
+        <button class="tab-btn" data-tab="clubs">SLW Youth Speech & Debate Clubs</button>
+        <button class="tab-btn" data-tab="student">Student / Club Dashboard</button>
+        <button class="tab-btn" data-tab="admin">Admin Dashboard</button>
+        <button class="tab-btn" data-tab="competitions">Competitions & Showcases</button>
+      </div>
+
+      <!-- Programs -->
+      <div id="tab-programs" class="tab-panel active">
+        <h3>Regular SLW Programs</h3>
+        <ul id="programList"></ul>
+      </div>
+
+      <!-- Clubs -->
+      <div id="tab-clubs" class="tab-panel">
+        <h3>SLW Youth Speech & Debate Clubs</h3>
+        <div class="row">
+          <div>
+            <label>Club Name</label>
+            <input id="clubName" placeholder="e.g. SLW — Edison High School Speech & Debate Club" />
+          </div>
+          <div>
+            <label>Club Type</label>
+            <select id="clubType">
+              <option>Open Public Club</option>
+              <option>School-Based Club</option>
+              <option>Community Club</option>
+              <option>Partner Organization Club</option>
+              <option>Online / International Club</option>
+            </select>
+          </div>
+          <div class="align-end">
+            <button id="addClubBtn">Add Club</button>
+          </div>
+        </div>
+        <ul id="clubList"></ul>
+      </div>
+
+      <!-- Student Dashboard -->
+      <div id="tab-student" class="tab-panel">
+        <h3>Student / Club Dashboard</h3>
+        <p class="muted small">
+          Suggested login format (easy to remember): FirstName-SLW-Year (e.g., Aarav-SLW-2026).
+          Layer 1 remains public and no-login.
+        </p>
+
+        <div class="grid-2">
+          <div class="subcard">
+            <h4>Student Identity (MVP)</h4>
+            <label>Student Name</label>
+            <input id="studentName" placeholder="Enter your name" />
+            <label>Select Program or Club</label>
+            <select id="studentGroupSelect"></select>
+            <label>Select Session</label>
+            <select id="studentSessionSelect"></select>
+            <label>Speech Title</label>
+            <input id="speechTitle" placeholder="Enter your speech title" />
+            <label>Role</label>
+            <select id="roleSelect"></select>
+            <div class="actions">
+              <button id="claimSpeechBtn">Claim Speech Slot</button>
+              <button id="claimRoleBtn" class="secondary">Claim Role</button>
+            </div>
+          </div>
+
+          <div class="subcard">
+            <h4>My Upcoming Sessions</h4>
+            <ul id="myUpcomingSessions"></ul>
+            <h4>My Speech History</h4>
+            <ul id="mySpeechHistory"></ul>
+          </div>
+        </div>
+
+        <div class="subcard">
+          <h4>Leaderboard</h4>
+          <div class="leaderboards">
+            <div>
+              <h5>By Speeches Delivered</h5>
+              <ol id="lbBySpeeches"></ol>
+            </div>
+            <div>
+              <h5>By Avg Rubric Score</h5>
+              <ol id="lbByScore"></ol>
+            </div>
+            <div>
+              <h5>By Role Participation</h5>
+              <ol id="lbByRoles"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Dashboard -->
+      <div id="tab-admin" class="tab-panel">
+        <h3>Admin Dashboard</h3>
+
+        <div class="grid-2">
+          <div class="subcard">
+            <h4>Create Program</h4>
+            <label>Program Name</label>
+            <input id="programNameInput" placeholder="e.g. Level 1 — Confident Communicator" />
+            <button id="createProgramBtn">Create Program</button>
+          </div>
+
+          <div class="subcard">
+            <h4>Create Club</h4>
+            <label>Club Name</label>
+            <input id="adminClubNameInput" placeholder="e.g. SLW — Dubai Youth Speech & Debate Club" />
+            <label>Club Type</label>
+            <select id="adminClubTypeSelect">
+              <option>Open Public Club</option>
+              <option>School-Based Club</option>
+              <option>Community Club</option>
+              <option>Partner Organization Club</option>
+              <option>Online / International Club</option>
+            </select>
+            <button id="createClubBtn">Create Club</button>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="subcard">
+            <h4>Roster Management</h4>
+            <label>Choose Group</label>
+            <select id="rosterGroupSelect"></select>
+            <label>Add Student Name</label>
+            <input id="rosterStudentInput" placeholder="Student full name" />
+            <button id="addStudentBtn">Add Student</button>
+            <ul id="rosterList"></ul>
+          </div>
+
+          <div class="subcard">
+            <h4>Session Scheduling</h4>
+            <label>Choose Group</label>
+            <select id="sessionGroupSelect"></select>
+            <label>Session Date</label>
+            <input id="sessionDateInput" type="date" />
+            <label>Speech Slots (typical 4-5)</label>
+            <input id="speechSlotsInput" type="number" min="1" max="10" value="5" />
+            <button id="createSessionBtn">Create Session</button>
+            <ul id="sessionList"></ul>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="subcard">
+            <h4>Role Signup Control</h4>
+            <label>Choose Session</label>
+            <select id="adminSessionSelectForRole"></select>
+            <div class="actions">
+              <button id="openRoleSignupBtn">Open Role Signup</button>
+              <button id="closeRoleSignupBtn" class="danger">Close Role Signup</button>
+            </div>
+          </div>
+
+          <div class="subcard">
+            <h4>Rubric Score Entry</h4>
+            <label>Choose Session</label>
+            <select id="rubricSessionSelect"></select>
+            <label>Student</label>
+            <select id="rubricStudentSelect"></select>
+            <label>Score (0-100)</label>
+            <input id="rubricScoreInput" type="number" min="0" max="100" />
+            <button id="saveRubricBtn">Save Score</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Competitions -->
+      <div id="tab-competitions" class="tab-panel">
+        <h3>Competitions & Showcases (MVP Placeholder)</h3>
+        <p class="muted">Visible now, expandable in next phase.</p>
+
+        <div class="grid-2">
+          <div class="subcard">
+            <h4>Create Event</h4>
+            <label>Event Name</label>
+            <input id="eventNameInput" placeholder="SLW Speech Showcase 2026" />
+            <label>Category</label>
+            <input id="eventCategoryInput" placeholder="Prepared Speech / Debate / Impromptu" />
+            <label>Date</label>
+            <input id="eventDateInput" type="date" />
+            <button id="createEventBtn">Create Event</button>
+          </div>
+
+          <div class="subcard">
+            <h4>Register Student</h4>
+            <label>Event</label>
+            <select id="eventSelect"></select>
+            <label>Group (Batch/Club)</label>
+            <select id="eventGroupSelect"></select>
+            <label>Student</label>
+            <input id="eventStudentInput" placeholder="Student Name" />
+            <button id="registerEventBtn">Register</button>
+          </div>
+        </div>
+
+        <div class="subcard">
+          <h4>Events</h4>
+          <ul id="eventList"></ul>
+          <h4>Featured Speaker Area</h4>
+          <p id="featuredSpeakerText" class="muted">No featured speaker selected yet.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
