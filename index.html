@@ -512,6 +512,260 @@
       .wheel-result-actions { grid-template-columns: 1fr; }
       .wheel-result-name { font-size: 1.55rem; }
     }
+
+    /* ════════════════════════════════════════════
+       LAYER 2 — PROGRAMS, CLUBS, DASHBOARD, COMPS
+    ════════════════════════════════════════════ */
+
+    /* ── LAYER 2 BANNER ── */
+    .l2-banner {
+      background: rgba(201,168,76,0.07);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 22px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .l2-banner strong { color: var(--accent); }
+
+    /* ── ENTITY GRID (programs / clubs) ── */
+    .entity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .entity-card {
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 16px 14px;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .entity-card:hover { border-color: var(--accent); background: rgba(201,168,76,0.06); }
+    .entity-card.selected { border-color: var(--accent); background: rgba(201,168,76,0.10); }
+    .entity-card-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .entity-card-name { font-weight: 700; font-size: 0.97rem; margin-bottom: 4px; }
+    .entity-card-meta { color: var(--muted); font-size: 0.8rem; }
+
+    /* ── ACCESS FORM ── */
+    .access-box {
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+      margin-bottom: 20px;
+    }
+    .access-box h3 {
+      font-size: 0.88rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .access-hint {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .access-tabs { display:flex; gap:10px; margin-bottom:16px; }
+    .access-tab-btn {
+      flex: 1;
+      padding: 9px 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.86rem;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.18s;
+    }
+    .access-tab-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(201,168,76,0.08);
+    }
+
+    /* ── SMALL BUTTONS ── */
+    .btn-sm {
+      padding: 8px 14px;
+      background: var(--accent);
+      color: var(--dark);
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: inherit;
+      transition: background 0.18s;
+    }
+    .btn-sm:hover { background: var(--accent-h); }
+    .btn-outline {
+      padding: 8px 14px;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.18s;
+    }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(201,168,76,0.07); }
+    .btn-danger-sm {
+      padding: 6px 12px;
+      background: rgba(220,50,50,0.15);
+      color: #e06060;
+      border: 1px solid rgba(220,50,50,0.3);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: inherit;
+      transition: background 0.18s;
+    }
+    .btn-danger-sm:hover { background: rgba(220,50,50,0.25); }
+
+    /* ── SECTION HEADING ── */
+    .section-h {
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 22px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── DATA TABLE ── */
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.88rem; }
+    .data-table th {
+      text-align: left;
+      padding: 8px 10px;
+      color: var(--accent);
+      font-size: 0.75rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.88);
+      vertical-align: middle;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(201,168,76,0.04); }
+
+    /* ── RANK BADGES ── */
+    .rank-badge {
+      display: inline-block;
+      min-width: 26px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .rank-1 { color: #FFD700; }
+    .rank-2 { color: #C0C0C0; }
+    .rank-3 { color: #CD7F32; }
+
+    /* ── SCORE INPUT ROW ── */
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-name { flex: 1; font-size: 0.93rem; }
+    .score-input {
+      width: 70px;
+      padding: 6px 10px;
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .score-input:focus { outline: none; border-color: var(--accent); }
+
+    /* ── STATUS CHIP ── */
+    .chip {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+    }
+    .chip-open  { background: rgba(80,200,120,0.18); color: #6dda8a; border: 1px solid rgba(80,200,120,0.3); }
+    .chip-closed{ background: rgba(200,80,80,0.14);  color: #e06060; border: 1px solid rgba(200,80,80,0.25); }
+    .chip-done  { background: rgba(201,168,76,0.18); color: var(--accent); border: 1px solid var(--border); }
+
+    /* ── ADMIN PANEL INNER TABS ── */
+    .inner-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px; }
+    .inner-tab {
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.18s;
+    }
+    .inner-tab.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(201,168,76,0.08);
+    }
+
+    /* ── STUDENT SLOT CARD ── */
+    .slot-card {
+      background: var(--section);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .slot-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .slot-info { flex: 1; min-width: 0; }
+    .slot-student { font-weight: 700; font-size: 0.95rem; }
+    .slot-title { color: var(--muted); font-size: 0.82rem; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .slot-empty { color: rgba(255,255,255,0.3); font-style: italic; font-size: 0.9rem; }
+
+    /* ── RESPONSIVE LAYER 2 ── */
+    @media (max-width: 560px) {
+      .entity-grid { grid-template-columns: 1fr 1fr; }
+      .access-tabs { flex-direction: column; }
+      .inner-tabs { gap: 5px; }
+      .inner-tab { padding: 6px 10px; font-size: 0.78rem; }
+    }
   </style>
 </head>
 <body>
@@ -547,6 +801,10 @@
     <button class="tab-btn"        onclick="switchTab(4)"><span class="tab-icon">😄</span>Joke</button>
     <button class="tab-btn"        onclick="switchTab(5)"><span class="tab-icon">💬</span>Quote</button>
     <button class="tab-btn"        onclick="switchTab(6)"><span class="tab-icon">🎯</span>Wheel</button>
+    <button class="tab-btn"        onclick="switchTab(7)"><span class="tab-icon">🎓</span>Programs</button>
+    <button class="tab-btn"        onclick="switchTab(8)"><span class="tab-icon">🏫</span>Clubs</button>
+    <button class="tab-btn"        onclick="switchTab(9)"><span class="tab-icon">📊</span>Dashboard</button>
+    <button class="tab-btn"        onclick="switchTab(10)"><span class="tab-icon">🏆</span>Compete</button>
   </div>
 
     <!-- ── PANEL 0 · SPEECH TITLE GENERATOR ─────────── -->
@@ -706,6 +964,426 @@
           <button class="wheel-btn wheel-btn-main" id="wheelSpinAgainBtn" type="button">Spin Again</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 2 — PANEL 7 · PROGRAMS
+  ══════════════════════════════════════════════════════ -->
+  <div class="panel" id="p7">
+    <div class="panel-title">🎓 SLW Programs</div>
+    <div class="panel-sub">Structured public-speaking programs offered by Speak Lead Win Academy.</div>
+    <div class="l2-banner">
+      <strong>Layer 2 — Academy Platform.</strong> Free public toolkit (Titles, Outline, Word, etc.) remains open above. These program features require a Dashboard login.
+    </div>
+
+    <!-- Program type cards -->
+    <div class="section-h">Program Types</div>
+    <div class="entity-grid" id="programTypeGrid">
+      <div class="entity-card" data-ptype="level1" onclick="l2SelectProgramType(this)">
+        <div class="entity-card-icon">⭐</div>
+        <div class="entity-card-name">Level 1 — Confident Communicator</div>
+        <div class="entity-card-meta">Foundations of public speaking</div>
+      </div>
+      <div class="entity-card" data-ptype="level2" onclick="l2SelectProgramType(this)">
+        <div class="entity-card-icon">⭐⭐</div>
+        <div class="entity-card-name">Level 2 — Impact Speaker</div>
+        <div class="entity-card-meta">Persuasion &amp; storytelling</div>
+      </div>
+      <div class="entity-card" data-ptype="level3" onclick="l2SelectProgramType(this)">
+        <div class="entity-card-icon">⭐⭐⭐</div>
+        <div class="entity-card-name">Level 3 — Leadership Speaker</div>
+        <div class="entity-card-meta">Advanced leadership communication</div>
+      </div>
+      <div class="entity-card" data-ptype="workshop" onclick="l2SelectProgramType(this)">
+        <div class="entity-card-icon">🛠️</div>
+        <div class="entity-card-name">Weekend Workshop / Bootcamp</div>
+        <div class="entity-card-meta">Intensive multi-day training</div>
+      </div>
+      <div class="entity-card" data-ptype="coaching" onclick="l2SelectProgramType(this)">
+        <div class="entity-card-icon">🎯</div>
+        <div class="entity-card-name">1:1 Coaching Batch</div>
+        <div class="entity-card-meta">Personalized mentorship sessions</div>
+      </div>
+    </div>
+
+    <!-- Active programs list -->
+    <div class="section-h">Active Programs</div>
+    <div id="programListWrap">
+      <div style="color:var(--muted);font-size:0.9rem;padding:10px 0">No programs created yet. Use the Admin Dashboard to create one.</div>
+    </div>
+
+    <div style="margin-top:18px">
+      <button class="btn-outline" onclick="switchTab(9)">➡️ Go to Dashboard to Manage Programs</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 2 — PANEL 8 · CLUBS
+  ══════════════════════════════════════════════════════ -->
+  <div class="panel" id="p8">
+    <div class="panel-title">🏫 SLW Youth Speech &amp; Debate Clubs</div>
+    <div class="panel-sub">Clubs for schools, communities, online chapters, and partner organizations.</div>
+    <div class="l2-banner">
+      <strong>Layer 2 — Academy Platform.</strong> Club management requires a Dashboard login.
+    </div>
+
+    <!-- Club type cards -->
+    <div class="section-h">Club Types</div>
+    <div class="entity-grid" id="clubTypeGrid">
+      <div class="entity-card" data-ctype="open" onclick="l2SelectClubType(this)">
+        <div class="entity-card-icon">🌐</div>
+        <div class="entity-card-name">Open Public Club</div>
+        <div class="entity-card-meta">Community open enrollment</div>
+      </div>
+      <div class="entity-card" data-ctype="school" onclick="l2SelectClubType(this)">
+        <div class="entity-card-icon">🏫</div>
+        <div class="entity-card-name">School-Based Club</div>
+        <div class="entity-card-meta">e.g. Edison High School</div>
+      </div>
+      <div class="entity-card" data-ctype="community" onclick="l2SelectClubType(this)">
+        <div class="entity-card-icon">🏘️</div>
+        <div class="entity-card-name">Community Club</div>
+        <div class="entity-card-meta">Neighborhood or city chapter</div>
+      </div>
+      <div class="entity-card" data-ctype="partner" onclick="l2SelectClubType(this)">
+        <div class="entity-card-icon">🤝</div>
+        <div class="entity-card-name">Partner Organization Club</div>
+        <div class="entity-card-meta">External org partnership</div>
+      </div>
+      <div class="entity-card" data-ctype="online" onclick="l2SelectClubType(this)">
+        <div class="entity-card-icon">💻</div>
+        <div class="entity-card-name">Online / International Club</div>
+        <div class="entity-card-meta">e.g. SLW Dubai Youth Chapter</div>
+      </div>
+    </div>
+
+    <!-- Active clubs list -->
+    <div class="section-h">Active Clubs</div>
+    <div id="clubListWrap">
+      <div style="color:var(--muted);font-size:0.9rem;padding:10px 0">No clubs created yet. Use the Admin Dashboard to create one.</div>
+    </div>
+
+    <div style="margin-top:18px">
+      <button class="btn-outline" onclick="switchTab(9)">➡️ Go to Dashboard to Manage Clubs</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 2 — PANEL 9 · DASHBOARD
+  ══════════════════════════════════════════════════════ -->
+  <div class="panel" id="p9">
+    <div class="panel-title">📊 Dashboard</div>
+    <div class="panel-sub">Admin and Student platform for programs, clubs, sessions, and leaderboards.</div>
+
+    <!-- LOGIN / ACCESS BOX -->
+    <div id="l2LoginBox">
+      <div class="access-box">
+        <h3>Sign In</h3>
+        <div class="access-tabs">
+          <button class="access-tab-btn active" id="loginTabAdmin" onclick="l2SwitchLoginTab('admin')">⚙️ Admin</button>
+          <button class="access-tab-btn" id="loginTabStudent" onclick="l2SwitchLoginTab('student')">🎤 Student</button>
+        </div>
+
+        <!-- Admin login -->
+        <div id="loginFormAdmin">
+          <div class="field">
+            <label for="adminPassInput">Admin Passcode</label>
+            <input type="text" id="adminPassInput" placeholder="Enter admin passcode" autocomplete="off" />
+          </div>
+          <button class="btn" onclick="l2AdminLogin()">🔑 Sign In as Admin</button>
+          <div class="access-hint">Default passcode: <strong style="color:var(--accent)">SLW-ADMIN-2026</strong><br>Change this in the Admin Settings section after signing in.</div>
+          <div class="notice" id="adminLoginErr" style="display:none; margin-top:10px"></div>
+        </div>
+
+        <!-- Student login -->
+        <div id="loginFormStudent" style="display:none">
+          <div class="field">
+            <label for="studentCodeInput">Batch / Club Code</label>
+            <input type="text" id="studentCodeInput" placeholder="e.g. SLW-CLUB-001" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="studentNameInput">Your Username</label>
+            <input type="text" id="studentNameInput" placeholder="e.g. Aarav-SLW-2026" autocomplete="off" />
+          </div>
+          <button class="btn" onclick="l2StudentLogin()">🎤 Sign In as Student</button>
+          <div class="access-hint">Username format: <strong style="color:var(--accent)">FirstName-SLW-Year</strong> (e.g. Aarav-SLW-2026)<br>If duplicate, add last initial: AaravK-SLW-2026</div>
+          <div class="notice" id="studentLoginErr" style="display:none; margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD CONTENT (shown after login) -->
+    <div id="l2DashContent" style="display:none">
+
+      <!-- Header row -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <span style="color:var(--accent);font-weight:700" id="dashWelcome"></span>
+          <span class="chip chip-open" id="dashRoleBadge" style="margin-left:8px"></span>
+        </div>
+        <button class="btn-outline" onclick="l2Logout()">Sign Out</button>
+      </div>
+
+      <!-- ── ADMIN DASHBOARD ── -->
+      <div id="adminDash" style="display:none">
+        <div class="inner-tabs" id="adminInnerTabs">
+          <button class="inner-tab active" onclick="adminTab('programs')">🎓 Programs</button>
+          <button class="inner-tab" onclick="adminTab('clubs')">🏫 Clubs</button>
+          <button class="inner-tab" onclick="adminTab('sessions')">📅 Sessions</button>
+          <button class="inner-tab" onclick="adminTab('roster')">👥 Roster</button>
+          <button class="inner-tab" onclick="adminTab('rubric')">📝 Rubric</button>
+          <button class="inner-tab" onclick="adminTab('leaderboard')">🏆 Leaderboard</button>
+          <button class="inner-tab" onclick="adminTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <!-- PROGRAMS sub-panel -->
+        <div class="admin-sub" id="adminPrograms">
+          <div class="section-h">Create Program</div>
+          <div class="access-box">
+            <div class="field">
+              <label for="newProgName">Program Name</label>
+              <input type="text" id="newProgName" placeholder="e.g. Level 1 Batch — Fall 2026" />
+            </div>
+            <div class="field">
+              <label>Program Type</label>
+              <div class="pill-row" id="newProgTypeRow">
+                <button class="pill active" data-pt="level1" onclick="adminPickPill(this,'newProgTypeRow')">Level 1</button>
+                <button class="pill" data-pt="level2" onclick="adminPickPill(this,'newProgTypeRow')">Level 2</button>
+                <button class="pill" data-pt="level3" onclick="adminPickPill(this,'newProgTypeRow')">Level 3</button>
+                <button class="pill" data-pt="workshop" onclick="adminPickPill(this,'newProgTypeRow')">Workshop</button>
+                <button class="pill" data-pt="coaching" onclick="adminPickPill(this,'newProgTypeRow')">1:1 Coaching</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="newProgCode">Access Code (students use this to join)</label>
+              <input type="text" id="newProgCode" placeholder="e.g. SLW-PROG-001" />
+            </div>
+            <button class="btn" onclick="adminCreateProgram()">➕ Create Program</button>
+          </div>
+          <div class="section-h">Programs List</div>
+          <div id="adminProgramsList"></div>
+        </div>
+
+        <!-- CLUBS sub-panel -->
+        <div class="admin-sub" id="adminClubs" style="display:none">
+          <div class="section-h">Create Club</div>
+          <div class="access-box">
+            <div class="field">
+              <label for="newClubName">Club Name</label>
+              <input type="text" id="newClubName" placeholder="e.g. SLW — Edison High School Speech &amp; Debate Club" />
+            </div>
+            <div class="field">
+              <label>Club Type</label>
+              <div class="pill-row" id="newClubTypeRow">
+                <button class="pill active" data-ct="open" onclick="adminPickPill(this,'newClubTypeRow')">Open Public</button>
+                <button class="pill" data-ct="school" onclick="adminPickPill(this,'newClubTypeRow')">School-Based</button>
+                <button class="pill" data-ct="community" onclick="adminPickPill(this,'newClubTypeRow')">Community</button>
+                <button class="pill" data-ct="partner" onclick="adminPickPill(this,'newClubTypeRow')">Partner Org</button>
+                <button class="pill" data-ct="online" onclick="adminPickPill(this,'newClubTypeRow')">Online / Intl</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="newClubCode">Access Code</label>
+              <input type="text" id="newClubCode" placeholder="e.g. SLW-CLUB-001" />
+            </div>
+            <button class="btn" onclick="adminCreateClub()">➕ Create Club</button>
+          </div>
+          <div class="section-h">Clubs List</div>
+          <div id="adminClubsList"></div>
+        </div>
+
+        <!-- SESSIONS sub-panel -->
+        <div class="admin-sub" id="adminSessions" style="display:none">
+          <div class="section-h">Create Session</div>
+          <div class="access-box">
+            <div class="field">
+              <label>Select Program or Club</label>
+              <select id="sessionEntitySelect" style="width:100%;padding:11px 15px;background:var(--section);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.97rem;font-family:inherit">
+                <option value="">-- Choose --</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="sessionDate">Session Date</label>
+              <input type="text" id="sessionDate" placeholder="e.g. 2026-09-15" />
+            </div>
+            <div class="field">
+              <label for="sessionSlots">Number of Speech Slots</label>
+              <input type="text" id="sessionSlots" placeholder="4" />
+            </div>
+            <div class="field">
+              <label>Role Signup</label>
+              <div class="pill-row">
+                <button class="pill active" id="roleSignupToggle" onclick="this.classList.toggle('active')">Open</button>
+              </div>
+            </div>
+            <button class="btn" onclick="adminCreateSession()">📅 Create Session</button>
+          </div>
+          <div class="section-h">Sessions</div>
+          <div id="adminSessionsList"></div>
+        </div>
+
+        <!-- ROSTER sub-panel -->
+        <div class="admin-sub" id="adminRoster" style="display:none">
+          <div class="section-h">Add Student</div>
+          <div class="access-box">
+            <div class="field">
+              <label>Select Program or Club</label>
+              <select id="rosterEntitySelect" style="width:100%;padding:11px 15px;background:var(--section);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.97rem;font-family:inherit">
+                <option value="">-- Choose --</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="newStudentUsername">Student Username</label>
+              <input type="text" id="newStudentUsername" placeholder="e.g. Aarav-SLW-2026" />
+            </div>
+            <div class="field">
+              <label for="newStudentDisplay">Display Name</label>
+              <input type="text" id="newStudentDisplay" placeholder="e.g. Aarav Kumar" />
+            </div>
+            <button class="btn" onclick="adminAddStudent()">➕ Add Student</button>
+          </div>
+          <div class="section-h">Roster</div>
+          <div id="adminRosterList"></div>
+        </div>
+
+        <!-- RUBRIC sub-panel -->
+        <div class="admin-sub" id="adminRubric" style="display:none">
+          <div class="section-h">Enter Rubric Scores</div>
+          <div class="access-box">
+            <div class="field">
+              <label>Select Session</label>
+              <select id="rubricSessionSelect" style="width:100%;padding:11px 15px;background:var(--section);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.97rem;font-family:inherit">
+                <option value="">-- Choose session --</option>
+              </select>
+            </div>
+            <button class="btn-sm" onclick="adminLoadRubricForm()">Load Speakers</button>
+          </div>
+          <div id="rubricFormWrap" style="margin-top:14px"></div>
+        </div>
+
+        <!-- LEADERBOARD sub-panel -->
+        <div class="admin-sub" id="adminLeaderboard" style="display:none">
+          <div class="section-h">Leaderboard</div>
+          <div class="inner-tabs" id="lbTypeTabs" style="margin-bottom:14px">
+            <button class="inner-tab active" onclick="adminShowLeaderboard('speeches',this)">🎤 Speeches</button>
+            <button class="inner-tab" onclick="adminShowLeaderboard('score',this)">📝 Avg Score</button>
+            <button class="inner-tab" onclick="adminShowLeaderboard('roles',this)">🎭 Roles</button>
+          </div>
+          <div id="leaderboardTableWrap"></div>
+        </div>
+
+        <!-- SETTINGS sub-panel -->
+        <div class="admin-sub" id="adminSettings" style="display:none">
+          <div class="section-h">Admin Settings</div>
+          <div class="access-box">
+            <div class="field">
+              <label for="newAdminPass">Change Admin Passcode</label>
+              <input type="text" id="newAdminPass" placeholder="New passcode" autocomplete="off" />
+            </div>
+            <button class="btn" onclick="adminChangePass()">🔒 Update Passcode</button>
+            <div class="notice" id="passSavedMsg" style="display:none;margin-top:10px">✅ Passcode updated!</div>
+          </div>
+        </div>
+      </div><!-- /#adminDash -->
+
+      <!-- ── STUDENT DASHBOARD ── -->
+      <div id="studentDash" style="display:none">
+        <div class="inner-tabs" id="studentInnerTabs">
+          <button class="inner-tab active" onclick="studentTab('signup')">📝 Sign Up</button>
+          <button class="inner-tab" onclick="studentTab('sessions')">📅 Sessions</button>
+          <button class="inner-tab" onclick="studentTab('history')">📜 History</button>
+          <button class="inner-tab" onclick="studentTab('leaderboard')">🏆 Leaderboard</button>
+        </div>
+
+        <!-- SIGN UP sub-panel -->
+        <div class="student-sub" id="studentSignup">
+          <div id="studentSignupContent"></div>
+        </div>
+
+        <!-- SESSIONS sub-panel -->
+        <div class="student-sub" id="studentSessions" style="display:none">
+          <div class="section-h">Upcoming Sessions</div>
+          <div id="studentSessionsList"></div>
+        </div>
+
+        <!-- HISTORY sub-panel -->
+        <div class="student-sub" id="studentHistory" style="display:none">
+          <div class="section-h">My Speech History</div>
+          <div id="studentHistoryTable"></div>
+        </div>
+
+        <!-- LEADERBOARD sub-panel -->
+        <div class="student-sub" id="studentLeaderboard" style="display:none">
+          <div class="section-h">Leaderboard</div>
+          <div class="inner-tabs" id="sLbTypeTabs">
+            <button class="inner-tab active" onclick="studentShowLeaderboard('speeches',this)">🎤 Speeches</button>
+            <button class="inner-tab" onclick="studentShowLeaderboard('score',this)">📝 Avg Score</button>
+            <button class="inner-tab" onclick="studentShowLeaderboard('roles',this)">🎭 Roles</button>
+          </div>
+          <div id="studentLeaderboardTable" style="margin-top:12px"></div>
+        </div>
+      </div><!-- /#studentDash -->
+
+    </div><!-- /#l2DashContent -->
+  </div><!-- /#p9 -->
+
+  <!-- ══════════════════════════════════════════════════════
+       LAYER 2 — PANEL 10 · COMPETITIONS & SHOWCASES
+  ══════════════════════════════════════════════════════ -->
+  <div class="panel" id="p10">
+    <div class="panel-title">🏆 Competitions &amp; Showcases</div>
+    <div class="panel-sub">Speech competitions, debate events, student showcases, and featured speakers.</div>
+    <div class="l2-banner">
+      <strong>Coming soon — MVP Placeholder.</strong> Full competition management is planned for a future release. Structure is in place and ready for expansion.
+    </div>
+
+    <div class="section-h">Competition &amp; Event Types</div>
+    <div class="entity-grid">
+      <div class="entity-card">
+        <div class="entity-card-icon">🎤</div>
+        <div class="entity-card-name">Speech Competition</div>
+        <div class="entity-card-meta">Individual prepared &amp; impromptu</div>
+      </div>
+      <div class="entity-card">
+        <div class="entity-card-icon">⚖️</div>
+        <div class="entity-card-name">Debate Tournament</div>
+        <div class="entity-card-meta">Team &amp; individual formats</div>
+      </div>
+      <div class="entity-card">
+        <div class="entity-card-icon">🌟</div>
+        <div class="entity-card-name">Student Showcase</div>
+        <div class="entity-card-meta">Featured speaker performances</div>
+      </div>
+      <div class="entity-card">
+        <div class="entity-card-icon">🎖️</div>
+        <div class="entity-card-name">Awards Ceremony</div>
+        <div class="entity-card-meta">Recognition &amp; graduation</div>
+      </div>
+    </div>
+
+    <div class="section-h">Planned Features</div>
+    <div class="access-box" style="margin-bottom:0">
+      <ul style="list-style:none;line-height:2;color:rgba(255,255,255,0.8);font-size:0.93rem">
+        <li>✅ Event creation with date, category, and host club</li>
+        <li>✅ Student registration by batch or club</li>
+        <li>✅ Category selection (e.g. Persuasive, Humorous, Debate)</li>
+        <li>✅ Rubric score entry per participant</li>
+        <li>✅ Winner tracking and rankings</li>
+        <li>✅ Featured speaker spotlight area</li>
+        <li style="color:var(--muted)">🔜 Live scoreboard</li>
+        <li style="color:var(--muted)">🔜 Certificate generation</li>
+        <li style="color:var(--muted)">🔜 Inter-club competitions</li>
+      </ul>
+    </div>
+
+    <div id="compEventsList" style="margin-top:20px">
+      <div class="section-h">Upcoming Events</div>
+      <div style="color:var(--muted);font-size:0.9rem;padding:10px 0">No events scheduled yet. Admin can create events from the Dashboard.</div>
+    </div>
+
+    <div style="margin-top:18px">
+      <button class="btn-outline" onclick="switchTab(9)">➡️ Go to Dashboard to Create Events</button>
     </div>
   </div>
 
@@ -2335,10 +3013,715 @@ class SpinWheel {
 }
 
 /* ═══════════════════════════════════════════════════
+   LAYER 2 — STATE & PERSISTENCE
+═══════════════════════════════════════════════════ */
+
+/* ── helpers ── */
+function l2Save(key, val) {
+  try { localStorage.setItem('slw_' + key, JSON.stringify(val)); } catch(e){}
+}
+function l2Load(key, def) {
+  try {
+    const v = localStorage.getItem('slw_' + key);
+    return v !== null ? JSON.parse(v) : def;
+  } catch(e) { return def; }
+}
+function l2Id() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+function l2EscHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── data ── */
+function l2Programs()  { return l2Load('programs', []); }
+function l2Clubs()     { return l2Load('clubs',    []); }
+function l2Students()  { return l2Load('students', []); }
+function l2Sessions()  { return l2Load('sessions', []); }
+function l2Scores()    { return l2Load('scores',   []); }
+
+function l2SavePrograms(d) { l2Save('programs', d); }
+function l2SaveClubs(d)    { l2Save('clubs',    d); }
+function l2SaveStudents(d) { l2Save('students', d); }
+function l2SaveSessions(d) { l2Save('sessions', d); }
+function l2SaveScores(d)   { l2Save('scores',   d); }
+
+/* ── current user session ── */
+let l2CurrentUser = null;
+
+function l2SetUser(u) {
+  l2CurrentUser = u;
+  try { sessionStorage.setItem('slw_user', JSON.stringify(u)); } catch(e){}
+}
+function l2GetUser() {
+  if (l2CurrentUser) return l2CurrentUser;
+  try { const v = sessionStorage.getItem('slw_user'); return v ? JSON.parse(v) : null; } catch(e){ return null; }
+}
+function l2Logout() {
+  l2CurrentUser = null;
+  try { sessionStorage.removeItem('slw_user'); } catch(e){}
+  document.getElementById('l2LoginBox').style.display = '';
+  document.getElementById('l2DashContent').style.display = 'none';
+}
+
+/* ── admin pass ── */
+function l2AdminPass() { return l2Load('adminPass', 'SLW-ADMIN-2026'); }
+
+/* ══════════════════════════════════════════════════
+   PROGRAMS & CLUBS — INFO PANELS (p7, p8)
+══════════════════════════════════════════════════ */
+function l2SelectProgramType(el) {
+  document.querySelectorAll('#programTypeGrid .entity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function l2SelectClubType(el) {
+  document.querySelectorAll('#clubTypeGrid .entity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function renderProgramList() {
+  const wrap = document.getElementById('programListWrap');
+  if (!wrap) return;
+  const programs = l2Programs();
+  if (!programs.length) {
+    wrap.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;padding:10px 0">No programs created yet.</div>';
+    return;
+  }
+  const typeLabel = { level1:'Level 1 — Confident Communicator', level2:'Level 2 — Impact Speaker', level3:'Level 3 — Leadership Speaker', workshop:'Weekend Workshop / Bootcamp', coaching:'1:1 Coaching Batch' };
+  wrap.innerHTML = programs.map(p => `
+    <div class="access-box" style="margin-bottom:10px;padding:14px 16px">
+      <div style="font-weight:700;font-size:1rem">${l2EscHtml(p.name)}</div>
+      <div style="color:var(--muted);font-size:0.83rem;margin-top:3px">${typeLabel[p.type] || p.type} &middot; Code: <strong style="color:var(--accent)">${l2EscHtml(p.code)}</strong></div>
+      <div style="color:var(--muted);font-size:0.8rem;margin-top:4px">Students: ${l2Students().filter(s=>s.entityId===p.id).length}</div>
+    </div>`).join('');
+}
+
+function renderClubList() {
+  const wrap = document.getElementById('clubListWrap');
+  if (!wrap) return;
+  const clubs = l2Clubs();
+  if (!clubs.length) {
+    wrap.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;padding:10px 0">No clubs created yet.</div>';
+    return;
+  }
+  const typeLabel = { open:'Open Public Club', school:'School-Based Club', community:'Community Club', partner:'Partner Org Club', online:'Online / International Club' };
+  wrap.innerHTML = clubs.map(c => `
+    <div class="access-box" style="margin-bottom:10px;padding:14px 16px">
+      <div style="font-weight:700;font-size:1rem">${l2EscHtml(c.name)}</div>
+      <div style="color:var(--muted);font-size:0.83rem;margin-top:3px">${typeLabel[c.type] || c.type} &middot; Code: <strong style="color:var(--accent)">${l2EscHtml(c.code)}</strong></div>
+      <div style="color:var(--muted);font-size:0.8rem;margin-top:4px">Students: ${l2Students().filter(s=>s.entityId===c.id).length}</div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════════════
+   DASHBOARD — LOGIN
+══════════════════════════════════════════════════ */
+function l2SwitchLoginTab(tab) {
+  document.getElementById('loginTabAdmin').classList.toggle('active', tab === 'admin');
+  document.getElementById('loginTabStudent').classList.toggle('active', tab === 'student');
+  document.getElementById('loginFormAdmin').style.display = tab === 'admin' ? '' : 'none';
+  document.getElementById('loginFormStudent').style.display = tab === 'student' ? '' : 'none';
+}
+
+function l2AdminLogin() {
+  const pass = (document.getElementById('adminPassInput').value || '').trim();
+  const err = document.getElementById('adminLoginErr');
+  if (pass !== l2AdminPass()) {
+    err.textContent = '❌ Incorrect passcode. Try: SLW-ADMIN-2026';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  l2SetUser({ role: 'admin', username: 'Admin', entityId: null, entityType: null });
+  l2ShowDash();
+}
+
+function l2StudentLogin() {
+  const code = (document.getElementById('studentCodeInput').value || '').trim().toUpperCase();
+  const username = (document.getElementById('studentNameInput').value || '').trim();
+  const err = document.getElementById('studentLoginErr');
+  if (!code || !username) {
+    err.textContent = '❌ Please enter both batch/club code and your username.';
+    err.style.display = 'block';
+    return;
+  }
+  const allEntities = [...l2Programs(), ...l2Clubs()];
+  const entity = allEntities.find(e => e.code.toUpperCase() === code);
+  if (!entity) {
+    err.textContent = '❌ Code not found. Ask your admin for the correct code.';
+    err.style.display = 'block';
+    return;
+  }
+  const roster = l2Students().filter(s => s.entityId === entity.id);
+  const student = roster.find(s => s.username.toLowerCase() === username.toLowerCase());
+  if (!student) {
+    err.textContent = '❌ Username not found in this roster. Contact your admin.';
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+  l2SetUser({ role: 'student', username: student.username, displayName: student.displayName, entityId: entity.id, entityType: l2Programs().find(p=>p.id===entity.id) ? 'program' : 'club', entityName: entity.name });
+  l2ShowDash();
+}
+
+function l2ShowDash() {
+  const user = l2GetUser();
+  if (!user) return;
+  document.getElementById('l2LoginBox').style.display = 'none';
+  document.getElementById('l2DashContent').style.display = '';
+  document.getElementById('dashWelcome').textContent = 'Welcome, ' + (user.displayName || user.username);
+  document.getElementById('dashRoleBadge').textContent = user.role === 'admin' ? 'Admin' : 'Student';
+  document.getElementById('dashRoleBadge').className = 'chip ' + (user.role === 'admin' ? 'chip-done' : 'chip-open');
+
+  if (user.role === 'admin') {
+    document.getElementById('adminDash').style.display = '';
+    document.getElementById('studentDash').style.display = 'none';
+    adminTab('programs');
+  } else {
+    document.getElementById('adminDash').style.display = 'none';
+    document.getElementById('studentDash').style.display = '';
+    studentTab('signup');
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   ADMIN — INNER TAB SWITCHING
+══════════════════════════════════════════════════ */
+function adminTab(name) {
+  document.querySelectorAll('#adminInnerTabs .inner-tab').forEach((b,i) => {
+    const names = ['programs','clubs','sessions','roster','rubric','leaderboard','settings'];
+    b.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.admin-sub').forEach(d => d.style.display = 'none');
+  const panel = document.getElementById('admin' + name.charAt(0).toUpperCase() + name.slice(1));
+  if (panel) {
+    panel.style.display = '';
+    if (name === 'programs') renderAdminPrograms();
+    if (name === 'clubs') renderAdminClubs();
+    if (name === 'sessions') { populateEntitySelects(); renderAdminSessions(); }
+    if (name === 'roster') { populateEntitySelects(); renderAdminRoster(); }
+    if (name === 'rubric') { populateRubricSessionSelect(); }
+    if (name === 'leaderboard') adminShowLeaderboard('speeches', document.querySelector('#lbTypeTabs .inner-tab'));
+  }
+}
+
+function adminPickPill(el, rowId) {
+  document.querySelectorAll('#' + rowId + ' .pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── programs ── */
+function adminCreateProgram() {
+  const name = (document.getElementById('newProgName').value || '').trim();
+  const code = (document.getElementById('newProgCode').value || '').trim().toUpperCase();
+  const typeEl = document.querySelector('#newProgTypeRow .pill.active');
+  const type = typeEl ? (typeEl.dataset.pt || 'level1') : 'level1';
+  if (!name || !code) { alert('Please enter program name and access code.'); return; }
+  const programs = l2Programs();
+  if (programs.find(p => p.code.toUpperCase() === code)) { alert('Code already in use.'); return; }
+  programs.push({ id: l2Id(), name, type, code, createdAt: Date.now() });
+  l2SavePrograms(programs);
+  document.getElementById('newProgName').value = '';
+  document.getElementById('newProgCode').value = '';
+  renderAdminPrograms();
+  renderProgramList();
+}
+
+function renderAdminPrograms() {
+  const el = document.getElementById('adminProgramsList');
+  if (!el) return;
+  const programs = l2Programs();
+  const typeLabel = { level1:'Level 1', level2:'Level 2', level3:'Level 3', workshop:'Workshop', coaching:'1:1 Coaching' };
+  if (!programs.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.9rem">No programs yet.</div>'; return; }
+  el.innerHTML = programs.map(p => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <div style="flex:1">
+        <div style="font-weight:700">${l2EscHtml(p.name)}</div>
+        <div style="color:var(--muted);font-size:0.8rem">${typeLabel[p.type]||p.type} · Code: <strong style="color:var(--accent)">${l2EscHtml(p.code)}</strong></div>
+      </div>
+      <button class="btn-danger-sm" onclick="adminDeleteEntity('program','${p.id}')">Delete</button>
+    </div>`).join('');
+}
+
+function adminDeleteEntity(type, id) {
+  if (!confirm('Delete this ' + type + '? This will also remove its students and sessions.')) return;
+  if (type === 'program') { l2SavePrograms(l2Programs().filter(p => p.id !== id)); renderAdminPrograms(); renderProgramList(); }
+  if (type === 'club')    { l2SaveClubs(l2Clubs().filter(c => c.id !== id)); renderAdminClubs(); renderClubList(); }
+  l2SaveStudents(l2Students().filter(s => s.entityId !== id));
+  l2SaveSessions(l2Sessions().filter(s => s.entityId !== id));
+}
+
+/* ── clubs ── */
+function adminCreateClub() {
+  const name = (document.getElementById('newClubName').value || '').trim();
+  const code = (document.getElementById('newClubCode').value || '').trim().toUpperCase();
+  const typeEl = document.querySelector('#newClubTypeRow .pill.active');
+  const type = typeEl ? (typeEl.dataset.ct || 'open') : 'open';
+  if (!name || !code) { alert('Please enter club name and access code.'); return; }
+  const clubs = l2Clubs();
+  if (clubs.find(c => c.code.toUpperCase() === code)) { alert('Code already in use.'); return; }
+  clubs.push({ id: l2Id(), name, type, code, createdAt: Date.now() });
+  l2SaveClubs(clubs);
+  document.getElementById('newClubName').value = '';
+  document.getElementById('newClubCode').value = '';
+  renderAdminClubs();
+  renderClubList();
+}
+
+function renderAdminClubs() {
+  const el = document.getElementById('adminClubsList');
+  if (!el) return;
+  const clubs = l2Clubs();
+  const typeLabel = { open:'Open Public', school:'School-Based', community:'Community', partner:'Partner Org', online:'Online / Intl' };
+  if (!clubs.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.9rem">No clubs yet.</div>'; return; }
+  el.innerHTML = clubs.map(c => `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <div style="flex:1">
+        <div style="font-weight:700">${l2EscHtml(c.name)}</div>
+        <div style="color:var(--muted);font-size:0.8rem">${typeLabel[c.type]||c.type} · Code: <strong style="color:var(--accent)">${l2EscHtml(c.code)}</strong></div>
+      </div>
+      <button class="btn-danger-sm" onclick="adminDeleteEntity('club','${c.id}')">Delete</button>
+    </div>`).join('');
+}
+
+/* ── entity select populate ── */
+function populateEntitySelects() {
+  const programs = l2Programs();
+  const clubs = l2Clubs();
+  const options = '<option value="">-- Choose --</option>' +
+    programs.map(p => `<option value="${p.id}">[Program] ${l2EscHtml(p.name)}</option>`).join('') +
+    clubs.map(c => `<option value="${c.id}">[Club] ${l2EscHtml(c.name)}</option>`).join('');
+  ['sessionEntitySelect','rosterEntitySelect'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = options;
+  });
+}
+
+/* ── sessions ── */
+const SESSION_ROLES = ['Quote of the Day','Word of the Day','Joke of the Day','Impromptu Speech Master','Timer','Evaluator','Grammarian'];
+
+function adminCreateSession() {
+  const entityId = document.getElementById('sessionEntitySelect').value;
+  const date = (document.getElementById('sessionDate').value || '').trim();
+  const slotsRaw = (document.getElementById('sessionSlots').value || '4').trim();
+  const slots = Math.max(1, Math.min(10, parseInt(slotsRaw, 10) || 4));
+  const roleOpen = document.getElementById('roleSignupToggle').classList.contains('active');
+  if (!entityId || !date) { alert('Select a program/club and enter a date.'); return; }
+  const sessions = l2Sessions();
+  sessions.push({
+    id: l2Id(),
+    entityId,
+    date,
+    slots,
+    roleOpen,
+    speechSlots: Array.from({length: slots}, () => ({ studentUsername: null, title: null })),
+    roles: {},
+    createdAt: Date.now()
+  });
+  l2SaveSessions(sessions);
+  document.getElementById('sessionDate').value = '';
+  document.getElementById('sessionSlots').value = '';
+  renderAdminSessions();
+}
+
+function renderAdminSessions() {
+  const el = document.getElementById('adminSessionsList');
+  if (!el) return;
+  const sessions = l2Sessions().slice().sort((a,b) => a.date.localeCompare(b.date));
+  const allEntities = [...l2Programs(), ...l2Clubs()];
+  if (!sessions.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.9rem">No sessions yet.</div>'; return; }
+  el.innerHTML = sessions.map(s => {
+    const entity = allEntities.find(e => e.id === s.entityId);
+    const entityName = entity ? l2EscHtml(entity.name) : 'Unknown';
+    const filled = s.speechSlots.filter(sl => sl.studentUsername).length;
+    return `
+    <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="flex:1">
+          <div style="font-weight:700">${l2EscHtml(s.date)}</div>
+          <div style="color:var(--muted);font-size:0.8rem">${entityName} · ${filled}/${s.slots} speeches · Roles: <span class="${s.roleOpen?'chip chip-open':'chip chip-closed'}">${s.roleOpen?'Open':'Closed'}</span></div>
+        </div>
+        <button class="btn-sm" onclick="adminToggleRoles('${s.id}')">${s.roleOpen?'Close Roles':'Open Roles'}</button>
+        <button class="btn-danger-sm" onclick="adminDeleteSession('${s.id}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminToggleRoles(sessionId) {
+  const sessions = l2Sessions();
+  const s = sessions.find(x => x.id === sessionId);
+  if (s) { s.roleOpen = !s.roleOpen; l2SaveSessions(sessions); renderAdminSessions(); }
+}
+
+function adminDeleteSession(sessionId) {
+  if (!confirm('Delete this session?')) return;
+  l2SaveSessions(l2Sessions().filter(s => s.id !== sessionId));
+  renderAdminSessions();
+}
+
+/* ── roster ── */
+function adminAddStudent() {
+  const entityId = document.getElementById('rosterEntitySelect').value;
+  const username = (document.getElementById('newStudentUsername').value || '').trim();
+  const displayName = (document.getElementById('newStudentDisplay').value || '').trim();
+  if (!entityId || !username || !displayName) { alert('Please fill in all fields.'); return; }
+  const students = l2Students();
+  if (students.find(s => s.entityId === entityId && s.username.toLowerCase() === username.toLowerCase())) {
+    alert('Username already exists in this roster.'); return;
+  }
+  students.push({ id: l2Id(), entityId, username, displayName, createdAt: Date.now() });
+  l2SaveStudents(students);
+  document.getElementById('newStudentUsername').value = '';
+  document.getElementById('newStudentDisplay').value = '';
+  renderAdminRoster();
+}
+
+function renderAdminRoster() {
+  const el = document.getElementById('adminRosterList');
+  if (!el) return;
+  const entityId = document.getElementById('rosterEntitySelect').value;
+  const students = entityId ? l2Students().filter(s => s.entityId === entityId) : l2Students();
+  if (!students.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.9rem">No students yet.</div>'; return; }
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>#</th><th>Display Name</th><th>Username</th><th></th></tr></thead>
+    <tbody>${students.map((s,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${l2EscHtml(s.displayName)}</td>
+        <td style="color:var(--accent)">${l2EscHtml(s.username)}</td>
+        <td><button class="btn-danger-sm" onclick="adminRemoveStudent('${s.id}')">Remove</button></td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function adminRemoveStudent(studentId) {
+  if (!confirm('Remove student from roster?')) return;
+  l2SaveStudents(l2Students().filter(s => s.id !== studentId));
+  renderAdminRoster();
+}
+
+/* ── rubric ── */
+function populateRubricSessionSelect() {
+  const sel = document.getElementById('rubricSessionSelect');
+  if (!sel) return;
+  const sessions = l2Sessions().slice().sort((a,b) => b.date.localeCompare(a.date));
+  const allEntities = [...l2Programs(), ...l2Clubs()];
+  sel.innerHTML = '<option value="">-- Choose session --</option>' +
+    sessions.map(s => {
+      const e = allEntities.find(x=>x.id===s.entityId);
+      return `<option value="${s.id}">${l2EscHtml(s.date)} — ${e ? l2EscHtml(e.name) : 'Unknown'}</option>`;
+    }).join('');
+}
+
+function adminLoadRubricForm() {
+  const sessionId = document.getElementById('rubricSessionSelect').value;
+  const wrap = document.getElementById('rubricFormWrap');
+  if (!sessionId) { wrap.innerHTML = ''; return; }
+  const session = l2Sessions().find(s => s.id === sessionId);
+  if (!session) { wrap.innerHTML = ''; return; }
+  const existing = l2Scores().filter(sc => sc.sessionId === sessionId);
+  const speakers = session.speechSlots.filter(sl => sl.studentUsername);
+  if (!speakers.length) { wrap.innerHTML = '<div style="color:var(--muted)">No speeches claimed for this session yet.</div>'; return; }
+  wrap.innerHTML = `
+    <div class="section-h">Enter Scores (0–100)</div>
+    ${speakers.map((sl,i) => {
+      const prev = existing.find(sc => sc.username === sl.studentUsername);
+      return `<div class="score-row">
+        <div class="score-name">${l2EscHtml(sl.studentUsername)}<br><small style="color:var(--muted)">${l2EscHtml(sl.title || '')}</small></div>
+        <input class="score-input" type="number" min="0" max="100" placeholder="Score" id="score_${i}" value="${prev ? prev.score : ''}">
+      </div>`;
+    }).join('')}
+    <div style="margin-top:14px">
+      <button class="btn" onclick="adminSaveScores('${sessionId}')">💾 Save Scores</button>
+    </div>`;
+}
+
+function adminSaveScores(sessionId) {
+  const session = l2Sessions().find(s => s.id === sessionId);
+  if (!session) return;
+  const speakers = session.speechSlots.filter(sl => sl.studentUsername);
+  const scores = l2Scores().filter(sc => sc.sessionId !== sessionId);
+  speakers.forEach((sl,i) => {
+    const val = parseFloat((document.getElementById('score_' + i) || {}).value);
+    if (!isNaN(val)) {
+      scores.push({ id: l2Id(), sessionId, username: sl.studentUsername, score: Math.max(0,Math.min(100,val)), createdAt: Date.now() });
+    }
+  });
+  l2SaveScores(scores);
+  alert('✅ Scores saved!');
+}
+
+/* ── leaderboard ── */
+function buildLeaderboard(type) {
+  const students = l2Students();
+  const sessions = l2Sessions();
+  const scores = l2Scores();
+
+  return students.map(st => {
+    const speechCount = sessions.reduce((n,s) => n + s.speechSlots.filter(sl=>sl.studentUsername===st.username).length, 0);
+    const myScores = scores.filter(sc => sc.username === st.username).map(sc=>sc.score);
+    const avgScore = myScores.length ? (myScores.reduce((a,b)=>a+b,0)/myScores.length).toFixed(1) : null;
+    const roleCount = sessions.reduce((n,s) => {
+      const r = s.roles || {};
+      return n + Object.values(r).filter(u=>u===st.username).length;
+    }, 0);
+    return { username: st.username, displayName: st.displayName, speechCount, avgScore, roleCount };
+  }).sort((a,b) => {
+    if (type === 'speeches') return b.speechCount - a.speechCount;
+    if (type === 'score')    return (parseFloat(b.avgScore)||0) - (parseFloat(a.avgScore)||0);
+    if (type === 'roles')    return b.roleCount - a.roleCount;
+    return 0;
+  });
+}
+
+function renderLeaderboardTable(data, type, containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  if (!data.length) { el.innerHTML = '<div style="color:var(--muted)">No data yet.</div>'; return; }
+  const col = type === 'speeches' ? 'Speeches' : type === 'score' ? 'Avg Score' : 'Roles';
+  const val = r => type === 'speeches' ? r.speechCount : type === 'score' ? (r.avgScore !== null ? r.avgScore : '—') : r.roleCount;
+  const rankClass = i => i===0?'rank-badge rank-1':i===1?'rank-badge rank-2':i===2?'rank-badge rank-3':'rank-badge';
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>Rank</th><th>Name</th><th>${col}</th></tr></thead>
+    <tbody>${data.slice(0,20).map((r,i)=>`
+      <tr>
+        <td><span class="${rankClass(i)}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span></td>
+        <td>${l2EscHtml(r.displayName)}</td>
+        <td style="font-weight:700;color:var(--accent)">${val(r)}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function adminShowLeaderboard(type, btn) {
+  if (btn) {
+    document.querySelectorAll('#lbTypeTabs .inner-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderLeaderboardTable(buildLeaderboard(type), type, 'leaderboardTableWrap');
+}
+
+function adminChangePass() {
+  const val = (document.getElementById('newAdminPass').value || '').trim();
+  if (!val) { alert('Please enter a new passcode.'); return; }
+  l2Save('adminPass', val);
+  document.getElementById('newAdminPass').value = '';
+  document.getElementById('passSavedMsg').style.display = 'block';
+  setTimeout(() => { document.getElementById('passSavedMsg').style.display = 'none'; }, 3000);
+}
+
+/* ══════════════════════════════════════════════════
+   STUDENT DASHBOARD
+══════════════════════════════════════════════════ */
+function studentTab(name) {
+  document.querySelectorAll('#studentInnerTabs .inner-tab').forEach((b,i) => {
+    const names = ['signup','sessions','history','leaderboard'];
+    b.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.student-sub').forEach(d => d.style.display = 'none');
+  const panel = document.getElementById('student' + name.charAt(0).toUpperCase() + name.slice(1));
+  if (panel) {
+    panel.style.display = '';
+    if (name === 'signup')      renderStudentSignup();
+    if (name === 'sessions')    renderStudentSessions();
+    if (name === 'history')     renderStudentHistory();
+    if (name === 'leaderboard') studentShowLeaderboard('speeches', document.querySelector('#sLbTypeTabs .inner-tab'));
+  }
+}
+
+function renderStudentSignup() {
+  const user = l2GetUser();
+  const el = document.getElementById('studentSignupContent');
+  if (!el || !user) return;
+  const sessions = l2Sessions().filter(s => s.entityId === user.entityId)
+    .slice().sort((a,b) => a.date.localeCompare(b.date));
+  const upcoming = sessions.filter(s => !s.speechSlots.every(sl=>sl.studentUsername));
+  if (!upcoming.length) {
+    el.innerHTML = '<div style="color:var(--muted)">No upcoming sessions with open speech slots.</div>';
+    return;
+  }
+  const next = upcoming[0];
+  const mySlot = next.speechSlots.findIndex(sl => sl.studentUsername === user.username);
+  const hasSlot = mySlot >= 0;
+
+  el.innerHTML = `
+    <div class="section-h">Next Session: ${l2EscHtml(next.date)}</div>
+    <div style="color:var(--muted);font-size:0.85rem;margin-bottom:14px">Entity: ${l2EscHtml(user.entityName||'')} · ${next.speechSlots.filter(sl=>sl.studentUsername).length}/${next.slots} slots taken</div>
+
+    <div class="section-h">Speech Slots</div>
+    ${next.speechSlots.map((sl,i) => `
+      <div class="slot-card">
+        <div class="slot-num">${i+1}</div>
+        <div class="slot-info">
+          ${sl.studentUsername
+            ? `<div class="slot-student">${l2EscHtml(sl.studentUsername)}</div><div class="slot-title">${l2EscHtml(sl.title || '(no title yet)')}</div>`
+            : '<div class="slot-empty">Open slot</div>'}
+        </div>
+        ${!sl.studentUsername && !hasSlot
+          ? `<button class="btn-sm" onclick="studentClaimSlot('${next.id}',${i})">Claim</button>`
+          : sl.studentUsername === user.username
+            ? `<button class="btn-outline" onclick="studentSetTitle('${next.id}',${i})">✏️ Title</button>`
+            : ''}
+      </div>`).join('')}
+
+    ${next.roleOpen ? `
+      <div class="section-h">Role Signup</div>
+      ${SESSION_ROLES.map(role => {
+        const taken = next.roles && next.roles[role];
+        const mine = taken === user.username;
+        return `
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+          <div style="flex:1">${l2EscHtml(role)}</div>
+          ${taken
+            ? `<span style="color:${mine?'var(--accent)':'var(--muted)'};font-size:0.85rem">${mine?'✅ You':'👤 '+l2EscHtml(taken)}</span>`
+            : `<button class="btn-sm" onclick="studentClaimRole('${next.id}','${l2EscHtml(role)}')">Take Role</button>`}
+        </div>`;
+      }).join('')}
+    ` : '<div style="color:var(--muted);font-size:0.87rem;margin-top:12px">Role signup is currently closed by admin.</div>'}
+  `;
+}
+
+function studentClaimSlot(sessionId, slotIndex) {
+  const user = l2GetUser();
+  if (!user) return;
+  const sessions = l2Sessions();
+  const s = sessions.find(x => x.id === sessionId);
+  if (!s) return;
+  if (s.speechSlots[slotIndex].studentUsername) { alert('Slot already taken.'); return; }
+  if (s.speechSlots.find(sl => sl.studentUsername === user.username)) { alert('You already have a slot in this session.'); return; }
+  s.speechSlots[slotIndex].studentUsername = user.username;
+  s.speechSlots[slotIndex].title = null;
+  l2SaveSessions(sessions);
+  renderStudentSignup();
+}
+
+function studentSetTitle(sessionId, slotIndex) {
+  const user = l2GetUser();
+  if (!user) return;
+  const title = prompt('Enter your speech title:');
+  if (title === null) return;
+  const sessions = l2Sessions();
+  const s = sessions.find(x => x.id === sessionId);
+  if (!s) return;
+  if (s.speechSlots[slotIndex].studentUsername !== user.username) return;
+  s.speechSlots[slotIndex].title = title.trim();
+  l2SaveSessions(sessions);
+  renderStudentSignup();
+}
+
+function studentClaimRole(sessionId, role) {
+  const user = l2GetUser();
+  if (!user) return;
+  const sessions = l2Sessions();
+  const s = sessions.find(x => x.id === sessionId);
+  if (!s || !s.roleOpen) return;
+  if (!s.roles) s.roles = {};
+  if (s.roles[role]) { alert('Role already taken.'); return; }
+  const alreadyHasRole = Object.values(s.roles).includes(user.username);
+  if (alreadyHasRole) { if (!confirm('Replace your current role?')) return; Object.keys(s.roles).forEach(k => { if(s.roles[k]===user.username) delete s.roles[k]; }); }
+  s.roles[role] = user.username;
+  l2SaveSessions(sessions);
+  renderStudentSignup();
+}
+
+function renderStudentSessions() {
+  const user = l2GetUser();
+  const el = document.getElementById('studentSessionsList');
+  if (!el || !user) return;
+  const allEntities = [...l2Programs(), ...l2Clubs()];
+  const sessions = l2Sessions().filter(s => s.entityId === user.entityId)
+    .slice().sort((a,b) => a.date.localeCompare(b.date));
+  if (!sessions.length) { el.innerHTML = '<div style="color:var(--muted)">No sessions found.</div>'; return; }
+  el.innerHTML = sessions.map(s => {
+    const filled = s.speechSlots.filter(sl=>sl.studentUsername).length;
+    const mySlot = s.speechSlots.find(sl=>sl.studentUsername===user.username);
+    return `
+    <div class="access-box" style="padding:14px 16px;margin-bottom:10px">
+      <div style="font-weight:700">${l2EscHtml(s.date)}</div>
+      <div style="color:var(--muted);font-size:0.82rem;margin-top:3px">Speeches: ${filled}/${s.slots} · Roles: <span class="${s.roleOpen?'chip chip-open':'chip chip-closed'}">${s.roleOpen?'Open':'Closed'}</span></div>
+      ${mySlot ? `<div style="color:var(--accent);font-size:0.85rem;margin-top:6px">🎤 Your speech: ${l2EscHtml(mySlot.title||'(no title)')}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderStudentHistory() {
+  const user = l2GetUser();
+  const el = document.getElementById('studentHistoryTable');
+  if (!el || !user) return;
+  const sessions = l2Sessions().filter(s => s.entityId === user.entityId);
+  const mySpeeches = [];
+  sessions.forEach(s => {
+    s.speechSlots.forEach((sl,i) => {
+      if (sl.studentUsername === user.username) {
+        const score = l2Scores().find(sc => sc.sessionId === s.id && sc.username === user.username);
+        mySpeeches.push({ date: s.date, title: sl.title, score: score ? score.score : null });
+      }
+    });
+  });
+  mySpeeches.sort((a,b) => b.date.localeCompare(a.date));
+  if (!mySpeeches.length) { el.innerHTML = '<div style="color:var(--muted)">No speeches yet.</div>'; return; }
+  el.innerHTML = `<table class="data-table">
+    <thead><tr><th>Date</th><th>Title</th><th>Score</th></tr></thead>
+    <tbody>${mySpeeches.map(sp=>`
+      <tr>
+        <td>${l2EscHtml(sp.date)}</td>
+        <td>${l2EscHtml(sp.title||'(untitled)')}</td>
+        <td style="color:var(--accent);font-weight:700">${sp.score !== null ? sp.score : '—'}</td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function studentShowLeaderboard(type, btn) {
+  if (btn) {
+    document.querySelectorAll('#sLbTypeTabs .inner-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const user = l2GetUser();
+  const students = l2Students().filter(s => user && s.entityId === user.entityId);
+  const sessions = l2Sessions().filter(s => user && s.entityId === user.entityId);
+  const scores = l2Scores();
+  const data = students.map(st => {
+    const speechCount = sessions.reduce((n,s)=>n+s.speechSlots.filter(sl=>sl.studentUsername===st.username).length, 0);
+    const myScores = scores.filter(sc=>sc.username===st.username).map(sc=>sc.score);
+    const avgScore = myScores.length ? (myScores.reduce((a,b)=>a+b,0)/myScores.length).toFixed(1) : null;
+    const roleCount = sessions.reduce((n,s)=>n+Object.values(s.roles||{}).filter(u=>u===st.username).length, 0);
+    return { username: st.username, displayName: st.displayName, speechCount, avgScore, roleCount };
+  }).sort((a,b) => {
+    if (type === 'speeches') return b.speechCount - a.speechCount;
+    if (type === 'score')    return (parseFloat(b.avgScore)||0) - (parseFloat(a.avgScore)||0);
+    return b.roleCount - a.roleCount;
+  });
+  renderLeaderboardTable(data, type, 'studentLeaderboardTable');
+}
+
+/* ══════════════════════════════════════════════════
+   DASHBOARD INIT — restore session on tab open
+══════════════════════════════════════════════════ */
+function l2DashInit() {
+  const user = l2GetUser();
+  if (user) {
+    l2ShowDash();
+  }
+  renderProgramList();
+  renderClubList();
+}
+
+/* ── extend switchTab to trigger l2DashInit ── */
+const _origSwitchTab = window.switchTab;
+window.switchTab = function(n) {
+  _origSwitchTab(n);
+  if (n === 9) l2DashInit();
+  if (n === 7) renderProgramList();
+  if (n === 8) renderClubList();
+};
+
+/* ═══════════════════════════════════════════════════
    BOOT
 ═══════════════════════════════════════════════════ */
 initAll();
 new SpinWheel();
+
+
 </script>
 </body>
 </html>
