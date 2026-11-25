@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Lab — SpeakSmart by SLW Academy</title>
+<style>
+:root{
+  --bg:#071A2F; --dark:#0A1F38; --section:#1A2F5E; --accent:#C9A84C; --accent-h:#dfc06a;
+  --text:#fff; --muted:rgba(255,255,255,.62); --border:rgba(201,168,76,.28);
+  --green:#1FA971; --yellow:#E8B931; --red:#D6453D; --filler:#FF6B6B;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+button{font-family:inherit}
+header{background:var(--dark);padding:20px 16px 16px;text-align:center;border-bottom:3px solid var(--accent);position:relative}
+.back{position:absolute;left:14px;top:14px;color:var(--accent);text-decoration:none;font-size:.85rem}
+.back:hover{text-decoration:underline}
+.kicker{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-size:2.1rem;font-weight:800;margin-top:4px}
+h1 span{color:var(--accent)}
+.tagline{color:var(--muted);font-size:.92rem;margin-top:4px}
+.tab-bar{display:flex;justify-content:center;background:var(--dark);border-bottom:2px solid var(--section);overflow-x:auto}
+.tab{padding:13px 18px 10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:.9rem;border-bottom:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:110px;white-space:nowrap}
+.tab .ic{font-size:1.35rem}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+main{flex:1;width:100%;max-width:880px;margin:0 auto;padding:22px 16px 40px}
+.panel{display:none}
+.panel.active{display:block}
+.ptitle{font-size:1.5rem;font-weight:800}
+.psub{color:var(--muted);margin:6px 0 18px;line-height:1.5}
+.card{background:var(--section);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
+.btn{background:var(--accent);color:var(--dark);border:none;border-radius:999px;padding:13px 28px;font-weight:800;font-size:1rem;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--accent-h)}
+.btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.btn.ghost:hover{background:rgba(201,168,76,.12)}
+.btn.stop{background:var(--red);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.center{text-align:center}
+.note{font-size:.8rem;color:var(--muted);line-height:1.5;margin-top:10px}
+.warn{background:rgba(214,69,61,.15);border:1px solid rgba(214,69,61,.5);color:#ffd2cf;border-radius:12px;padding:12px 14px;font-size:.9rem;margin-bottom:14px;display:none}
+.cta{display:inline-block;margin-top:14px;color:var(--dark);background:var(--accent);text-decoration:none;font-weight:800;padding:11px 22px;border-radius:999px}
+.cta:hover{background:var(--accent-h)}
+
+/* Filler Buster */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat{background:var(--dark);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center}
+.stat .v{font-size:2.1rem;font-weight:800;line-height:1.1}
+.stat .l{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.stat.fill .v{color:var(--filler)}
+.mic{width:120px;height:120px;border-radius:50%;border:none;background:var(--accent);color:var(--dark);font-size:1.05rem;font-weight:800;cursor:pointer;box-shadow:0 0 0 0 rgba(201,168,76,.6);transition:transform .15s}
+.mic:hover{transform:scale(1.04)}
+.mic.live{background:var(--red);color:#fff;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(214,69,61,.55)}70%{box-shadow:0 0 0 22px rgba(214,69,61,0)}100%{box-shadow:0 0 0 0 rgba(214,69,61,0)}}
+.transcript{background:var(--dark);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:130px;max-height:260px;overflow-y:auto;line-height:1.7;font-size:1.02rem}
+.transcript .ph{color:var(--muted);font-style:italic}
+.transcript .interim{color:var(--muted)}
+.fw{background:rgba(255,107,107,.18);color:var(--filler);font-weight:700;border-radius:5px;padding:0 4px}
+.report{display:none}
+.report h3{font-size:1.25rem;margin-bottom:10px;color:var(--accent)}
+.breakdown{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{background:var(--dark);border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-size:.85rem}
+.chip b{color:var(--filler)}
+.tip{background:rgba(201,168,76,.1);border-left:4px solid var(--accent);padding:12px 14px;border-radius:8px;margin-top:12px;line-height:1.55}
+
+/* Stage Lights */
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pill{background:transparent;border:2px solid var(--accent);color:var(--text);border-radius:999px;padding:8px 16px;cursor:pointer;font-size:.88rem}
+.pill.active,.pill:hover{background:var(--accent);color:var(--dark);font-weight:700}
+.custom{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.custom label{font-size:.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+.custom input{width:80px;padding:9px 10px;border-radius:10px;border:1px solid var(--border);background:var(--dark);color:var(--text);font-size:1rem}
+.signals{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:.88rem}
+.sig{display:flex;align-items:center;gap:6px;background:var(--dark);border-radius:999px;padding:5px 12px}
+.dot{width:12px;height:12px;border-radius:50%}
+.stage{border-radius:20px;padding:34px 16px;text-align:center;background:#11253f;border:2px solid var(--border);transition:background .5s;margin-bottom:14px;position:relative}
+.stage.g{background:var(--green)} .stage.y{background:var(--yellow)} .stage.r{background:var(--red)}
+.stage.y .clock,.stage.y .slabel{color:#1b1b1b}
+.clock{font-size:clamp(4rem,16vw,8rem);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:2px;line-height:1}
+.clock.hidden{visibility:hidden}
+.slabel{font-size:1.05rem;margin-top:10px;font-weight:600;min-height:1.4em}
+.toggles{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:12px;font-size:.9rem;color:var(--muted)}
+.toggles label{cursor:pointer;display:flex;align-items:center;gap:6px}
+.result{display:none;text-align:center;font-size:1.15rem;font-weight:700;margin-top:6px}
+.stage:fullscreen{display:flex;flex-direction:column;justify-content:center;border-radius:0}
+.stage:fullscreen .clock{font-size:26vw}
+
+/* Hook Lab */
+.hook-in{display:flex;gap:10px;flex-wrap:wrap}
+.hook-in input{flex:1;min-width:220px;padding:13px 14px;border-radius:12px;border:1px solid var(--border);background:var(--dark);color:var(--text);font-size:1rem}
+.hook-in input:focus,.custom input:focus{outline:2px solid var(--accent)}
+.hooks{display:none;margin-top:16px}
+.hook{background:var(--dark);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.htype{display:inline-block;background:var(--accent);color:var(--dark);font-weight:800;font-size:.75rem;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+.htext{font-size:1.08rem;line-height:1.6;margin:10px 0 8px}
+.hwhy{color:var(--muted);font-size:.9rem;line-height:1.5}
+.hwhy b{color:var(--accent)}
+.copy{float:right;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:.78rem}
+.copy:hover{color:var(--text);border-color:var(--accent)}
+.blank{color:var(--accent);font-style:italic}
+
+footer{text-align:center;padding:18px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--section)}
+footer a{color:var(--accent);text-decoration:none}
+@media (max-width:560px){h1{font-size:1.6rem}.back{position:static;display:block;margin-bottom:8px}.tab{min-width:90px;padding:11px 10px 8px;font-size:.8rem}.stat .v{font-size:1.6rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="index.html">← Back to SpeakSmart</a>
+  <div class="kicker">Speak Lead Win Academy</div>
+  <h1>Practice <span>Lab</span></h1>
+  <div class="tagline">Free tools to practice like a pro — no sign-up needed.</div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab active" data-tab="filler"><span class="ic">🎙️</span>Filler Buster</button>
+  <button class="tab" data-tab="timer"><span class="ic">🚦</span>Stage Lights</button>
+  <button class="tab" data-tab="hooks"><span class="ic">🪝</span>Speech Hook Lab</button>
+</nav>
+
+<main>
+
+<!-- ═════════════ FILLER BUSTER ═════════════ -->
+<section class="panel active" id="panel-filler">
+  <div class="ptitle">🎙️ Filler Buster</div>
+  <p class="psub">Tap the mic and start speaking. Watch your words appear live — every “um”, “uh” and “like” lights up in red.</p>
+
+  <div class="warn" id="fbWarn"></div>
+
+  <div class="stats">
+    <div class="stat fill"><div class="v" id="fbFillers">0</div><div class="l">Fillers</div></div>
+    <div class="stat"><div class="v" id="fbWpm">0</div><div class="l">Words / min</div></div>
+    <div class="stat"><div class="v" id="fbTime">0:00</div><div class="l">Time</div></div>
+  </div>
+
+  <div class="center" style="margin-bottom:16px">
+    <button class="mic" id="fbMic">START</button>
+  </div>
+
+  <div class="transcript" id="fbText"><span class="ph">Your words will appear here as you speak…</span></div>
+  <p class="note">Works best in Google Chrome or Microsoft Edge on a computer or Android phone. Counts are approximate — speech recognition sometimes skips quiet “um”s. Your voice is processed by your browser’s speech service (for example, Google in Chrome). SLW Academy does not record or save anything.</p>
+
+  <div class="card report" id="fbReport" style="margin-top:16px">
+    <h3>Your Filler Buster Scorecard</h3>
+    <div id="fbSummary" style="font-size:1.1rem;font-weight:700"></div>
+    <div class="breakdown" id="fbBreakdown"></div>
+    <div class="tip" id="fbTip"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn ghost" id="fbAgain">Try again</button>
+      <a class="cta" href="https://speakleadwinacademy.com" target="_blank" rel="noopener" style="margin-top:0">Level up with SLW Academy →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ STAGE LIGHTS ═════════════ -->
+<section class="panel" id="panel-timer">
+  <div class="ptitle">🚦 Stage Lights</div>
+  <p class="psub">Set your speech time, tap Start, and let the lights guide you. Practice alone at home, or share your screen in class as the Timer.</p>
+
+  <div class="card">
+    <div class="presets" id="slPresets">
+      <button class="pill" data-min="1" data-max="2">Impromptu · 1–2 min</button>
+      <button class="pill" data-min="2" data-max="3">Evaluation · 2–3 min</button>
+      <button class="pill" data-min="3" data-max="5">Short Speech · 3–5 min</button>
+      <button class="pill active" data-min="5" data-max="7">Speech · 5–7 min</button>
+    </div>
+    <div class="custom">
+      <div><label for="slMin">Minimum (min)</label><input type="number" id="slMin" min="0.5" step="0.5" value="5"></div>
+      <div><label for="slMax">Maximum (min)</label><input type="number" id="slMax" min="1" step="0.5" value="7"></div>
+    </div>
+    <div class="signals" id="slSignals"></div>
+  </div>
+
+  <div class="stage" id="slStage">
+    <div class="clock" id="slClock">0:00</div>
+    <div class="slabel" id="slLabel">Ready when you are</div>
+  </div>
+
+  <div class="row" style="justify-content:center">
+    <button class="btn" id="slStart">Start</button>
+    <button class="btn stop" id="slStop" disabled>Stop</button>
+    <button class="btn ghost" id="slReset">Reset</button>
+    <button class="btn ghost" id="slFull">⛶ Full screen</button>
+  </div>
+  <div class="toggles">
+    <label><input type="checkbox" id="slHide"> Hide the clock (lights only)</label>
+    <label><input type="checkbox" id="slBeep" checked> Soft beep when the light changes</label>
+  </div>
+  <div class="result" id="slResult"></div>
+</section>
+
+<!-- ═════════════ SPEECH HOOK LAB ═════════════ -->
+<section class="panel" id="panel-hooks">
+  <div class="ptitle">🪝 Speech Hook Lab</div>
+  <p class="psub">The first 10 seconds decide if your audience listens. Type your topic and get five different ways to open — and learn why each one works.</p>
+
+  <div class="card">
+    <div class="hook-in">
+      <input type="text" id="hkTopic" placeholder="e.g. climate change, social media, my grandmother" maxlength="80">
+      <button class="btn" id="hkGo">Build my hooks</button>
+    </div>
+    <div class="warn" id="hkWarn" style="margin:10px 0 0"></div>
+  </div>
+
+  <div class="hooks" id="hkOut">
+    <div id="hkList"></div>
+    <div class="row" style="justify-content:center;margin-top:6px">
+      <button class="btn ghost" id="hkShuffle">🔀 Show me different hooks</button>
+    </div>
+    <p class="note center">Words in <span class="blank">gold italics</span> are blanks for you to fill in. Always use real facts and real quotes — and say where they came from.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Free practice tools by <a href="https://speakleadwinacademy.com" target="_blank" rel="noopener">Speak Lead Win Academy</a> · Speak with confidence. Lead with impact.
+</footer>
+
+<script>
+/* ─────────── Tabs (supports links like practice-lab.html#timer) ─────────── */
+const tabs=[...document.querySelectorAll('.tab')];
+function showTab(name){
+  if(!document.getElementById('panel-'+name)) name='filler';
+  tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+name));
+  history.replaceState(null,'','#'+name);
+}
+tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
+showTab((location.hash||'#filler').slice(1));
+
+const fmt=s=>{s=Math.max(0,Math.floor(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ─────────── FILLER BUSTER ─────────── */
+const FILLERS=['you know','i mean','kind of','sort of','um','umm','uh','uhh','uh-huh','er','ah','hmm','mm','like','basically','actually','literally'];
+const fillerRe=new RegExp('\\b('+FILLERS.sort((a,b)=>b.length-a.length).map(f=>f.replace(/[-]/g,'\\-')).join('|')+')\\b','gi');
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const fb={rec:null,live:false,final:'',interim:'',start:0,timer:null};
+const $=id=>document.getElementById(id);
+
+if(!SR){
+  $('fbWarn').style.display='block';
+  $('fbWarn').innerHTML='Your browser doesn’t support live speech recognition. Please open this page in <b>Google Chrome</b> or <b>Microsoft Edge</b> to use Filler Buster.';
+  $('fbMic').disabled=true; $('fbMic').style.opacity=.4;
+}
+
+function countFillers(text){
+  const counts={}; let total=0; let m;
+  fillerRe.lastIndex=0;
+  while((m=fillerRe.exec(text))){const k=m[1].toLowerCase().replace(/(.)\1+$/,'$1');counts[k]=(counts[k]||0)+1;total++}
+  return {total,counts};
+}
+function words(text){return (text.trim().match(/\S+/g)||[]).length}
+function highlight(text){return esc(text).replace(fillerRe,'<span class="fw">$1</span>')}
+
+function renderFB(){
+  const all=(fb.final+' '+fb.interim).trim();
+  const el=$('fbText');
+  if(!all){el.innerHTML='<span class="ph">'+(fb.live?'Listening… start speaking!':'Your words will appear here as you speak…')+'</span>';}
+  else{el.innerHTML=highlight(fb.final)+(fb.interim?' <span class="interim">'+highlight(fb.interim)+'</span>':'');el.scrollTop=el.scrollHeight;}
+  const secs=fb.live?(Date.now()-fb.start)/1000:fb.elapsed||0;
+  $('fbFillers').textContent=countFillers(all).total;
+  $('fbWpm').textContent=secs>=5?Math.round(words(all)/(secs/60)):0;
+  $('fbTime').textContent=fmt(secs);
+}
+
+function startFB(){
+  fb.final='';fb.interim='';fb.elapsed=0;fb.start=Date.now();fb.live=true;
+  $('fbReport').style.display='none';$('fbWarn').style.display='none';
+  const r=new SR(); r.lang='en-US'; r.continuous=true; r.interimResults=true;
+  r.onresult=e=>{
+    let interim='';
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal) fb.final+=(fb.final?' ':'')+t.trim(); else interim+=t;
+    }
+    fb.interim=interim.trim(); renderFB();
+  };
+  r.onerror=e=>{
+    if(e.error==='not-allowed'||e.error==='service-not-allowed'){
+      $('fbWarn').style.display='block';
+      $('fbWarn').innerHTML='Microphone access was blocked. Click the 🔒 icon next to the web address, allow the microphone, then tap START again.';
+      stopFB(true);
+    }
+  };
+  r.onend=()=>{ if(fb.live){ try{r.start()}catch(_){} } }; // keep listening through pauses
+  fb.rec=r;
+  try{r.start()}catch(_){}
+  $('fbMic').textContent='STOP';$('fbMic').classList.add('live');
+  fb.timer=setInterval(renderFB,250); renderFB();
+}
+
+function stopFB(silent){
+  fb.live=false; fb.elapsed=(Date.now()-fb.start)/1000;
+  clearInterval(fb.timer);
+  if(fb.rec){try{fb.rec.stop()}catch(_){}}
+  if(fb.interim){fb.final+=(fb.final?' ':'')+fb.interim;fb.interim='';}
+  $('fbMic').textContent='START';$('fbMic').classList.remove('live');
+  renderFB();
+  if(!silent) showFBReport();
+}
+
+function showFBReport(){
+  const secs=fb.elapsed, w=words(fb.final), {total,counts}=countFillers(fb.final);
+  if(w<5){$('fbWarn').style.display='block';$('fbWarn').textContent='We didn’t catch enough words. Check your microphone and try speaking a little louder for at least 20 seconds.';return;}
+  const wpm=Math.round(w/(secs/60)), perMin=total/(secs/60);
+  let pace = wpm<110?'a little slow':wpm<=160?'a great pace':wpm<=180?'slightly fast':'fast';
+  $('fbSummary').innerHTML=`${total} filler${total===1?'':'s'} · ${wpm} words per minute · ${fmt(secs)} — ${pace}!`;
+  const chips=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="chip">“${esc(k)}” <b>×${v}</b></span>`).join('');
+  $('fbBreakdown').innerHTML=chips||'<span class="chip">No fillers detected — impressive! 🎉</span>';
+  let tip;
+  if(total===0) tip='🏆 <b>Filler-free!</b> Now try a harder topic, or speak for a full 2 minutes, and see if you can keep it up.';
+  else if(perMin<=2) tip='⭐ <b>Strong control.</b> When you feel a filler coming, replace it with a short silent pause. Pauses make you sound confident.';
+  else if(perMin<=5) tip='💡 <b>Pause instead of “um”.</b> Fillers usually show up when you’re thinking of the next idea. Take a breath, pause for one second, then continue.';
+  else tip='🎯 <b>Your challenge:</b> Speak more slowly and pause at the end of every sentence. Try again and aim to cut your filler count in half.';
+  if(wpm>170) tip+=' <br>🐢 You’re speaking fast — slow down so every word lands.';
+  if(wpm<100) tip+=' <br>⚡ Add a bit more energy and pace to keep listeners with you.';
+  $('fbTip').innerHTML=tip;
+  $('fbReport').style.display='block';
+  $('fbReport').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+$('fbMic').addEventListener('click',()=>fb.live?stopFB():startFB());
+$('fbAgain').addEventListener('click',()=>{$('fbReport').style.display='none';fb.final='';fb.elapsed=0;renderFB();window.scrollTo({top:0,behavior:'smooth'})});
+
+/* ─────────── STAGE LIGHTS ─────────── */
+const sl={start:0,run:false,timer:null,state:'',elapsed:0};
+let audioCtx=null;
+function beep(freq){
+  if(!$('slBeep').checked) return;
+  try{
+    audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.18,audioCtx.currentTime+.03);
+    g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.45);
+    o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.5);
+  }catch(_){}
+}
+function limits(){
+  let mn=parseFloat($('slMin').value),mx=parseFloat($('slMax').value);
+  if(!(mn>0))mn=1; if(!(mx>mn))mx=mn+1;
+  return {g:mn*60,y:(mn+mx)/2*60,r:mx*60};
+}
+function renderSignals(){
+  const L=limits();
+  $('slSignals').innerHTML=
+   `<span class="sig"><span class="dot" style="background:var(--green)"></span>Green at ${fmt(L.g)} — minimum reached, start wrapping up</span>
+    <span class="sig"><span class="dot" style="background:var(--yellow)"></span>Yellow at ${fmt(L.y)} — land your conclusion</span>
+    <span class="sig"><span class="dot" style="background:var(--red)"></span>Red at ${fmt(L.r)} — time’s up, finish now</span>`;
+}
+function setState(s,label){
+  const st=$('slStage'); st.classList.remove('g','y','r'); if(s) st.classList.add(s);
+  $('slLabel').textContent=label;
+  if(s&&s!==sl.state&&sl.run) beep(s==='g'?660:s==='y'?520:380);
+  sl.state=s;
+}
+function tickSL(){
+  const t=(Date.now()-sl.start)/1000, L=limits(); sl.elapsed=t;
+  $('slClock').textContent=fmt(t);
+  if(t>=L.r+30) setState('r','⏰ Over time — please conclude');
+  else if(t>=L.r) setState('r','🔴 Time’s up — finish now');
+  else if(t>=L.y) setState('y','🟡 Land your conclusion');
+  else if(t>=L.g) setState('g','🟢 Minimum reached — start wrapping up');
+  else setState('','Speaking…');
+}
+$('slStart').addEventListener('click',()=>{
+  if(sl.run) return;
+  if(audioCtx&&audioCtx.state==='suspended') audioCtx.resume();
+  sl.start=Date.now()-sl.elapsed*1000; sl.run=true;
+  $('slResult').style.display='none';
+  $('slStart').disabled=true;$('slStop').disabled=false;
+  sl.timer=setInterval(tickSL,200); tickSL();
+});
+$('slStop').addEventListener('click',()=>{
+  if(!sl.run) return;
+  sl.run=false; clearInterval(sl.timer);
+  $('slStart').disabled=false;$('slStart').textContent='Resume';$('slStop').disabled=true;
+  const t=Math.floor(sl.elapsed), L=limits(); let msg;
+  if(t<L.g) msg=`⏱️ ${fmt(t)} — under time by ${fmt(L.g-t)}. Add a little more depth next time.`;
+  else if(t<=L.r) msg=`✅ ${fmt(t)} — within range. Great time management!`;
+  else msg=`⚠️ ${fmt(t)} — over time by ${fmt(t-L.r)}. Practice trimming your ending.`;
+  $('slResult').textContent=msg; $('slResult').style.display='block';
+});
+$('slReset').addEventListener('click',()=>{
+  sl.run=false;clearInterval(sl.timer);sl.elapsed=0;sl.state='';
+  $('slClock').textContent='0:00';setState('','Ready when you are');
+  $('slStart').disabled=false;$('slStart').textContent='Start';$('slStop').disabled=true;$('slResult').style.display='none';
+});
+$('slFull').addEventListener('click',()=>{
+  const st=$('slStage');
+  if(document.fullscreenElement) document.exitFullscreen();
+  else if(st.requestFullscreen) st.requestFullscreen();
+});
+$('slHide').addEventListener('change',e=>$('slClock').classList.toggle('hidden',e.target.checked));
+document.querySelectorAll('#slPresets .pill').forEach(p=>p.addEventListener('click',()=>{
+  document.querySelectorAll('#slPresets .pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active'); $('slMin').value=p.dataset.min; $('slMax').value=p.dataset.max; renderSignals();
+}));
+['slMin','slMax'].forEach(id=>$(id).addEventListener('input',()=>{
+  document.querySelectorAll('#slPresets .pill').forEach(x=>x.classList.remove('active')); renderSignals();
+}));
+renderSignals();
+
+/* ─────────── SPEECH HOOK LAB ─────────── */
+const B=t=>`<span class="blank">${t}</span>`;
+const HOOKS=[
+ {type:'Question',why:'A question makes every listener answer in their head — they are instantly involved.',
+  t:[T=>`What would your life look like if ${T} suddenly disappeared tomorrow?`,
+     T=>`Raise your hand if you have ever wondered about ${T}. Keep it up if you still don’t have a clear answer.`,
+     T=>`Have you ever stopped to ask yourself why ${T} matters so much?`,
+     T=>`What if everything you believed about ${T} was only half the story?`]},
+ {type:'Startling Fact',why:'A surprising, true number grabs attention and proves your topic matters. Always use a real fact and name its source.',
+  t:[T=>`Here is a number that surprised me about ${T}: ${B('[insert a real statistic]')}. According to ${B('[source]')}, that’s happening right now.`,
+     T=>`Every ${B('[day / minute / year]')}, ${B('[real number]')} people are affected by ${T}. That’s according to ${B('[source]')}.`,
+     T=>`By the time I finish this speech, ${B('[real fact]')} will have happened because of ${T}.`]},
+ {type:'Story',why:'Humans are wired for stories. A short personal moment makes people care before you share any facts.',
+  t:[T=>`Last ${B('[summer / year / week]')}, I was ${B('[where you were]')} when something happened that changed how I think about ${T}.`,
+     T=>`I still remember the day I first learned about ${T}. I was ${B('[age]')} years old, and ${B('[what happened]')}.`,
+     T=>`Let me tell you about ${B('[a person’s name]')}. Their story will show you exactly why ${T} matters.`]},
+ {type:'Quote',why:'A powerful quote borrows the authority of someone respected. Use the exact words and say who said them.',
+  t:[T=>`${B('[Name of a person you admire]')} once said, “${B('[their exact words]')}.” Today, I want to show you what that means for ${T}.`,
+     T=>`“${B('[A real quote]')}.” Those words by ${B('[who said it]')} are the best way I know to begin talking about ${T}.`,
+     T=>`My ${B('[grandmother / coach / teacher]')} always told me, “${B('[what they said]')}.” I never understood it until I learned about ${T}.`]},
+ {type:'Picture This',why:'Asking the audience to imagine a scene puts them inside your speech. They see it, so they feel it.',
+  t:[T=>`Picture this: you wake up one morning, and the world has been completely changed by ${T}.`,
+     T=>`Close your eyes for a moment. Imagine ${B('[a vivid scene]')}. This is what ${T} looks like up close.`,
+     T=>`Imagine it is ten years from now. Because of ${T}, ${B('[what has changed]')}. Now let’s talk about how we get there.`]}
+];
+const hk={topic:'',pick:[]};
+function buildHooks(shuffle){
+  const raw=$('hkTopic').value.trim();
+  if(!raw){$('hkWarn').style.display='block';$('hkWarn').textContent='Type a topic first — anything you want to speak about.';return;}
+  $('hkWarn').style.display='none';
+  const T=esc(raw);
+  if(!shuffle||raw!==hk.topic){hk.pick=HOOKS.map(()=>-1);hk.topic=raw;}
+  hk.pick=HOOKS.map((h,i)=>{let n;do{n=Math.floor(Math.random()*h.t.length)}while(h.t.length>1&&n===hk.pick[i]);return n;});
+  $('hkList').innerHTML=HOOKS.map((h,i)=>`
+    <div class="hook">
+      <button class="copy" data-i="${i}">Copy</button>
+      <span class="htype">${h.type} Hook</span>
+      <div class="htext" id="hk${i}">${h.t[hk.pick[i]](`<b>${T}</b>`)}</div>
+      <div class="hwhy"><b>Why it works:</b> ${h.why}</div>
+    </div>`).join('');
+  $('hkOut').style.display='block';
+  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+    const txt=$('hk'+b.dataset.i).innerText;
+    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',1500)}).catch(()=>{b.textContent='Select & copy';});
+  }));
+}
+$('hkGo').addEventListener('click',()=>buildHooks(false));
+$('hkShuffle').addEventListener('click',()=>buildHooks(true));
+$('hkTopic').addEventListener('keydown',e=>{if(e.key==='Enter')buildHooks(false)});
+</script>
+</body>
+</html>
