@@ -33,8 +33,8 @@ a{color:inherit}
 .home .tm{color:var(--accent)}
 .toplink{color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem;white-space:nowrap}
 .toplink:hover{text-decoration:underline}
-.gift{background:linear-gradient(90deg,#7A3E12,#B5651D,#7A3E12);text-align:center;padding:10px 14px;font-weight:700;font-size:.98rem;letter-spacing:.2px;border-bottom:2px solid var(--accent)}
-.gift span{color:#FFE3A3}
+.gift{background:linear-gradient(90deg,#173F72,#2A5BC4,#173F72);text-align:center;padding:10px 14px;font-weight:700;font-size:.98rem;letter-spacing:.2px;border-bottom:2px solid var(--accent)}
+.gift span{color:#FFF1C2}
 .hero{text-align:center;padding:34px 16px 18px}
 .kicker{font-family:var(--head);font-size:.78rem;letter-spacing:4px;text-transform:uppercase;color:var(--accent);font-weight:700}
 h1{font-family:var(--head);font-size:clamp(2.2rem,6vw,3.6rem);font-weight:900;line-height:1.05;margin-top:8px}
@@ -153,7 +153,7 @@ footer a{color:var(--accent);text-decoration:none;font-weight:600}
   <a class="home" href="index.html"><img src="slw_acadamy.jpg" alt="Speak Lead Win Academy logo"><span>SLW-SpeakSmart<span class="tm">™</span> App</span></a>
   <a class="toplink" href="index.html">← Back to home</a>
 </div>
-<div class="gift" id="giftBanner">🦃 <span>A Thanksgiving gift from Coach Somesh</span> — the brand-new Speech Practice Lab is here! 🎁</div>
+<div class="gift" id="giftBanner">🌍 <span>A free gift to the next generation of leaders, everywhere in the world.</span> 🎁</div>
 
 <section class="hero">
   <div class="kicker">Deliver Your Speech</div>
@@ -278,8 +278,6 @@ footer a{color:var(--accent);text-decoration:none;font-weight:600}
 </footer>
 
 <script>
-/* Thanksgiving banner shows until Dec 7, 2026 */
-if (new Date() > new Date('2026-12-07T23:59:59')) document.getElementById('giftBanner').style.display='none';
 
 /* ─────────── Tool menu (supports links like practice-lab.html#timer) ─────────── */
 const tools=[...document.querySelectorAll('.tool')];
