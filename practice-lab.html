@@ -3,130 +3,186 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Practice Lab — SpeakSmart by SLW Academy</title>
+<title>Speech Practice Lab — SLW-SpeakSmart™ App</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#071A2F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="SpeakSmart">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#071A2F; --dark:#0A1F38; --section:#1A2F5E; --accent:#C9A84C; --accent-h:#dfc06a;
-  --text:#fff; --muted:rgba(255,255,255,.62); --border:rgba(201,168,76,.28);
-  --green:#1FA971; --yellow:#E8B931; --red:#D6453D; --filler:#FF6B6B;
+  --bg:#071A2F; --dark:#0A1F38; --section:#13294F; --card:#0F2445; --accent:#C9A84C; --accent-h:#E2C86B;
+  --text:#fff; --muted:rgba(255,255,255,.66); --border:rgba(201,168,76,.32);
+  --green:#15803D; --yellow:#E8B931; --red:#C62828; --filler:#FF6B6B;
+  --head:'Montserrat','Segoe UI',sans-serif; --body:'Inter','Segoe UI',Tahoma,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+body{background:radial-gradient(circle at 15% 0%,rgba(201,168,76,.14),transparent 38%),var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;display:flex;flex-direction:column}
 button{font-family:inherit}
-header{background:var(--dark);padding:20px 16px 16px;text-align:center;border-bottom:3px solid var(--accent);position:relative}
-.back{position:absolute;left:14px;top:14px;color:var(--accent);text-decoration:none;font-size:.85rem}
-.back:hover{text-decoration:underline}
-.kicker{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600}
-h1{font-size:2.1rem;font-weight:800;margin-top:4px}
+a{color:inherit}
+
+/* Header */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;background:var(--dark);border-bottom:1px solid rgba(201,168,76,.2)}
+.home{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--head);font-weight:800;font-size:1rem}
+.home img{width:44px;height:44px;border-radius:10px;object-fit:cover;background:#fff}
+.home .tm{color:var(--accent)}
+.toplink{color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem;white-space:nowrap}
+.toplink:hover{text-decoration:underline}
+.gift{background:linear-gradient(90deg,#7A3E12,#B5651D,#7A3E12);text-align:center;padding:10px 14px;font-weight:700;font-size:.98rem;letter-spacing:.2px;border-bottom:2px solid var(--accent)}
+.gift span{color:#FFE3A3}
+.hero{text-align:center;padding:34px 16px 18px}
+.kicker{font-family:var(--head);font-size:.78rem;letter-spacing:4px;text-transform:uppercase;color:var(--accent);font-weight:700}
+h1{font-family:var(--head);font-size:clamp(2.2rem,6vw,3.6rem);font-weight:900;line-height:1.05;margin-top:8px}
 h1 span{color:var(--accent)}
-.tagline{color:var(--muted);font-size:.92rem;margin-top:4px}
-.tab-bar{display:flex;justify-content:center;background:var(--dark);border-bottom:2px solid var(--section);overflow-x:auto}
-.tab{padding:13px 18px 10px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:.9rem;border-bottom:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:110px;white-space:nowrap}
-.tab .ic{font-size:1.35rem}
-.tab:hover{color:var(--text)}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
-main{flex:1;width:100%;max-width:880px;margin:0 auto;padding:22px 16px 40px}
-.panel{display:none}
+.tagline{color:var(--muted);font-size:clamp(1rem,2.4vw,1.2rem);margin-top:10px}
+.tagline b{color:var(--text)}
+
+/* Tool menu (big cards) */
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1080px;margin:10px auto 0;padding:0 16px}
+.tool{position:relative;text-align:left;border:2px solid var(--border);border-radius:22px;padding:22px 20px 20px;cursor:pointer;color:var(--text);background:linear-gradient(160deg,var(--card),var(--section));transition:transform .18s,border-color .18s,box-shadow .18s;overflow:hidden}
+.tool::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:var(--glow);opacity:.18}
+.tool:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.tool.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,168,76,.35),0 14px 34px rgba(0,0,0,.35);background:linear-gradient(160deg,#1A3563,#13294F)}
+.tool .big{font-size:2.6rem;line-height:1;width:72px;height:72px;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;box-shadow:0 10px 22px rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.25);transition:transform .2s}
+.tool:hover .big{transform:rotate(-6deg) scale(1.08)}
+.tool .name{font-family:var(--head);font-size:1.35rem;font-weight:800}
+.tool .promise{color:var(--muted);font-size:.95rem;margin-top:6px;line-height:1.45}
+.tool .go{display:inline-block;margin-top:14px;font-weight:700;color:var(--accent);font-size:.92rem}
+.soon{max-width:1080px;margin:14px auto 0;padding:0 16px;text-align:center;color:var(--muted);font-size:.9rem}
+.soon b{color:var(--accent)}
+
+main{flex:1;width:100%;max-width:900px;margin:0 auto;padding:26px 16px 50px}
+.panel{display:none;animation:fade .25s ease}
 .panel.active{display:block}
-.ptitle{font-size:1.5rem;font-weight:800}
-.psub{color:var(--muted);margin:6px 0 18px;line-height:1.5}
-.card{background:var(--section);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
-.btn{background:var(--accent);color:var(--dark);border:none;border-radius:999px;padding:13px 28px;font-weight:800;font-size:1rem;cursor:pointer;transition:background .15s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ptitle{font-family:var(--head);font-size:1.8rem;font-weight:800;display:flex;align-items:center;gap:10px}
+.psub{color:var(--muted);margin:6px 0 20px;line-height:1.55;font-size:1.02rem}
+.card{background:var(--section);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:16px}
+.btn{background:var(--accent);color:var(--dark);border:none;border-radius:999px;padding:14px 30px;font-weight:800;font-size:1.02rem;cursor:pointer;transition:background .15s,transform .1s}
 .btn:hover{background:var(--accent-h)}
+.btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent)}
 .btn.ghost:hover{background:rgba(201,168,76,.12)}
 .btn.stop{background:var(--red);color:#fff}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .center{text-align:center}
-.note{font-size:.8rem;color:var(--muted);line-height:1.5;margin-top:10px}
-.warn{background:rgba(214,69,61,.15);border:1px solid rgba(214,69,61,.5);color:#ffd2cf;border-radius:12px;padding:12px 14px;font-size:.9rem;margin-bottom:14px;display:none}
-.cta{display:inline-block;margin-top:14px;color:var(--dark);background:var(--accent);text-decoration:none;font-weight:800;padding:11px 22px;border-radius:999px}
+.note{font-size:.8rem;color:var(--muted);line-height:1.55;margin-top:12px}
+.warn{background:rgba(198,40,40,.16);border:1px solid rgba(198,40,40,.55);color:#ffd2cf;border-radius:12px;padding:12px 14px;font-size:.92rem;margin-bottom:14px;display:none}
+.cta{display:inline-block;color:var(--dark);background:var(--accent);text-decoration:none;font-weight:800;padding:13px 24px;border-radius:999px}
 .cta:hover{background:var(--accent-h)}
 
 /* Filler Buster */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
-.stat{background:var(--dark);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center}
-.stat .v{font-size:2.1rem;font-weight:800;line-height:1.1}
-.stat .l{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{background:var(--dark);border:1px solid var(--border);border-radius:16px;padding:16px 10px;text-align:center}
+.stat .v{font-family:var(--head);font-size:2.5rem;font-weight:900;line-height:1.1}
+.stat .l{font-size:.74rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .stat.fill .v{color:var(--filler)}
-.mic{width:120px;height:120px;border-radius:50%;border:none;background:var(--accent);color:var(--dark);font-size:1.05rem;font-weight:800;cursor:pointer;box-shadow:0 0 0 0 rgba(201,168,76,.6);transition:transform .15s}
-.mic:hover{transform:scale(1.04)}
-.mic.live{background:var(--red);color:#fff;animation:pulse 1.4s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(214,69,61,.55)}70%{box-shadow:0 0 0 22px rgba(214,69,61,0)}100%{box-shadow:0 0 0 0 rgba(214,69,61,0)}}
-.transcript{background:var(--dark);border:1px solid var(--border);border-radius:14px;padding:16px;min-height:130px;max-height:260px;overflow-y:auto;line-height:1.7;font-size:1.02rem}
+.mic{width:140px;height:140px;border-radius:50%;border:none;background:radial-gradient(circle at 35% 30%,#E9D08A,var(--accent));color:var(--dark);font-family:var(--head);font-size:1.15rem;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(201,168,76,.35);transition:transform .15s}
+.mic .mi{display:block;font-size:2.3rem;margin-bottom:2px}
+.mic:hover{transform:scale(1.05)}
+.mic.live{background:radial-gradient(circle at 35% 30%,#F06A6A,var(--red));color:#fff;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,.55)}70%{box-shadow:0 0 0 26px rgba(198,40,40,0)}100%{box-shadow:0 0 0 0 rgba(198,40,40,0)}}
+.level{height:8px;border-radius:999px;background:var(--dark);overflow:hidden;max-width:300px;margin:14px auto 0}
+.level i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-h));transition:width .08s}
+.transcript{background:var(--dark);border:1px solid var(--border);border-radius:16px;padding:18px;min-height:140px;max-height:280px;overflow-y:auto;line-height:1.85;font-size:1.08rem;margin-top:18px}
 .transcript .ph{color:var(--muted);font-style:italic}
 .transcript .interim{color:var(--muted)}
-.fw{background:rgba(255,107,107,.18);color:var(--filler);font-weight:700;border-radius:5px;padding:0 4px}
-.report{display:none}
-.report h3{font-size:1.25rem;margin-bottom:10px;color:var(--accent)}
-.breakdown{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.chip{background:var(--dark);border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-size:.85rem}
+.fw{background:rgba(255,107,107,.2);color:var(--filler);font-weight:700;border-radius:6px;padding:1px 6px}
+.hz{display:inline-block;background:var(--filler);color:#1b0b0b;font-weight:800;border-radius:6px;padding:0 7px;font-size:.85rem;margin:0 2px}
+.report{display:none;margin-top:18px}
+.report h3{font-family:var(--head);font-size:1.3rem;margin-bottom:10px;color:var(--accent)}
+.breakdown{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.chip{background:var(--dark);border:1px solid var(--border);border-radius:999px;padding:7px 13px;font-size:.88rem}
 .chip b{color:var(--filler)}
-.tip{background:rgba(201,168,76,.1);border-left:4px solid var(--accent);padding:12px 14px;border-radius:8px;margin-top:12px;line-height:1.55}
+.tip{background:rgba(201,168,76,.1);border-left:4px solid var(--accent);padding:13px 15px;border-radius:8px;margin-top:12px;line-height:1.6}
 
-/* Stage Lights */
-.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.pill{background:transparent;border:2px solid var(--accent);color:var(--text);border-radius:999px;padding:8px 16px;cursor:pointer;font-size:.88rem}
-.pill.active,.pill:hover{background:var(--accent);color:var(--dark);font-weight:700}
-.custom{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
-.custom label{font-size:.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
-.custom input{width:80px;padding:9px 10px;border-radius:10px;border:1px solid var(--border);background:var(--dark);color:var(--text);font-size:1rem}
-.signals{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:.88rem}
-.sig{display:flex;align-items:center;gap:6px;background:var(--dark);border-radius:999px;padding:5px 12px}
-.dot{width:12px;height:12px;border-radius:50%}
-.stage{border-radius:20px;padding:34px 16px;text-align:center;background:#11253f;border:2px solid var(--border);transition:background .5s;margin-bottom:14px;position:relative}
+/* Stage Lights Timer */
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.pill{background:transparent;border:2px solid var(--accent);color:var(--text);border-radius:999px;padding:9px 18px;cursor:pointer;font-size:.92rem;font-weight:600}
+.pill.active,.pill:hover{background:var(--accent);color:var(--dark)}
+.custom{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.custom label{font-size:.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px;font-weight:700}
+.custom input{width:90px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--dark);color:var(--text);font-size:1.05rem}
+.signals{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:.9rem}
+.sig{display:flex;align-items:center;gap:7px;background:var(--dark);border-radius:999px;padding:6px 13px}
+.dot{width:13px;height:13px;border-radius:50%}
+.stage{border-radius:24px;padding:40px 16px;text-align:center;background:#10243F;border:3px solid var(--border);transition:background .5s;margin-bottom:16px}
 .stage.g{background:var(--green)} .stage.y{background:var(--yellow)} .stage.r{background:var(--red)}
 .stage.y .clock,.stage.y .slabel{color:#1b1b1b}
-.clock{font-size:clamp(4rem,16vw,8rem);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:2px;line-height:1}
+.clock{font-family:var(--head);font-size:clamp(4.5rem,18vw,9rem);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:2px;line-height:1}
 .clock.hidden{visibility:hidden}
-.slabel{font-size:1.05rem;margin-top:10px;font-weight:600;min-height:1.4em}
-.toggles{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:12px;font-size:.9rem;color:var(--muted)}
-.toggles label{cursor:pointer;display:flex;align-items:center;gap:6px}
-.result{display:none;text-align:center;font-size:1.15rem;font-weight:700;margin-top:6px}
-.stage:fullscreen{display:flex;flex-direction:column;justify-content:center;border-radius:0}
+.slabel{font-size:1.15rem;margin-top:12px;font-weight:700;min-height:1.4em}
+.toggles{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:14px;font-size:.92rem;color:var(--muted)}
+.toggles label{cursor:pointer;display:flex;align-items:center;gap:7px}
+.result{display:none;text-align:center;font-size:1.2rem;font-weight:800;margin-top:10px}
+.stage:fullscreen{display:flex;flex-direction:column;justify-content:center;border-radius:0;border:none}
 .stage:fullscreen .clock{font-size:26vw}
 
-/* Hook Lab */
+/* Speech Hook Lab */
 .hook-in{display:flex;gap:10px;flex-wrap:wrap}
-.hook-in input{flex:1;min-width:220px;padding:13px 14px;border-radius:12px;border:1px solid var(--border);background:var(--dark);color:var(--text);font-size:1rem}
+.hook-in input{flex:1;min-width:220px;padding:15px 16px;border-radius:14px;border:1px solid var(--border);background:var(--dark);color:var(--text);font-size:1.05rem}
 .hook-in input:focus,.custom input:focus{outline:2px solid var(--accent)}
-.hooks{display:none;margin-top:16px}
-.hook{background:var(--dark);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
-.htype{display:inline-block;background:var(--accent);color:var(--dark);font-weight:800;font-size:.75rem;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:999px}
-.htext{font-size:1.08rem;line-height:1.6;margin:10px 0 8px}
-.hwhy{color:var(--muted);font-size:.9rem;line-height:1.5}
-.hwhy b{color:var(--accent)}
-.copy{float:right;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:.78rem}
+.hooks{display:none;margin-top:20px}
+.hook{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:20px}
+.hhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.htype{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--dark);font-family:var(--head);font-weight:800;font-size:.82rem;letter-spacing:1px;text-transform:uppercase;padding:6px 13px;border-radius:999px}
+.copy{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.8rem}
 .copy:hover{color:var(--text);border-color:var(--accent)}
-.blank{color:var(--accent);font-style:italic}
+.say-label{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:6px}
+.say{background:#081931;border-left:5px solid var(--accent);border-radius:12px;padding:16px 18px;font-size:1.22rem;line-height:1.6;font-weight:500}
+.say .topic{color:var(--accent-h);font-weight:700}
+.why{margin-top:14px;padding-top:12px;border-top:1px dashed rgba(201,168,76,.35);color:#B9C6DA;font-size:.93rem;line-height:1.55}
+.why b{color:var(--accent)}
+.blank{color:var(--accent);font-style:italic;font-weight:600}
 
-footer{text-align:center;padding:18px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--section)}
-footer a{color:var(--accent);text-decoration:none}
-@media (max-width:560px){h1{font-size:1.6rem}.back{position:static;display:block;margin-bottom:8px}.tab{min-width:90px;padding:11px 10px 8px;font-size:.8rem}.stat .v{font-size:1.6rem}}
+footer{text-align:center;padding:22px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--section)}
+footer a{color:var(--accent);text-decoration:none;font-weight:600}
+@media (max-width:820px){.menu{grid-template-columns:1fr}.tool{display:flex;align-items:center;gap:16px;padding:16px}.tool .big{font-size:2.1rem;width:60px;height:60px;flex-shrink:0;margin:0}.tool .go{display:none}}
+@media (max-width:560px){.stat .v{font-size:1.8rem}.topbar{padding:10px 12px}.home span.full{display:none}.say{font-size:1.08rem}}
 </style>
 </head>
 <body>
 
-<header>
-  <a class="back" href="index.html">← Back to SpeakSmart</a>
-  <div class="kicker">Speak Lead Win Academy</div>
-  <h1>Practice <span>Lab</span></h1>
-  <div class="tagline">Free tools to practice like a pro — no sign-up needed.</div>
-</header>
+<div class="topbar">
+  <a class="home" href="index.html"><img src="slw_acadamy.jpg" alt="Speak Lead Win Academy logo"><span>SLW-SpeakSmart<span class="tm">™</span> App</span></a>
+  <a class="toplink" href="index.html">← Back to home</a>
+</div>
+<div class="gift" id="giftBanner">🦃 <span>A Thanksgiving gift from Coach Somesh</span> — the brand-new Speech Practice Lab is here! 🎁</div>
 
-<nav class="tab-bar">
-  <button class="tab active" data-tab="filler"><span class="ic">🎙️</span>Filler Buster</button>
-  <button class="tab" data-tab="timer"><span class="ic">🚦</span>Stage Lights</button>
-  <button class="tab" data-tab="hooks"><span class="ic">🪝</span>Speech Hook Lab</button>
+<section class="hero">
+  <div class="kicker">Deliver Your Speech</div>
+  <h1>Speech Practice <span>Lab</span></h1>
+  <p class="tagline">Free tools for all young leaders to practice like a pro. <b>No sign-up needed.</b></p>
+</section>
+
+<nav class="menu" aria-label="Practice tools">
+  <button class="tool active" data-tab="filler" style="--glow:#C9A84C">
+    <span class="big" style="background:linear-gradient(145deg,#F2D77E,#B8963E)">🎙️</span>
+    <div><div class="name">Filler Buster</div><div class="promise">Speak and watch every “um”, “uh” and “like” get caught live.</div><span class="go">Start busting →</span></div>
+  </button>
+  <button class="tool" data-tab="hooks" style="--glow:#4F86F7">
+    <span class="big" style="background:linear-gradient(145deg,#F2D77E,#B8963E)">🪝</span>
+    <div><div class="name">Speech Hook Lab</div><div class="promise">Get 5 powerful ways to open your speech — and learn why they work.</div><span class="go">Build my hook →</span></div>
+  </button>
+  <button class="tool" data-tab="timer" style="--glow:#4F86F7">
+    <span class="big" style="background:linear-gradient(145deg,#F2D77E,#B8963E)">🚦</span>
+    <div><div class="name">Stage Lights Timer</div><div class="promise">Green, yellow, red — finish your speech right on time.</div><span class="go">Start the clock →</span></div>
+  </button>
 </nav>
+<p class="soon">✨ <b>2 more practice tools</b> are coming soon to the Lab.</p>
 
 <main>
 
 <!-- ═════════════ FILLER BUSTER ═════════════ -->
 <section class="panel active" id="panel-filler">
   <div class="ptitle">🎙️ Filler Buster</div>
-  <p class="psub">Tap the mic and start speaking. Watch your words appear live — every “um”, “uh” and “like” lights up in red.</p>
+  <p class="psub">Tap the mic and talk for 30 seconds or more. Your words appear live — fillers light up in red, and every “um/uh” sound gets a red <span class="hz">um</span> tag.</p>
 
   <div class="warn" id="fbWarn"></div>
 
@@ -136,40 +192,63 @@ footer a{color:var(--accent);text-decoration:none}
     <div class="stat"><div class="v" id="fbTime">0:00</div><div class="l">Time</div></div>
   </div>
 
-  <div class="center" style="margin-bottom:16px">
-    <button class="mic" id="fbMic">START</button>
+  <div class="center">
+    <button class="mic" id="fbMic"><span class="mi">🎤</span>START</button>
+    <div class="level" title="Microphone level"><i id="fbLevel"></i></div>
   </div>
 
   <div class="transcript" id="fbText"><span class="ph">Your words will appear here as you speak…</span></div>
-  <p class="note">Works best in Google Chrome or Microsoft Edge on a computer or Android phone. Counts are approximate — speech recognition sometimes skips quiet “um”s. Your voice is processed by your browser’s speech service (for example, Google in Chrome). SLW Academy does not record or save anything.</p>
+  <p class="note">Works best in Google Chrome or Microsoft Edge on a computer. Browsers’ speech engines often delete “um” and “uh” from the text, so Filler Buster also listens for the <i>sound</i> of a held “ummm” or “uhhh”. That part is new and approximate. Long stretched words like “sooo” may count too, because they are hesitations as well. Your voice is processed by your browser’s speech service (for example, Google in Chrome). SLW Academy does not record or save anything.</p>
 
-  <div class="card report" id="fbReport" style="margin-top:16px">
+  <div class="card report" id="fbReport">
     <h3>Your Filler Buster Scorecard</h3>
-    <div id="fbSummary" style="font-size:1.1rem;font-weight:700"></div>
+    <div id="fbSummary" style="font-size:1.15rem;font-weight:800"></div>
     <div class="breakdown" id="fbBreakdown"></div>
     <div class="tip" id="fbTip"></div>
-    <div class="row" style="margin-top:14px">
+    <div class="row" style="margin-top:16px">
       <button class="btn ghost" id="fbAgain">Try again</button>
-      <a class="cta" href="https://speakleadwinacademy.com" target="_blank" rel="noopener" style="margin-top:0">Level up with SLW Academy →</a>
+      <a class="cta" href="https://speakleadwinacademy.com" target="_blank" rel="noopener">Level up with SLW Academy →</a>
     </div>
   </div>
 </section>
 
-<!-- ═════════════ STAGE LIGHTS ═════════════ -->
+<!-- ═════════════ SPEECH HOOK LAB ═════════════ -->
+<section class="panel" id="panel-hooks">
+  <div class="ptitle">🪝 Speech Hook Lab</div>
+  <p class="psub">The first 10 seconds decide if your audience listens. Type your speech title or topic and get five different ways to open.</p>
+
+  <div class="card">
+    <div class="hook-in">
+      <input type="text" id="hkTopic" placeholder="e.g. The Career Growth Code, climate change, my grandmother" maxlength="80">
+      <button class="btn" id="hkGo">Build my hooks</button>
+    </div>
+    <div class="warn" id="hkWarn" style="margin:12px 0 0"></div>
+  </div>
+
+  <div class="hooks" id="hkOut">
+    <div id="hkList"></div>
+    <div class="row" style="justify-content:center">
+      <button class="btn ghost" id="hkShuffle">🔀 Show me different hooks</button>
+    </div>
+    <p class="note center">Words in <span class="blank">[gold brackets]</span> are blanks for you to fill in. Always use real facts and real quotes, and say where they came from.</p>
+  </div>
+</section>
+
+<!-- ═════════════ STAGE LIGHTS TIMER ═════════════ -->
 <section class="panel" id="panel-timer">
-  <div class="ptitle">🚦 Stage Lights</div>
-  <p class="psub">Set your speech time, tap Start, and let the lights guide you. Practice alone at home, or share your screen in class as the Timer.</p>
+  <div class="ptitle">🚦 Stage Lights Timer</div>
+  <p class="psub">Pick your speech time, tap Start, and let the lights guide you. Practice alone at home, or share your screen in class as the Timer.</p>
 
   <div class="card">
     <div class="presets" id="slPresets">
-      <button class="pill" data-min="1" data-max="2">Impromptu · 1–2 min</button>
+      <button class="pill active" data-min="1" data-max="2">Impromptu · 1–2 min</button>
       <button class="pill" data-min="2" data-max="3">Evaluation · 2–3 min</button>
       <button class="pill" data-min="3" data-max="5">Short Speech · 3–5 min</button>
-      <button class="pill active" data-min="5" data-max="7">Speech · 5–7 min</button>
+      <button class="pill" data-min="5" data-max="7">Speech · 5–7 min</button>
     </div>
     <div class="custom">
-      <div><label for="slMin">Minimum (min)</label><input type="number" id="slMin" min="0.5" step="0.5" value="5"></div>
-      <div><label for="slMax">Maximum (min)</label><input type="number" id="slMax" min="1" step="0.5" value="7"></div>
+      <div><label for="slMin">Minimum (min)</label><input type="number" id="slMin" min="0.5" step="0.5" value="1"></div>
+      <div><label for="slMax">Maximum (min)</label><input type="number" id="slMax" min="1" step="0.5" value="2"></div>
     </div>
     <div class="signals" id="slSignals"></div>
   </div>
@@ -180,8 +259,8 @@ footer a{color:var(--accent);text-decoration:none}
   </div>
 
   <div class="row" style="justify-content:center">
-    <button class="btn" id="slStart">Start</button>
-    <button class="btn stop" id="slStop" disabled>Stop</button>
+    <button class="btn" id="slStart">▶ Start</button>
+    <button class="btn stop" id="slStop" disabled>■ Stop</button>
     <button class="btn ghost" id="slReset">Reset</button>
     <button class="btn ghost" id="slFull">⛶ Full screen</button>
   </div>
@@ -192,85 +271,151 @@ footer a{color:var(--accent);text-decoration:none}
   <div class="result" id="slResult"></div>
 </section>
 
-<!-- ═════════════ SPEECH HOOK LAB ═════════════ -->
-<section class="panel" id="panel-hooks">
-  <div class="ptitle">🪝 Speech Hook Lab</div>
-  <p class="psub">The first 10 seconds decide if your audience listens. Type your topic and get five different ways to open — and learn why each one works.</p>
-
-  <div class="card">
-    <div class="hook-in">
-      <input type="text" id="hkTopic" placeholder="e.g. climate change, social media, my grandmother" maxlength="80">
-      <button class="btn" id="hkGo">Build my hooks</button>
-    </div>
-    <div class="warn" id="hkWarn" style="margin:10px 0 0"></div>
-  </div>
-
-  <div class="hooks" id="hkOut">
-    <div id="hkList"></div>
-    <div class="row" style="justify-content:center;margin-top:6px">
-      <button class="btn ghost" id="hkShuffle">🔀 Show me different hooks</button>
-    </div>
-    <p class="note center">Words in <span class="blank">gold italics</span> are blanks for you to fill in. Always use real facts and real quotes — and say where they came from.</p>
-  </div>
-</section>
-
 </main>
 
 <footer>
-  Free practice tools by <a href="https://speakleadwinacademy.com" target="_blank" rel="noopener">Speak Lead Win Academy</a> · Speak with confidence. Lead with impact.
+  SLW-SpeakSmart™ App · free practice tools by <a href="https://speakleadwinacademy.com" target="_blank" rel="noopener">Speak Lead Win Academy</a> · Speak with confidence. Lead with impact.
 </footer>
 
 <script>
-/* ─────────── Tabs (supports links like practice-lab.html#timer) ─────────── */
-const tabs=[...document.querySelectorAll('.tab')];
-function showTab(name){
+/* Thanksgiving banner shows until Dec 7, 2026 */
+if (new Date() > new Date('2026-12-07T23:59:59')) document.getElementById('giftBanner').style.display='none';
+
+/* ─────────── Tool menu (supports links like practice-lab.html#timer) ─────────── */
+const tools=[...document.querySelectorAll('.tool')];
+function showTab(name, scroll){
   if(!document.getElementById('panel-'+name)) name='filler';
-  tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
+  tools.forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+name));
   history.replaceState(null,'','#'+name);
+  if(scroll) document.getElementById('panel-'+name).scrollIntoView({behavior:'smooth',block:'start'});
 }
-tabs.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
-showTab((location.hash||'#filler').slice(1));
+tools.forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab,true)));
+showTab((location.hash||'#filler').slice(1), !!location.hash);
 
+const $=id=>document.getElementById(id);
 const fmt=s=>{s=Math.max(0,Math.floor(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
 const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ─────────── FILLER BUSTER ─────────── */
-const FILLERS=['you know','i mean','kind of','sort of','um','umm','uh','uhh','uh-huh','er','ah','hmm','mm','like','basically','actually','literally'];
-const fillerRe=new RegExp('\\b('+FILLERS.sort((a,b)=>b.length-a.length).map(f=>f.replace(/[-]/g,'\\-')).join('|')+')\\b','gi');
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-const fb={rec:null,live:false,final:'',interim:'',start:0,timer:null};
-const $=id=>document.getElementById(id);
+const SIMPLE=new Set(['um','umm','ummm','uh','uhh','uhm','er','erm','ah','ahh','hmm','mm','mmm','basically','literally']);
+// "like" counts as a filler only after these words (e.g. "it was like", "and like"), at the start, or when doubled.
+const LIKE_PREV=new Set(['was','is',"it's",'its','and','so','but','or','just','um','uh','were','totally','literally','actually','kinda',"i'm","he's","she's","they're","we're","you're",'like','then','basically']);
+const YOUKNOW_SKIP=new Set(['do','did',"don't",'dont',"didn't",'if','what','how','whether','would','you','to']);
+const IMEAN_SKIP=new Set(['what','do','that','did']);
+const norm=w=>w.toLowerCase().replace(/[^a-z']/g,'');
 
+/* Returns tokens: {raw, filler:false|key} — whitespace tokens kept for display */
+function analyze(text){
+  const parts=text.split(/(\s+)/), out=[], words=[];
+  parts.forEach(p=>{const t={raw:p,filler:false};out.push(t);if(p.trim())words.push(t)});
+  for(let i=0;i<words.length;i++){
+    const w=norm(words[i].raw), prev=i>0?norm(words[i-1].raw):'', next=i+1<words.length?norm(words[i+1].raw):'';
+    if(SIMPLE.has(w)) words[i].filler=w.replace(/(.)\1+$/,'$1');
+    else if(w==='like'){ if(i===0||LIKE_PREV.has(prev)||next==='like'||(i>0&&words[i-1].filler)) words[i].filler='like'; }
+    else if(w==='know'&&prev==='you'&&!YOUKNOW_SKIP.has(i>1?norm(words[i-2].raw):'')){ words[i].filler='you know'; words[i-1].filler='you know*'; }
+    else if(w==='mean'&&prev==='i'&&!IMEAN_SKIP.has(i>1?norm(words[i-2].raw):'')){ words[i].filler='i mean'; words[i-1].filler='i mean*'; }
+  }
+  return {tokens:out, words};
+}
+function countText(text){
+  const counts={}; let total=0;
+  analyze(text).words.forEach(t=>{ if(t.filler&&!t.filler.endsWith('*')){counts[t.filler]=(counts[t.filler]||0)+1;total++;} });
+  return {total,counts};
+}
+const wordCount=text=>(text.trim().match(/\S+/g)||[]).length;
+
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const fb={rec:null,live:false,final:'',interim:'',start:0,timer:null,elapsed:0,hes:[]};
 if(!SR){
   $('fbWarn').style.display='block';
   $('fbWarn').innerHTML='Your browser doesn’t support live speech recognition. Please open this page in <b>Google Chrome</b> or <b>Microsoft Edge</b> to use Filler Buster.';
   $('fbMic').disabled=true; $('fbMic').style.opacity=.4;
 }
 
-function countFillers(text){
-  const counts={}; let total=0; let m;
-  fillerRe.lastIndex=0;
-  while((m=fillerRe.exec(text))){const k=m[1].toLowerCase().replace(/(.)\1+$/,'$1');counts[k]=(counts[k]||0)+1;total++}
-  return {total,counts};
+/* Build transcript HTML with um-sound markers placed at the word position where they were heard */
+function transcriptHTML(finalTxt, interimTxt){
+  const all=(finalTxt+(interimTxt?' '+interimTxt:'')).trim();
+  const {tokens}=analyze(all);
+  const finalWords=wordCount(finalTxt);
+  let wi=0, html='', hi=0;
+  const marks=fb.hes.slice().sort((a,b)=>a-b);
+  const mark='<span class="hz">um</span>';
+  tokens.forEach(t=>{
+    if(!t.raw.trim()){html+=t.raw;return;}
+    while(hi<marks.length&&marks[hi]<=wi){html+=mark+' ';hi++;}
+    const cls=wi>=finalWords?' class="interim"':'';
+    const inner=t.filler?`<span class="fw">${esc(t.raw)}</span>`:esc(t.raw);
+    html+= cls?`<span${cls}>${inner}</span>`:inner;
+    wi++;
+  });
+  while(hi<marks.length){html+=' '+mark;hi++;}
+  return html;
 }
-function words(text){return (text.trim().match(/\S+/g)||[]).length}
-function highlight(text){return esc(text).replace(fillerRe,'<span class="fw">$1</span>')}
 
 function renderFB(){
   const all=(fb.final+' '+fb.interim).trim();
   const el=$('fbText');
-  if(!all){el.innerHTML='<span class="ph">'+(fb.live?'Listening… start speaking!':'Your words will appear here as you speak…')+'</span>';}
-  else{el.innerHTML=highlight(fb.final)+(fb.interim?' <span class="interim">'+highlight(fb.interim)+'</span>':'');el.scrollTop=el.scrollHeight;}
-  const secs=fb.live?(Date.now()-fb.start)/1000:fb.elapsed||0;
-  $('fbFillers').textContent=countFillers(all).total;
-  $('fbWpm').textContent=secs>=5?Math.round(words(all)/(secs/60)):0;
+  if(!all&&!fb.hes.length){el.innerHTML='<span class="ph">'+(fb.live?'Listening… start speaking!':'Your words will appear here as you speak…')+'</span>';}
+  else{el.innerHTML=transcriptHTML(fb.final,fb.interim);el.scrollTop=el.scrollHeight;}
+  const secs=fb.live?(Date.now()-fb.start)/1000:fb.elapsed;
+  $('fbFillers').textContent=countText(all).total+fb.hes.length;
+  $('fbWpm').textContent=secs>=5?Math.round(wordCount(all)/(secs/60)):0;
   $('fbTime').textContent=fmt(secs);
 }
 
-function startFB(){
-  fb.final='';fb.interim='';fb.elapsed=0;fb.start=Date.now();fb.live=true;
+/* ── "Um/uh" sound detector: a held, steady voiced sound (≥0.38s) with little change in the spectrum ── */
+const hes={ctx:null,stream:null,an:null,timer:null};
+async function startHes(){
+  try{
+    hes.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+  }catch(e){ return false; }
+  hes.ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const src=hes.ctx.createMediaStreamSource(hes.stream);
+  const an=hes.ctx.createAnalyser(); an.fftSize=2048; an.smoothingTimeConstant=0.25; src.connect(an); hes.an=an;
+  const td=new Float32Array(an.fftSize), fd=new Float32Array(an.frequencyBinCount);
+  const binHz=hes.ctx.sampleRate/an.fftSize, lo=Math.floor(80/binHz), mid=Math.floor(1000/binHz), hi=Math.floor(3500/binHz);
+  let prev=null, noise=0.01, run=0, cool=0, steadyFlux=0; const dt=0.03;
+  hes.timer=setInterval(()=>{
+    an.getFloatTimeDomainData(td);
+    let s=0; for(let i=0;i<td.length;i++) s+=td[i]*td[i];
+    const rms=Math.sqrt(s/td.length);
+    $('fbLevel').style.width=Math.min(100,rms*900)+'%';
+    an.getFloatFrequencyData(fd);
+    const mag=new Float32Array(hi-lo); let tot=0, low=0;
+    for(let i=lo;i<hi;i++){const m=Math.pow(10,fd[i]/20); mag[i-lo]=m; tot+=m; if(i<mid) low+=m;}
+    let flux=1; if(prev&&tot>0){let f=0; for(let i=0;i<mag.length;i++){const d=mag[i]-prev[i]; if(d>0) f+=d;} flux=f/tot;}
+    prev=mag;
+    // adaptive noise floor
+    if(rms<noise*1.5) noise=noise*0.95+rms*0.05; else noise=noise*0.9995+rms*0.0005;
+    const voiced=rms>Math.max(noise*3,0.006);
+    const lowRatio=tot>0?low/tot:0;
+    const steady=flux<0.11 && lowRatio>0.55;
+    cool-=dt;
+    if(voiced&&steady){run+=dt;}
+    else{
+      if(run>=0.38&&run<=3&&cool<=0&&fb.live){
+        fb.hes.push(wordCount((fb.final+' '+fb.interim).trim()));
+        cool=0.35; renderFB();
+      }
+      run=0;
+    }
+  },30);
+  return true;
+}
+function stopHes(){
+  clearInterval(hes.timer); $('fbLevel').style.width='0';
+  if(hes.stream) hes.stream.getTracks().forEach(t=>t.stop());
+  if(hes.ctx) hes.ctx.close().catch(()=>{});
+  hes.stream=null; hes.ctx=null;
+}
+
+async function startFB(){
+  fb.final='';fb.interim='';fb.elapsed=0;fb.hes=[];
   $('fbReport').style.display='none';$('fbWarn').style.display='none';
+  const ok=await startHes();
+  fb.start=Date.now(); fb.live=true;
+  if(!ok){$('fbWarn').style.display='block';$('fbWarn').innerHTML='Couldn’t start the “um” sound detector on this device, so only words will be counted. If it asked for microphone access, click <b>Allow</b>.';}
   const r=new SR(); r.lang='en-US'; r.continuous=true; r.interimResults=true;
   r.onresult=e=>{
     let interim='';
@@ -290,44 +435,96 @@ function startFB(){
   r.onend=()=>{ if(fb.live){ try{r.start()}catch(_){} } }; // keep listening through pauses
   fb.rec=r;
   try{r.start()}catch(_){}
-  $('fbMic').textContent='STOP';$('fbMic').classList.add('live');
+  $('fbMic').innerHTML='<span class="mi">⏹</span>STOP';$('fbMic').classList.add('live');
   fb.timer=setInterval(renderFB,250); renderFB();
 }
 
 function stopFB(silent){
   fb.live=false; fb.elapsed=(Date.now()-fb.start)/1000;
-  clearInterval(fb.timer);
+  clearInterval(fb.timer); stopHes();
   if(fb.rec){try{fb.rec.stop()}catch(_){}}
   if(fb.interim){fb.final+=(fb.final?' ':'')+fb.interim;fb.interim='';}
-  $('fbMic').textContent='START';$('fbMic').classList.remove('live');
+  $('fbMic').innerHTML='<span class="mi">🎤</span>START';$('fbMic').classList.remove('live');
   renderFB();
   if(!silent) showFBReport();
 }
 
 function showFBReport(){
-  const secs=fb.elapsed, w=words(fb.final), {total,counts}=countFillers(fb.final);
+  const secs=fb.elapsed, w=wordCount(fb.final), {total:txt,counts}=countText(fb.final), hz=fb.hes.length, total=txt+hz;
   if(w<5){$('fbWarn').style.display='block';$('fbWarn').textContent='We didn’t catch enough words. Check your microphone and try speaking a little louder for at least 20 seconds.';return;}
   const wpm=Math.round(w/(secs/60)), perMin=total/(secs/60);
-  let pace = wpm<110?'a little slow':wpm<=160?'a great pace':wpm<=180?'slightly fast':'fast';
+  const pace=wpm<110?'a little slow':wpm<=160?'a great pace':wpm<=180?'slightly fast':'fast';
   $('fbSummary').innerHTML=`${total} filler${total===1?'':'s'} · ${wpm} words per minute · ${fmt(secs)} — ${pace}!`;
-  const chips=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="chip">“${esc(k)}” <b>×${v}</b></span>`).join('');
+  let chips=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<span class="chip">“${esc(k)}” <b>×${v}</b></span>`).join('');
+  if(hz) chips=`<span class="chip">“um/uh” sounds <b>×${hz}</b></span>`+chips;
   $('fbBreakdown').innerHTML=chips||'<span class="chip">No fillers detected — impressive! 🎉</span>';
   let tip;
   if(total===0) tip='🏆 <b>Filler-free!</b> Now try a harder topic, or speak for a full 2 minutes, and see if you can keep it up.';
   else if(perMin<=2) tip='⭐ <b>Strong control.</b> When you feel a filler coming, replace it with a short silent pause. Pauses make you sound confident.';
   else if(perMin<=5) tip='💡 <b>Pause instead of “um”.</b> Fillers usually show up when you’re thinking of the next idea. Take a breath, pause for one second, then continue.';
   else tip='🎯 <b>Your challenge:</b> Speak more slowly and pause at the end of every sentence. Try again and aim to cut your filler count in half.';
-  if(wpm>170) tip+=' <br>🐢 You’re speaking fast — slow down so every word lands.';
-  if(wpm<100) tip+=' <br>⚡ Add a bit more energy and pace to keep listeners with you.';
+  if((counts.like||0)>=3) tip+='<br>🗣️ “Like” is your top habit. Try replacing it with a pause, or say exactly what you mean.';
+  if(wpm>170) tip+='<br>🐢 You’re speaking fast — slow down so every word lands.';
+  if(wpm<100) tip+='<br>⚡ Add a bit more energy and pace to keep listeners with you.';
   $('fbTip').innerHTML=tip;
   $('fbReport').style.display='block';
   $('fbReport').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 $('fbMic').addEventListener('click',()=>fb.live?stopFB():startFB());
-$('fbAgain').addEventListener('click',()=>{$('fbReport').style.display='none';fb.final='';fb.elapsed=0;renderFB();window.scrollTo({top:0,behavior:'smooth'})});
+$('fbAgain').addEventListener('click',()=>{$('fbReport').style.display='none';fb.final='';fb.elapsed=0;fb.hes=[];renderFB();$('fbMic').scrollIntoView({behavior:'smooth',block:'center'})});
 
-/* ─────────── STAGE LIGHTS ─────────── */
+/* ─────────── SPEECH HOOK LAB ─────────── */
+const B=t=>`<span class="blank">[${t}]</span>`;
+const HOOKS=[
+ {type:'Question Hook',ic:'❓',why:'A question makes every listener answer in their head, so they are instantly involved.',
+  t:[T=>`What would your life look like if ${T} suddenly disappeared tomorrow?`,
+     T=>`Raise your hand if you have ever wondered about ${T}. Now keep it up if you still don’t have a clear answer.`,
+     T=>`Have you ever stopped to ask yourself why ${T} matters so much?`,
+     T=>`What if everything you believed about ${T} was only half the story?`]},
+ {type:'Startling Fact Hook',ic:'⚡',why:'A surprising, true number grabs attention and proves your topic matters. Always use a real fact and name its source.',
+  t:[T=>`Here is a number that surprised me about ${T}: ${B('insert a real statistic')}. According to ${B('source')}, that is happening right now.`,
+     T=>`Every ${B('day / minute / year')}, ${B('real number')} people are affected by ${T}. That comes from ${B('source')}.`,
+     T=>`By the time I finish this speech, ${B('real fact')} will have happened because of ${T}.`]},
+ {type:'Story Hook',ic:'📖',why:'Humans are wired for stories. A short personal moment makes people care before you share any facts.',
+  t:[T=>`Last ${B('summer / year / week')}, I was ${B('where you were')} when something happened that changed how I think about ${T}.`,
+     T=>`I still remember the day I first learned about ${T}. I was ${B('age')} years old, and ${B('what happened')}.`,
+     T=>`Let me tell you about ${B('a person’s name')}. Their story will show you exactly why ${T} matters.`]},
+ {type:'Quote Hook',ic:'💬',why:'A powerful quote borrows the authority of someone respected. Use their exact words and say who said them.',
+  t:[T=>`${B('Name of a person you admire')} once said, “${B('their exact words')}.” Today, I want to show you what that means for ${T}.`,
+     T=>`“${B('A real quote')}.” Those words by ${B('who said it')} are the best way I know to begin talking about ${T}.`,
+     T=>`My ${B('grandmother / coach / teacher')} always told me, “${B('what they said')}.” I never understood it until I learned about ${T}.`]},
+ {type:'Picture This Hook',ic:'🎬',why:'Asking the audience to imagine a scene puts them inside your speech. When they see it, they feel it.',
+  t:[T=>`Picture this: you wake up one morning, and the world has been completely changed by ${T}.`,
+     T=>`Close your eyes for a moment. Imagine ${B('a vivid scene')}. This is what ${T} looks like up close.`,
+     T=>`Imagine it is ten years from now. Because of ${T}, ${B('what has changed')}. Now let’s talk about how we get there.`]}
+];
+const hk={topic:'',pick:[]};
+function buildHooks(shuffle){
+  const raw=$('hkTopic').value.trim().replace(/^["“”']+|["“”']+$/g,'');
+  if(!raw){$('hkWarn').style.display='block';$('hkWarn').textContent='Type a topic or speech title first — anything you want to speak about.';return;}
+  $('hkWarn').style.display='none';
+  const T=`<span class="topic">“${esc(raw)}”</span>`;
+  if(!shuffle||raw!==hk.topic){hk.pick=HOOKS.map(()=>-1);hk.topic=raw;}
+  hk.pick=HOOKS.map((h,i)=>{let n;do{n=Math.floor(Math.random()*h.t.length)}while(h.t.length>1&&n===hk.pick[i]);return n;});
+  $('hkList').innerHTML=HOOKS.map((h,i)=>`
+    <div class="hook">
+      <div class="hhead"><span class="htype">${h.ic} ${h.type}</span><button class="copy" data-i="${i}">📋 Copy</button></div>
+      <div class="say-label">Say this</div>
+      <div class="say" id="hk${i}">${h.t[hk.pick[i]](T)}</div>
+      <div class="why">💡 <b>Why it works:</b> ${h.why}</div>
+    </div>`).join('');
+  $('hkOut').style.display='block';
+  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+    const txt=$('hk'+b.dataset.i).innerText;
+    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{b.textContent='Copied ✓';setTimeout(()=>b.textContent='📋 Copy',1500)}).catch(()=>{b.textContent='Select & copy';});
+  }));
+}
+$('hkGo').addEventListener('click',()=>buildHooks(false));
+$('hkShuffle').addEventListener('click',()=>buildHooks(true));
+$('hkTopic').addEventListener('keydown',e=>{if(e.key==='Enter')buildHooks(false)});
+
+/* ─────────── STAGE LIGHTS TIMER ─────────── */
 const sl={start:0,run:false,timer:null,state:'',elapsed:0};
 let audioCtx=null;
 function beep(freq){
@@ -379,7 +576,7 @@ $('slStart').addEventListener('click',()=>{
 $('slStop').addEventListener('click',()=>{
   if(!sl.run) return;
   sl.run=false; clearInterval(sl.timer);
-  $('slStart').disabled=false;$('slStart').textContent='Resume';$('slStop').disabled=true;
+  $('slStart').disabled=false;$('slStart').textContent='▶ Resume';$('slStop').disabled=true;
   const t=Math.floor(sl.elapsed), L=limits(); let msg;
   if(t<L.g) msg=`⏱️ ${fmt(t)} — under time by ${fmt(L.g-t)}. Add a little more depth next time.`;
   else if(t<=L.r) msg=`✅ ${fmt(t)} — within range. Great time management!`;
@@ -389,7 +586,7 @@ $('slStop').addEventListener('click',()=>{
 $('slReset').addEventListener('click',()=>{
   sl.run=false;clearInterval(sl.timer);sl.elapsed=0;sl.state='';
   $('slClock').textContent='0:00';setState('','Ready when you are');
-  $('slStart').disabled=false;$('slStart').textContent='Start';$('slStop').disabled=true;$('slResult').style.display='none';
+  $('slStart').disabled=false;$('slStart').textContent='▶ Start';$('slStop').disabled=true;$('slResult').style.display='none';
 });
 $('slFull').addEventListener('click',()=>{
   const st=$('slStage');
@@ -405,56 +602,6 @@ document.querySelectorAll('#slPresets .pill').forEach(p=>p.addEventListener('cli
   document.querySelectorAll('#slPresets .pill').forEach(x=>x.classList.remove('active')); renderSignals();
 }));
 renderSignals();
-
-/* ─────────── SPEECH HOOK LAB ─────────── */
-const B=t=>`<span class="blank">${t}</span>`;
-const HOOKS=[
- {type:'Question',why:'A question makes every listener answer in their head — they are instantly involved.',
-  t:[T=>`What would your life look like if ${T} suddenly disappeared tomorrow?`,
-     T=>`Raise your hand if you have ever wondered about ${T}. Keep it up if you still don’t have a clear answer.`,
-     T=>`Have you ever stopped to ask yourself why ${T} matters so much?`,
-     T=>`What if everything you believed about ${T} was only half the story?`]},
- {type:'Startling Fact',why:'A surprising, true number grabs attention and proves your topic matters. Always use a real fact and name its source.',
-  t:[T=>`Here is a number that surprised me about ${T}: ${B('[insert a real statistic]')}. According to ${B('[source]')}, that’s happening right now.`,
-     T=>`Every ${B('[day / minute / year]')}, ${B('[real number]')} people are affected by ${T}. That’s according to ${B('[source]')}.`,
-     T=>`By the time I finish this speech, ${B('[real fact]')} will have happened because of ${T}.`]},
- {type:'Story',why:'Humans are wired for stories. A short personal moment makes people care before you share any facts.',
-  t:[T=>`Last ${B('[summer / year / week]')}, I was ${B('[where you were]')} when something happened that changed how I think about ${T}.`,
-     T=>`I still remember the day I first learned about ${T}. I was ${B('[age]')} years old, and ${B('[what happened]')}.`,
-     T=>`Let me tell you about ${B('[a person’s name]')}. Their story will show you exactly why ${T} matters.`]},
- {type:'Quote',why:'A powerful quote borrows the authority of someone respected. Use the exact words and say who said them.',
-  t:[T=>`${B('[Name of a person you admire]')} once said, “${B('[their exact words]')}.” Today, I want to show you what that means for ${T}.`,
-     T=>`“${B('[A real quote]')}.” Those words by ${B('[who said it]')} are the best way I know to begin talking about ${T}.`,
-     T=>`My ${B('[grandmother / coach / teacher]')} always told me, “${B('[what they said]')}.” I never understood it until I learned about ${T}.`]},
- {type:'Picture This',why:'Asking the audience to imagine a scene puts them inside your speech. They see it, so they feel it.',
-  t:[T=>`Picture this: you wake up one morning, and the world has been completely changed by ${T}.`,
-     T=>`Close your eyes for a moment. Imagine ${B('[a vivid scene]')}. This is what ${T} looks like up close.`,
-     T=>`Imagine it is ten years from now. Because of ${T}, ${B('[what has changed]')}. Now let’s talk about how we get there.`]}
-];
-const hk={topic:'',pick:[]};
-function buildHooks(shuffle){
-  const raw=$('hkTopic').value.trim();
-  if(!raw){$('hkWarn').style.display='block';$('hkWarn').textContent='Type a topic first — anything you want to speak about.';return;}
-  $('hkWarn').style.display='none';
-  const T=esc(raw);
-  if(!shuffle||raw!==hk.topic){hk.pick=HOOKS.map(()=>-1);hk.topic=raw;}
-  hk.pick=HOOKS.map((h,i)=>{let n;do{n=Math.floor(Math.random()*h.t.length)}while(h.t.length>1&&n===hk.pick[i]);return n;});
-  $('hkList').innerHTML=HOOKS.map((h,i)=>`
-    <div class="hook">
-      <button class="copy" data-i="${i}">Copy</button>
-      <span class="htype">${h.type} Hook</span>
-      <div class="htext" id="hk${i}">${h.t[hk.pick[i]](`<b>${T}</b>`)}</div>
-      <div class="hwhy"><b>Why it works:</b> ${h.why}</div>
-    </div>`).join('');
-  $('hkOut').style.display='block';
-  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
-    const txt=$('hk'+b.dataset.i).innerText;
-    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',1500)}).catch(()=>{b.textContent='Select & copy';});
-  }));
-}
-$('hkGo').addEventListener('click',()=>buildHooks(false));
-$('hkShuffle').addEventListener('click',()=>buildHooks(true));
-$('hkTopic').addEventListener('keydown',e=>{if(e.key==='Enter')buildHooks(false)});
 </script>
 </body>
 </html>
