@@ -152,11 +152,12 @@ h1 .apppill{transform:translateY(-.55em) !important;font-size:.3em !important;ma
 /* ── Photo hero ── */
 .photo-hero{position:relative;min-height:620px;display:flex;align-items:center;padding:60px 24px !important;background:#071A2F;overflow:visible !important}
 .photo-hero::before{content:"" !important;position:absolute;inset:0;width:auto !important;height:auto !important;border-radius:0 !important;filter:none !important;opacity:1 !important;box-shadow:none !important;background:linear-gradient(90deg,rgba(7,26,47,.85) 0%,rgba(7,26,47,.6) 35%,rgba(7,26,47,0) 52%);pointer-events:none;z-index:0}
+@media (min-width:1400px){.photo-hero::before{background:none}}
 .photo-hero::after{content:none !important}
 .photo-hero .hero-inner{position:relative;z-index:1;display:block !important;width:100%;max-width:1280px !important;margin:0 auto}
 .photo-hero .hero-inner>div{max-width:540px}
-.hero-photo{position:absolute;top:0;right:0;bottom:0;aspect-ratio:1672/941;max-width:100%;background:url(hero-students.jpg) right top/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 28%),linear-gradient(0deg,transparent 0%,#000 18%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,#000 28%),linear-gradient(0deg,transparent 0%,#000 18%);mask-composite:intersect}
-.hero-phone{position:absolute;z-index:2;right:2.5%;bottom:-90px;width:175px;filter:drop-shadow(0 24px 40px rgba(0,0,0,.55))}
+.hero-photo{position:absolute;top:0;right:max(0px,calc((100% - 1320px) / 2));bottom:0;aspect-ratio:1672/941;max-width:100%;background:url(hero-students.jpg) right top/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 28%,#000 93%,transparent 100%),linear-gradient(0deg,transparent 0%,#000 18%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,#000 28%,#000 93%,transparent 100%),linear-gradient(0deg,transparent 0%,#000 18%);mask-composite:intersect}
+.hero-phone{position:absolute;z-index:2;right:max(2.5%,calc((100% - 1320px) / 2 + 30px));bottom:-90px;width:175px;filter:drop-shadow(0 24px 40px rgba(0,0,0,.55))}
 .hero-phone .floaty{animation:floaty 5s ease-in-out infinite}.hero-phone .floaty2{animation:floaty 4s ease-in-out infinite reverse}
 .choose{margin-top:120px !important}
 @media (max-width:860px){
